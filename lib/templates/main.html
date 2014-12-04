@@ -31,11 +31,16 @@
 <template name="meteorOSStartMenuApplications">
     <li class="dropdown-submenu">
         <a style="cursor: pointer">Applications</a>
-        <ul class="dropdown-menu compressed-context dropdown-context-sub">
-            <li><a style="cursor: pointer">Test</a></li>
-            <li><a style="cursor: pointer">Test</a></li>
-            <li><a style="cursor: pointer">Test</a></li>
-            <li><a style="cursor: pointer">Test</a></li>
+        <ul class="dropdown-menu dropdown-context-sub">
+            {{> meteorOSStartMenuApplicationsHelper}}
         </ul>
     </li>
+</template>
+
+<template name="meteorOSStartMenuApplicationsHelper">
+    {{#with packagesContext}}
+        {{#each packages}}
+            <li><a style="cursor: pointer">{{packageName}}</a></li>
+        {{/each}}
+    {{/with}}
 </template>

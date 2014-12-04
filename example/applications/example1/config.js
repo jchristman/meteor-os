@@ -1,6 +1,5 @@
 var exampleApp1 = new Application({
     name : 'Example App 1',
-    package : 'default',
     layout : {
         windows : [
                 {
