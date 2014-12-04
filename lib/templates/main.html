@@ -1,28 +1,17 @@
-<template name="meteor_os">
+<template name="meteorOS">
     <div id="meteor-os">
-        {{#if currentUser}}{{else}}
-            {{> meteor_os_login}}
-        {{/if}}
-        {{> meteor_os_footer}}
     </div>
+    {{> meteorOSFooter}}
 </template>
 
-<template name="meteor_os_login">
-    <div class="metal linear loginFormContainer">
-        <div class="loginForm">
-            {{> atForm}}
-        </div>
-    </div>
-</template>
-
-<template name="meteor_os_footer">
+<template name="meteorOSFooter">
 <div class="navbar-sm">
     <div class="wm-bottom navbar navbar-fixed-bottom navbar-custom navbar-inverse navbar-static-top navbar-container">
         <div class="collapse navbar-collapse">
             {{#if currentUser}}
                 <ul class="nav navbar-nav" id="created_windows">
                     <li class="dropdown "><a style="cursor: pointer" id="drop1" data-toggle="dropdown" class="dropdown-toggle" role="button">Meteor OS <b class="caret grey-caret"></b></a>
-                        {{> meteor_os_start_menu}}
+                        {{> meteorOSStartMenu}}
                     </li>
                 </ul>
             {{/if}}
@@ -31,8 +20,10 @@
 </div>
 </template>
 
-<template name="meteor_os_start_menu">
+<template name="meteorOSStartMenu">
     <ul role="menu" id="meteor_os_start_menu" class="dropdown-menu" aria-labelledby="drop1">
         <li><a id="meteor_os_logout_button" style="cursor: pointer">Logout, {{currentUser.username}}</a></li>
     </ul>
 </template>
+
+<template name="root"></template>

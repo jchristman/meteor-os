@@ -1,0 +1,38 @@
+<template name="meteorOSLogin">
+    <div id="meteor-os">
+        {{> meteorOSLoginForm}}
+    </div>
+    {{> meteorOSFooter}}
+</template>
+
+<template name="meteorOSLoginForm">
+    <div class="metal linear loginForm">
+        {{> atForm state='signIn'}}
+    </div>
+</template>
+
+<template name="meteorOSSignup">
+    <div id="meteor-os">
+        {{> meteorOSSignupForm}}
+        {{> meteorOSFooter}}
+    </div>
+</template>
+
+<template name="meteorOSSignupForm">
+    <div class="metal linear signupForm">
+        {{> atForm state='signUp'}}
+    </div>
+</template>
+
+<template name="meteorOSLoginError">
+    <div id="meteor-os">
+        {{> meteorOSLoginErrorForm}}
+    </div>
+    {{> meteorOSFooter}}
+</template>
+
+<template name="meteorOSLoginErrorForm">
+    <div class="metal linear loginErrorForm">
+        {{> atForm state='signIn'}}
+    </div>
+</template>

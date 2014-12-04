@@ -3,7 +3,7 @@
 /* -------------------------- */
 
 html,body {
-    min-height: 100%;
+    height: 100%;
 }
 
 #meteor-os {
@@ -50,6 +50,44 @@ html,body {
 }
 
 /* -------------------------- */
+/*        Login  CSS          */
+/* -------------------------- */
+
+.loginForm {
+    position: absolute;
+    top: calc(50% - 370px/2);
+    left: calc(50% - 377px/2);
+    margin: 0 0 0 0;
+    white-space:nowrap;
+    display:inline-block;
+    padding: 25px 60px 20px 60px;
+}
+
+.loginErrorForm {
+    position: absolute;
+    top: calc(50% - 432px/2);
+    left: calc(50% - 376px/2);
+    margin: 0 0 0 0;
+    white-space:nowrap;
+    display:inline-block;
+    padding: 25px 60px 20px 60px;
+}
+
+.signupForm {
+    position: absolute;
+    top: calc(50% - 424px/2);
+    left: calc(50% - 392px/2);
+    margin: 0 0 0 0;
+    white-space:nowrap;
+    display:inline-block;
+    padding: 25px 60px 0px 60px;
+}
+
+.at-form {
+    margin: 0;
+}
+
+/* -------------------------- */
 /*        Footer CSS          */
 /* -------------------------- */
 
@@ -71,30 +109,3 @@ html,body {
     border-bottom-color: grey !important;
 }
 
-/* -------------------------- */
-/*        Login  CSS          */
-/* -------------------------- */
-
-.loginFormContainer {
-    position: absolute;
-    top: calc((100% - 40px)/2);
-    left: 50%;
-    width: 500px;
-    max-height: 450px;
-    min-height: 450px;
-    margin: calc(-50% + (50% - 450px/2)) 0 0 calc(-50% + (50% - 500px/2));
-}
-
-.loginForm {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    max-height: 325px;
-    min-height: 325px;
-    margin: calc(-50% + (50% - 375px/2)) 0 0 -50%;
-}
-
-.at-form {
-    margin: 0;
-}

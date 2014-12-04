@@ -21,13 +21,15 @@ Package.onUse(function(api) {
   api.addFiles([
           'lib/meteor-os.js',
           'lib/application.js',
-          'lib/accounts-config.js'
+          'config/accounts.js',
+          'config/router.js'
   ],['client','server']);
 
   api.addFiles([
           'lib/templates/main.html',
           'lib/templates/main.css',
           'lib/templates/main.js',
+          'lib/templates/login.html',
           'img/meteor-os_background.jpg'
   ],['client']);
 
