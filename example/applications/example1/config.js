@@ -1,4 +1,6 @@
 var exampleApp1 = new Application({
+    name : 'Example App 1',
+    package : 'default',
     layout : {
         windows : [
                 {
@@ -24,7 +26,7 @@ var exampleApp1 = new Application({
                     title : 'Example 1 Tab 2',
                     pane_id : 'example1window1_pane',
                     active : false,
-                    tempalte : 'example1tab1template'
+                    tempalte : 'example1tab2template'
                 }
             ]
     }

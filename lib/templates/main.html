@@ -21,9 +21,21 @@
 </template>
 
 <template name="meteorOSStartMenu">
-    <ul role="menu" id="meteor_os_start_menu" class="dropdown-menu" aria-labelledby="drop1">
+    <ul role="menu" id="meteor_os_start_menu" class="dropdown-menu">
+        {{> meteorOSStartMenuApplications}}
+        <li class="divider"></li>
         <li><a id="meteor_os_logout_button" style="cursor: pointer">Logout, {{currentUser.username}}</a></li>
     </ul>
 </template>
 
-<template name="root"></template>
+<template name="meteorOSStartMenuApplications">
+    <li class="dropdown-submenu">
+        <a style="cursor: pointer">Applications</a>
+        <ul class="dropdown-menu compressed-context dropdown-context-sub">
+            <li><a style="cursor: pointer">Test</a></li>
+            <li><a style="cursor: pointer">Test</a></li>
+            <li><a style="cursor: pointer">Test</a></li>
+            <li><a style="cursor: pointer">Test</a></li>
+        </ul>
+    </li>
+</template>
