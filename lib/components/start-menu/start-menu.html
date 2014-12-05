@@ -1,0 +1,19 @@
+<template name="meteorOSStartMenu">
+    <ul id="meteor_os_start_menu" class="dropdown-menu" role="menu">
+        {{> meteorOSStartMenuApplications}}
+        <li class="divider"></li>
+        <li><a class="noselect" id="meteor_os_logout_button" style="cursor: pointer">Logout, {{currentUser.username}}</a></li>
+    </ul>
+</template>
+
+<template name="meteorOSStartMenuApplications">
+    {{#with currentPackageState}}
+        {{#each menuItems}}
+            {{> meteorOSStartMenuItem}}
+        {{/each}}
+    {{/with}}
+</template>
+
+<template name="meteorOSStartMenuItem">
+<li><a class="noselect" style="cursor: pointer">{{#if isBack}}<b class="caret caret-left"></b> {{/if}}{{name}}{{#if isPackage}} <b class="caret caret-right"></b>{{/if}}</a></li>
+</template>

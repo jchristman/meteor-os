@@ -1,6 +1,6 @@
 var exampleApp2 = new Application({
     name : 'Example App 2',
-    package : 'Example Package',
+    package : 'Example.Package.Path',
     layout : {
         windows : [
                 {

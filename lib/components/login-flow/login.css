@@ -1,21 +1,3 @@
-/* -------------------------- */
-/*       Overall CSS          */
-/* -------------------------- */
-
-html,body {
-    height: 100%;
-}
-
-#meteor-os {
-    position: absolute;
-    top: 0;
-    height: calc(100% - 40px);
-    width: 100%;
-    overflow: hidden;
-    background: url('/packages/jchristman_meteor-os/img/meteor-os_background.jpg') no-repeat center center fixed; 
-    background-size: cover;
-}
-
 /* Brushed Metal CSS */
 .metal {
     position: relative;
@@ -85,27 +67,5 @@ html,body {
 
 .at-form {
     margin: 0;
-}
-
-/* -------------------------- */
-/*        Footer CSS          */
-/* -------------------------- */
-
-.navbar-sm .navbar { min-height:40px; height: 40px; }
-.navbar-sm .navbar .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 40px; }
-.navbar-sm .navbar .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 40px; }
-
-.navbar-xs .navbar { min-height:28px; height: 28px; }
-.navbar-xs .navbar .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 28px; }
-.navbar-xs .navbar .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 28px; }
-
-.navbar-container {
-    padding-right: 14px;
-}
-
-.grey-caret
-{
-    border-top-color: grey !important;
-    border-bottom-color: grey !important;
 }
 

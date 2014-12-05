@@ -1,0 +1,15 @@
+<template name="meteorOSFooter">
+<div class="navbar-sm">
+    <div class="wm-bottom navbar navbar-fixed-bottom navbar-custom navbar-inverse navbar-static-top navbar-container">
+        <div class="collapse navbar-collapse">
+            {{#if currentUser}}
+                <ul class="nav navbar-nav" id="created_windows">
+                    <li class="dropdown"><a style="cursor: pointer" data-toggle="dropdown" class="dropdown-toggle" role="button">Meteor OS <b class="caret grey-caret"></b></a>
+                        {{> meteorOSStartMenu}} 
+                    </li>
+                </ul>
+            {{/if}}
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+</template>

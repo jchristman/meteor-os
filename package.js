@@ -26,10 +26,16 @@ Package.onUse(function(api) {
   ],['client','server']);
 
   api.addFiles([
-          'lib/templates/main.html',
-          'lib/templates/main.css',
-          'lib/templates/main.js',
-          'lib/templates/login.html',
+          'lib/style.css',
+          'lib/components/main/main.html',
+          'lib/components/main/main.css',
+          'lib/components/login-flow/login.html',
+          'lib/components/login-flow/login.css',
+          'lib/components/footer/footer.html',
+          'lib/components/footer/footer.css',
+          'lib/components/start-menu/start-menu.html',
+          'lib/components/start-menu/start-menu.js',
+          'lib/components/start-menu/start-menu.css',
           'img/meteor-os_background.jpg'
   ],['client']);
 

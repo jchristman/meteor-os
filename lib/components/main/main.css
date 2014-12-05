@@ -1,0 +1,9 @@
+#meteor-os {
+    position: absolute;
+    top: 0;
+    height: calc(100% - 40px);
+    width: 100%;
+    overflow: hidden;
+    background: url('/packages/jchristman_meteor-os/img/meteor-os_background.jpg') no-repeat center center fixed; 
+    background-size: cover;
+}
