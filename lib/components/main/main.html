@@ -1,5 +1,8 @@
 <template name="meteorOS">
     <div id="meteor-os">
+        {{#if currentUser}}
+            {{> Applications}}
+        {{/if}}
     </div>
     {{> meteorOSFooter}}
 </template>

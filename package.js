@@ -15,12 +15,12 @@ Package.onUse(function(api) {
   api.use('accounts-base',['client','server']);
   api.use('useraccounts:bootstrap',['client','server']);
   api.use('accounts-password',['client','server']);
-  api.use('jchristman:context-menu@1.1.2_2','client');
-  api.use('jchristman:window-manager@1.0.1',['client','server']);
+  api.use('jchristman:context-menu@1.1.3','client');
+  api.use('jchristman:application-manager@1.0.0',['client','server']);
+  api.imply('jchristman:application-manager@1.0.0',['client','server']);
 
   api.addFiles([
           'lib/meteor-os.js',
-          'lib/application.js',
           'config/accounts.js',
           'config/router.js'
   ],['client','server']);
@@ -29,6 +29,7 @@ Package.onUse(function(api) {
           'lib/style.css',
           'lib/components/main/main.html',
           'lib/components/main/main.css',
+          'lib/components/main/main.js',
           'lib/components/login-flow/login.html',
           'lib/components/login-flow/login.css',
           'lib/components/footer/footer.html',
@@ -36,11 +37,13 @@ Package.onUse(function(api) {
           'lib/components/start-menu/start-menu.html',
           'lib/components/start-menu/start-menu.js',
           'lib/components/start-menu/start-menu.css',
+          'lib/components/context-menus/body-context-menu.js',
+          'lib/components/context-menus/context-menu-funcs.js',
           'img/meteor-os_background.jpg'
   ],['client']);
 
   api.export([
           'MeteorOS',
-          'Application'
+          'METEOR_OS_CONTEXT_MENU_FUNCS'
   ], ['client','server']); 
 });

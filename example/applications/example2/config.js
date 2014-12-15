@@ -1,5 +1,6 @@
-var exampleApp2 = new Application({
-    name : 'Example App 2',
+var exampleApp2 = {
+    appID : '88f7fa88-7c4d-4ecc-ba25-a99a930c6729',
+    appName : 'Example App 2',
     package : 'Example.Package.Path',
     layout : {
         windows : [
@@ -27,17 +28,17 @@ var exampleApp2 = new Application({
                     title : 'Example 2 Tab 1',
                     pane_id : 'example2window1_pane',
                     active : true,
-                    tempalte : 'example2tab1template'
+                    template : 'example2tab1template'
                 },
                 {
                     id : 'example2tab2',
                     title : 'Example 2 Tab 2',
                     pane_id : 'example2window2_pane',
                     active : false,
-                    tempalte : 'example2tab2template'
+                    template : 'example2tab2template'
                 }
             ]
     }
-});
+};
 
 MeteorOS.registerApp(exampleApp2);
