@@ -1,0 +1,87 @@
+.fb-main {
+    width: 100%;
+    height: 100%;
+    background: #DDD;
+    
+    font-family: monaco, Consolas, 'Lucida Console', monospace;
+    font-size: 22px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 24px;
+
+}
+
+.fb-pane-navbar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 40px;
+    width: 100%;
+    background: #FFF;
+}
+
+.fb-pane-navbar input {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    margin: 5px 5px 5px 5px;
+    width: calc(100% - 10px);
+}
+
+.fb-pane {
+    position: absolute;
+    top: 44px;
+    bottom: 0px;
+    height: auto;
+    background: #FFF;
+}
+
+.fb-pane.fb-pane-nav {
+    left: 0px;
+    width: 248px;
+}
+
+.fb-pane.fb-pane-nav .fb-favorites {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+
+    padding: 5px 5px 5px 5px;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.fb-pane.fb-pane-nav .fb-favorites .title {
+    font-color: LightGray;
+    border-bottom: 1px solid black;
+    margin-bottom: 4px;
+}
+
+.fb-pane.fb-pane-nav .fb-favorites .fb-favorite {
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.fb-pane.fb-pane-nav .fb-favorites .fb-favorite:hover {
+    background: #EEE;
+}
+
+.fb-pane.fb-pane-nav .fb-favorites img {
+    vertical-align: top;
+}
+
+.fb-pane.fb-pane-main {
+    left: 252px;
+    right: 0px;
+    width: auto;
+}

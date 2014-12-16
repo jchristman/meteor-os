@@ -31,9 +31,9 @@ iron:location@1.0.3
 iron:middleware-stack@1.0.3
 iron:router@1.0.3
 iron:url@1.0.3
-jchristman:application-manager@1.0.0
+jchristman:application-manager@1.0.1
 jchristman:context-menu@1.1.3
-jchristman:meteor-os@1.0.0
+jchristman:meteor-os@1.0.1
 jquery@1.0.1
 json@1.0.1
 launch-screen@1.0.0

@@ -1,0 +1,40 @@
+<template name='file_browser_windowed'>
+    {{> file_browser}}
+</template>
+
+<template name='file_browser_dialog'>
+    {{> file_browser}}
+</template>
+
+<template name='file_browser'>
+    {{#with currentUserContext}}
+    <div class='fb-main'>
+        <div class='fb-pane-navbar'>
+            {{#with currentPath}}
+                <input type='text' id='fb-current-path' value={{path}} />
+            {{/with}}
+        </div>
+        <div class='fb-pane fb-pane-nav'>
+            {{> fb_pane_nav}}
+        </div>
+        <div class='fb-pane fb-pane-main'>
+
+        </div>
+    </div>
+    {{/with}}
+</template>
+
+<template name='fb_pane_nav'>
+    <div class='fb-favorites'>
+        <div class='title'><img src='/packages/jchristman_meteor-os/img/favorites-icon-24x24.png' /> Favorites</div>
+        {{#each favorites}}
+            {{> fb_favorite}}
+        {{/each}} 
+    </div>
+</template>
+
+<template name='fb_favorite'>
+    {{#with convertPath}}
+        <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> {{text}}</div>
+    {{/with}}
+</template>
