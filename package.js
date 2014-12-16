@@ -8,16 +8,19 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.0');
 
-  api.use('underscore',['client','server']);
+  api.use('underscore');
   api.use('templating', 'client');
   api.use('jquery','client');
   api.use('mizzao:jquery-ui@1.11.2','client')
-  api.use('accounts-base',['client','server']);
-  api.use('useraccounts:bootstrap@1.4.0',['client','server']);
-  api.use('accounts-password',['client','server']);
+  api.use('accounts-base');
+  api.use('useraccounts:bootstrap@1.4.0');
+  api.use('accounts-password');
+  api.use('dbarrett:dropzonejs@3.10.3','client');
+  api.use('cfs:standard-packages');
+  api.use('cfs:filesystem');
   api.use('jchristman:context-menu@1.1.3','client');
-  api.use('jchristman:application-manager@1.0.1',['client','server']);
-  api.imply('jchristman:application-manager@1.0.1',['client','server']);
+  api.use('jchristman:application-manager@1.0.1');
+  api.imply('jchristman:application-manager@1.0.1');
 
   api.addFiles([
           'lib/meteor-os.js',
@@ -26,7 +29,8 @@ Package.onUse(function(api) {
           'lib/users/users-collection.js',
           'lib/users/users.js',
           'config/accounts.js',
-          'config/router.js'
+          'config/router.js',
+          'config/fs-config.js'
   ],['client','server']);
 
   api.addFiles([

@@ -40,7 +40,8 @@
 </template>
 
 <template name='fb_pane_main'>
-    <div class='fb-files'>
+    <div id='fb-dropzone' class='fb-files'>
+        <div id='previews-container' style='display: none;'></div>
         {{#with currentPathFiles}}
             {{#each files}}
                 {{#with fileContext}}

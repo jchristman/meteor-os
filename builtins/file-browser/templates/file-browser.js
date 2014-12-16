@@ -28,6 +28,23 @@ if (Meteor.isClient) {
         } 
     });
 
+    Template.fb_pane_main.rendered = function() {
+        var dropzone = new Dropzone(this.find('#fb-dropzone'), {
+            maxFileSize : 50,
+            previewsContainer : '#previews-container',
+            url : '/null', // Necessary for the library but not for us
+            accept: function(file, done) {
+                var fsFile = new FS.File(file);
+                MeteorOS_FS.insert(fsFile);
+                done();
+            }
+        });
+
+        dropzone.on('addedfile', function(file) {
+            
+        });
+    }
+
     Template.fb_pane_main.helpers({
         currentPathFiles : function() {
             var cwd = Session.get(CWD).split('/');
