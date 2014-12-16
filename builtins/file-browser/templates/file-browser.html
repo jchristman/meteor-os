@@ -18,7 +18,7 @@
             {{> fb_pane_nav}}
         </div>
         <div class='fb-pane fb-pane-main'>
-
+            {{> fb_pane_main}}
         </div>
     </div>
     {{/with}}
@@ -35,6 +35,24 @@
 
 <template name='fb_favorite'>
     {{#with convertPath}}
-        <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> {{text}}</div>
+        <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> <span>{{text}}</span></div>
     {{/with}}
+</template>
+
+<template name='fb_pane_main'>
+    <div class='fb-files'>
+        {{#with currentPathFiles}}
+            {{#each files}}
+                {{#with fileContext}}
+                    {{> fb_file}}
+                {{/with}}
+            {{else}}
+                <span>No files yet in this directory</span>
+            {{/each}}
+        {{/with}}
+    </div>
+</template>
+
+<template name='fb_file'>
+    <div class='fb-file'><img src={{fileIconURL}} /> <span>{{text}}</span></div>
 </template>

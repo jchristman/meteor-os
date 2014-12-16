@@ -45,6 +45,8 @@ Package.onUse(function(api) {
           'lib/components/context-menus/context-menu-funcs.js',
           'img/meteor-os_background.jpg',
           'img/fb-folder-icon-24x24.png',
+          'img/fb-folder-icon-16x16.png',
+          'img/fb-file-icon-16x16.png',
           'img/favorites-icon-24x24.png'
   ],['client']);
 
