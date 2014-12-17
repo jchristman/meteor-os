@@ -20,6 +20,9 @@
         <div class='fb-pane fb-pane-main'>
             {{> fb_pane_main}}
         </div>
+        <div class='fb-pane-statusbar'>
+            {{> fb_pane_statusbar}}
+        </div>
     </div>
     {{/with}}
 </template>
@@ -55,5 +58,37 @@
 </template>
 
 <template name='fb_file'>
-    <div class='fb-file'><img src={{fileIconURL}} /> <span>{{text}}</span></div>
+<div class='fb-file'>
+    <img class='td' src={{fileIconURL}} /> 
+    <span class='td'>{{text}}</span> 
+    
+    {{#if isFile}}
+        {{#with fileContext}}
+            {{#with FS.GetFile collectionName id}}
+                {{#unless this.isUploaded}}
+                    {{#with uploadProgress this}}
+                        <span class='td'>
+                            <div class='meter'><span style='width: {{this.progress}}'></span></div>
+                        </span>
+                    {{/with}}
+                {{/unless}}
+            {{/with}}
+        {{/with}}
+    {{/if}}
+</div>
+</template>
+
+<template name='fb_pane_statusbar'>
+    <div class='statusbar'>
+        <div class='status-text'>{{currentStatus}}</div>
+        <div class='status-buttons'>
+            {{#with statusContext}}
+                {{#each statusButtons}}
+                    <button id={{buttonID}} class='btn btn-xs {{buttonClass}}'>
+                        <span class='glyphicon {{buttonGlyphicon}}'></span> {{buttonText}}
+                    </button>
+                {{/each}}
+            {{/with}}
+        </div>
+    </div>
 </template>

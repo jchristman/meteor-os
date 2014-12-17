@@ -18,6 +18,7 @@ Package.onUse(function(api) {
   api.use('dbarrett:dropzonejs@3.10.3','client');
   api.use('cfs:standard-packages');
   api.use('cfs:filesystem');
+  api.use('cfs:ui');
   api.use('jchristman:context-menu@1.1.3','client');
   api.use('jchristman:application-manager@1.0.2');
   api.imply('jchristman:application-manager@1.0.2');
@@ -47,11 +48,13 @@ Package.onUse(function(api) {
           'lib/components/start-menu/start-menu.css',
           'lib/components/context-menus/body-context-menu.js',
           'lib/components/context-menus/context-menu-funcs.js',
+          'lib/components/progress-bar/style.css',
           'img/meteor-os_background.jpg',
           'img/fb-folder-icon-24x24.png',
           'img/fb-folder-icon-16x16.png',
           'img/fb-file-icon-16x16.png',
-          'img/favorites-icon-24x24.png'
+          'img/favorites-icon-24x24.png',
+          'img/fb-success-icon-16x16.png'
   ],['client']);
 
   api.addFiles([

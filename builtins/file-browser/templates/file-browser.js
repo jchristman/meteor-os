@@ -1,8 +1,10 @@
-CWD = 'FileBrowserCurrentDir'
+CWD = 'FileBrowserCurrentDir';
+STATUS = 'CurrentStatus';
 
 if (Meteor.isClient) {
     Meteor.startup(function() {
         Session.set(CWD, '/home');
+        Session.set(STATUS, '');
     });
 
     Template.file_browser.helpers({
@@ -24,46 +26,44 @@ if (Meteor.isClient) {
 
     Template.fb_favorite.events({
         'dblclick .fb-favorite' : function(event) {
+            UserManager.clearProgressbars(Session.get(CWD));
             Session.set(CWD, this.path);
         } 
     });
 
     Template.fb_pane_main.rendered = function() {
+        var self = this;
+        var cwd = Session.get(CWD);
+
         var dropzone = new Dropzone(this.find('#fb-dropzone'), {
             maxFileSize : 50,
             previewsContainer : '#previews-container',
             url : '/null', // Necessary for the library but not for us
+            clickable : '#fb-upload',
             accept: function(file, done) {
                 var fsFile = new FS.File(file);
-                MeteorOS_FS.insert(fsFile);
-                done();
+                MeteorOS_FS.insert(fsFile, function(err, fileObj) {
+                    UserManager.addFile(cwd, {
+                        name : fileObj.name(),
+                        type : FILES.FILE,
+                        id : fileObj._id
+                    });
+                });
+                done('Stop'); // Necessary for the library but not for us
             }
-        });
-
-        dropzone.on('addedfile', function(file) {
-            
         });
     }
 
     Template.fb_pane_main.helpers({
         currentPathFiles : function() {
-            var cwd = Session.get(CWD).split('/');
-            var file_tree = this.files;
-            for (var i = 0; i < cwd.length; i++) {
-                for (var j = 0; j < file_tree.length; j++) {
-
-                    if (file_tree[j].name == cwd[i]) {
-                        file_tree = file_tree[j].files;
-                        break;
-                    }
-
-                }
-            }
+            var cwd = Session.get(CWD);
+            var files = UserManager.traverseFileTree(cwd).files.slice(0);
+            Session.set(STATUS, files.length + ' Files');
             
             if (Session.get(CWD) != '/')
-                file_tree.splice(0,0,{ name : '..', type : FILES.DIR });
+                files.splice(0,0,{ name : '..', type : FILES.DIR });
 
-            return { files : file_tree };
+            return { 'files' : files };
         },
 
         fileContext : function() {
@@ -83,6 +83,7 @@ if (Meteor.isClient) {
         'dblclick .fb-file' : function(event) {
             if (this.type == FILES.DIR) {
                 var cwd = Session.get(CWD);
+                UserManager.clearProgressbars(cwd);
                 if (this.name == '..') {
                     var new_dir = cwd.substring(0, cwd.lastIndexOf('/'));
                     if (new_dir == '') new_dir = '/';
@@ -94,4 +95,38 @@ if (Meteor.isClient) {
             }
         } 
     });
+
+    Template.fb_file.helpers({
+        isFile : function() {
+            return (this.type == FILES.FILE);
+        },
+
+        fileContext : function() {
+            return { collectionName : 'MeteorOS_FS', id : this.id};
+        },
+
+        uploadProgress : function(fileObj) {
+            var progressFunc = function() {
+                return fileObj.uploadProgress();
+            };
+            return { progress : progressFunc };
+        }
+    });
+
+    Template.fb_pane_statusbar.helpers({
+        currentStatus : function() {
+            return Session.get(STATUS);
+        },
+
+        statusContext : function() {
+            var uploadButton = {
+                buttonID : 'fb-upload',
+                buttonClass : 'btn-default',
+                buttonGlyphicon : 'glyphicon-upload',
+                buttonText : 'Upload Files'
+            }
+            return _.extend(this, { statusButtons : [uploadButton] });
+        }
+    });
+
 }

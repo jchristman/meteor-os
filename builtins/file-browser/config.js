@@ -1,6 +1,7 @@
 var file_browser_app_windowed_mode = {
     appID : '323a996f-1d54-46f3-9c2f-89ccbd87dffa',
     appName : 'File Browser',
+    appOpen : true,
     type : Application.WINDOWED_APPLICATION,
     layout : {
         windows : [

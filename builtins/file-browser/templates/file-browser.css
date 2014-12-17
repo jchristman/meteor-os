@@ -2,17 +2,13 @@
     width: 100%;
     height: 100%;
     background: #DDD;
-    
+
     font-family: monaco, Consolas, 'Lucida Console', monospace;
     font-size: 17px;
     font-style: normal;
     font-variant: normal;
     font-weight: 500;
     line-height: 18px;
-}
-
-.fb-main img,span {
-    vertical-align: middle;
 }
 
 .fb-pane-navbar {
@@ -37,9 +33,13 @@
 .fb-pane {
     position: absolute;
     top: 44px;
-    bottom: 0px;
+    bottom: 34px;
     height: auto;
     background: #FFF;
+}
+
+.fb-pane img, .fb-pane span {
+    vertical-align: middle;
 }
 
 .fb-pane.fb-pane-nav {
@@ -57,7 +57,7 @@
     overflow-y: auto;
 
     padding: 5px 5px 5px 5px;
-    
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -88,16 +88,19 @@
 }
 
 .fb-pane.fb-pane-main .fb-files {
+    display: table;
     position: absolute;
     top: 0px;
     left: 0px;
-    height: 100%;
-    width: 100%;
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
 
     overflow-y: auto;
 
     padding: 5px 5px 5px 5px;
-    
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -107,9 +110,69 @@
 }
 
 .fb-pane.fb-pane-main .fb-files .fb-file {
+    display: table-row;
+    width: 100%;
     cursor: pointer;
+}
+
+.fb-files .fb-file .td {
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 4px;
+    padding-bottom: 2px;
+    margin: 0 0 0 0;
+    width: auto;
+}
+
+.fb-files .fb-file .meter {
+    padding: 0 0 0 0;
+    margin: 0 0 0 5px;
+    height: 10px;
+    border-radius: 10px;
+    width: 75px;
 }
 
 .fb-pane.fb-pane-main .fb-files .fb-file:hover {
     background: #EEE;
+}
+
+.fb-pane-statusbar {
+    position: absolute;
+    top: auto;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 30px;
+    background: #FFF;
+}
+
+.fb-pane-statusbar .statusbar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.fb-pane-statusbar .statusbar .status-text {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    margin-top: -9px;
+    margin-left: 5px;
+    width: auto;
+}
+
+.fb-pane-statusbar .statusbar .status-buttons {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    margin-top: -11px;
+    margin-right: 5px;
+    width: auto;
+}
+
+span.glyphicon {
+    vertical-align: middle;
+    margin-top: -5px;
 }
