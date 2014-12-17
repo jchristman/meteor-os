@@ -19,8 +19,8 @@ Package.onUse(function(api) {
   api.use('cfs:standard-packages');
   api.use('cfs:filesystem');
   api.use('jchristman:context-menu@1.1.3','client');
-  api.use('jchristman:application-manager@1.0.1');
-  api.imply('jchristman:application-manager@1.0.1');
+  api.use('jchristman:application-manager@1.0.2');
+  api.imply('jchristman:application-manager@1.0.2');
 
   api.addFiles([
           'lib/meteor-os.js',

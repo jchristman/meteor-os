@@ -49,7 +49,7 @@ iron:location@1.0.3
 iron:middleware-stack@1.0.3
 iron:router@1.0.3
 iron:url@1.0.3
-jchristman:application-manager@1.0.1
+jchristman:application-manager@1.0.2
 jchristman:context-menu@1.1.3
 jchristman:meteor-os@1.0.1
 jquery@1.0.1
