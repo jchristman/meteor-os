@@ -66,11 +66,7 @@
         {{#with fileContext}}
             {{#with FS.GetFile collectionName id}}
                 {{#unless this.isUploaded}}
-                    {{#with uploadProgress this}}
-                        <span class='td'>
-                            <div class='meter'><span style='width: {{this.progress}}'></span></div>
-                        </span>
-                    {{/with}}
+                <span class='td progressbar'>{{> FS.UploadProgressBar bootstrap=true}}</span>
                 {{/unless}}
             {{/with}}
         {{/with}}

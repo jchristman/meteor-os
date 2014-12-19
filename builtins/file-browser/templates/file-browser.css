@@ -124,12 +124,10 @@
     width: auto;
 }
 
-.fb-files .fb-file .meter {
-    padding: 0 0 0 0;
-    margin: 0 0 0 5px;
-    height: 10px;
-    border-radius: 10px;
-    width: 75px;
+.fb-files .fb-file .td.progressbar .progress {
+    width: 80px;
+    height: 18px;
+    margin-bottom: 0px;
 }
 
 .fb-pane.fb-pane-main .fb-files .fb-file:hover {

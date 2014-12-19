@@ -38,75 +38,75 @@
     ],
     [
       "cfs:access-point",
-      "0.1.40"
+      "0.1.42"
     ],
     [
       "cfs:base-package",
-      "0.0.26"
+      "0.0.27"
     ],
     [
       "cfs:collection",
-      "0.5.0"
+      "0.5.2"
     ],
     [
       "cfs:collection-filters",
-      "0.2.0"
+      "0.2.2"
     ],
     [
       "cfs:data-man",
-      "0.0.3"
+      "0.0.4"
     ],
     [
       "cfs:file",
-      "0.0.14"
+      "0.1.14"
     ],
     [
       "cfs:filesystem",
-      "0.1.0"
+      "0.1.1"
     ],
     [
       "cfs:http-methods",
-      "0.0.25"
+      "0.0.26"
     ],
     [
       "cfs:http-publish",
-      "0.0.11"
+      "0.0.12"
     ],
     [
       "cfs:power-queue",
-      "0.9.10"
+      "0.9.11"
     ],
     [
       "cfs:reactive-list",
-      "0.0.8"
+      "0.0.9"
     ],
     [
       "cfs:reactive-property",
-      "0.0.3"
+      "0.0.4"
     ],
     [
       "cfs:standard-packages",
-      "0.5.0"
+      "0.5.2"
     ],
     [
       "cfs:storage-adapter",
-      "0.1.0"
+      "0.1.1"
     ],
     [
       "cfs:tempstore",
-      "0.1.0"
+      "0.1.2"
     ],
     [
       "cfs:ui",
-      "0.0.0"
+      "0.0.1"
     ],
     [
       "cfs:upload-http",
-      "0.0.16"
+      "0.0.18"
     ],
     [
       "cfs:worker",
-      "0.1.0"
+      "0.1.2"
     ],
     [
       "check",
@@ -162,35 +162,35 @@
     ],
     [
       "iron:controller",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:core",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:dynamic-template",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:layout",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:location",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:middleware-stack",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:router",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "iron:url",
-      "1.0.3"
+      "1.0.6"
     ],
     [
       "jchristman:application-manager",
@@ -270,7 +270,7 @@
     ],
     [
       "raix:eventemitter",
-      "0.1.0"
+      "0.1.1"
     ],
     [
       "random",
