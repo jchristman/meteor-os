@@ -63,13 +63,19 @@
     <span class='td'>{{text}}</span> 
     
     {{#if isFile}}
-        {{#with fileContext}}
-            {{#with FS.GetFile collectionName id}}
-                {{#unless this.isUploaded}}
-                <span class='td progressbar'>{{> FS.UploadProgressBar bootstrap=true class='progress-bar-success progress-bar-striped active'}}</span>
-                {{/unless}}
+        {{#if uploading}}
+            {{#with fileContext}}
+                {{#with FS.GetFile collectionName id}}
+                    {{#unless this.isUploaded}}
+                        <span class='td progressbar'>{{> FS.UploadProgressBar bootstrap=true class='progress-bar-success progress-bar-striped active' showPercent=true}}</span>
+                    {{else}}
+                        {{finishedUpload this}}
+                    {{/unless}}
+                {{/with}}
             {{/with}}
-        {{/with}}
+        {{else}}
+            <img class='td' src='/packages/jchristman_meteor-os/img/fb-success-icon-16x16.png' />
+        {{/if}}
     {{/if}}
 </div>
 </template>

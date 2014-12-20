@@ -16,9 +16,9 @@ Package.onUse(function(api) {
   api.use('useraccounts:bootstrap@1.4.0');
   api.use('accounts-password');
   api.use('dbarrett:dropzonejs@3.10.3','client');
-  api.use('cfs:standard-packages@0.5.2');
+  api.use('cfs:standard-packages@0.5.3');
   api.use('cfs:filesystem@0.1.1');
-  api.use('cfs:ui@0.0.1');
+  api.use('cfs:ui@0.0.2');
   api.use('jchristman:context-menu@1.1.3','client');
   api.use('jchristman:application-manager@1.0.2');
   api.imply('jchristman:application-manager@1.0.2');

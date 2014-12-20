@@ -46,6 +46,7 @@ if (Meteor.isClient) {
                     UserManager.addFile(cwd, {
                         name : fileObj.name(),
                         type : FILES.FILE,
+                        uploading : true,
                         id : fileObj._id
                     });
                 });
@@ -106,18 +107,24 @@ if (Meteor.isClient) {
 
     Template.fb_file.helpers({
         isFile : function() {
-            return (this.type == FILES.FILE);
+            return (this.type == FILES.FILE && this.uploading != undefined);
         },
 
         fileContext : function() {
             return { collectionName : 'MeteorOS_FS', id : this.id};
         },
 
-        uploadProgress : function(fileObj) {
-            var progressFunc = function() {
-                return fileObj.uploadProgress();
-            };
-            return { progress : progressFunc };
+        uploading : function() {
+            return this.uploading;
+        },
+
+        finishedUpload : function(fileObj) {
+            UserManager.updateFile(Session.get(CWD), {
+                name : fileObj.name(),
+                type : FILES.FILE,
+                uploading : false,
+                id : fileObj._id
+            });
         }
     });
 

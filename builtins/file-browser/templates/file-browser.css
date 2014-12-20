@@ -4,11 +4,11 @@
     background: #DDD;
 
     font-family: monaco, Consolas, 'Lucida Console', monospace;
-    font-size: 17px;
+    font-size: 16px;
     font-style: normal;
     font-variant: normal;
     font-weight: 500;
-    line-height: 18px;
+    line-height: 16px;
 }
 
 .fb-pane-navbar {
@@ -119,6 +119,7 @@
     display: table-cell;
     vertical-align: middle;
     padding-right: 4px;
+    padding-top: 2px;
     padding-bottom: 2px;
     margin: 0 0 0 0;
     width: auto;
@@ -126,8 +127,8 @@
 
 .fb-files .fb-file .td.progressbar .progress {
     width: 80px;
-    height: 14px;
-    margin-bottom: 0px;
+    height: 16px;
+    margin-left: 5px;
 }
 
 .fb-pane.fb-pane-main .fb-files .fb-file:hover {
