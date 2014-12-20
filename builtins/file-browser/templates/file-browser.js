@@ -34,7 +34,7 @@ if (Meteor.isClient) {
     Template.fb_pane_main.rendered = function() {
         var self = this;
         var cwd = Session.get(CWD);
-
+        Dropzone.autoDiscover = false;
         var dropzone = new Dropzone(this.find('#fb-dropzone'), {
             maxFileSize : 50,
             previewsContainer : '#previews-container',
@@ -49,8 +49,16 @@ if (Meteor.isClient) {
                         id : fileObj._id
                     });
                 });
-                done('Stop'); // Necessary for the library but not for us
+                done('nope'); // Necessary for the library but not for us
             }
+        });
+
+        dropzone.on('drop', function(event) {
+            console.log('Dropped!');
+        });
+
+        dropzone.on('dragover', function(event) {
+            console.log('Over!');
         });
     }
 
