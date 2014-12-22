@@ -2,7 +2,7 @@ Package.describe({
   name: 'jchristman:meteor-os',
   summary: 'Meteor package to easily allow desktop-like applications in meteor',
   version: '1.0.1',
-  git: 'https://github.com/suntzuII/meteor-os'
+  git: 'https://github.com/jchristman/meteor-os'
 });
 
 Package.onUse(function(api) {
