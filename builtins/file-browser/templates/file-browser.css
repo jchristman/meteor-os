@@ -176,3 +176,7 @@ span.glyphicon {
     vertical-align: middle;
     margin-top: -5px;
 }
+
+.dz-drag-hover {
+    outline: 2px solid RoyalBlue;
+}

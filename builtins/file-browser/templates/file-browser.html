@@ -17,7 +17,7 @@
         <div class='fb-pane fb-pane-nav'>
             {{> fb_pane_nav}}
         </div>
-        <div class='fb-pane fb-pane-main'>
+        <div id='fb-dropzone' class='fb-pane fb-pane-main'>
             {{> fb_pane_main}}
         </div>
         <div class='fb-pane-statusbar'>
@@ -43,7 +43,7 @@
 </template>
 
 <template name='fb_pane_main'>
-    <div id='fb-dropzone' class='fb-files'>
+    <div class='fb-files'>
         <div id='previews-container' style='display: none;'></div>
         {{#with currentPathFiles}}
             {{#each files}}
