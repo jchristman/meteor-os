@@ -1,7 +1,15 @@
-CWD = 'FileBrowserCurrentDir';
-STATUS = 'CurrentStatus';
+/**
+ *  TODO: Add a "priority lock" to the status bar through the use of a function and a variable. That way I can deconflict messages.
+ *  TODO: Added a "reset" function for each time the user changes CWD.
+ */
 
 if (Meteor.isClient) {
+    var CWD = '_fb_cwd';
+    var STATUS = '_fb_status';
+    var UPLOADING = false;
+    var UPLOADED_COUNT = 0;
+    var TO_UPLOAD_COUNT = 0;
+
     Meteor.startup(function() {
         Session.set(CWD, '/home');
         Session.set(STATUS, '');
@@ -28,6 +36,7 @@ if (Meteor.isClient) {
         'dblclick .fb-favorite' : function(event) {
             UserManager.clearProgressbars(Session.get(CWD));
             Session.set(CWD, this.path);
+            UPLOADING = false;
         } 
     });
 
@@ -36,12 +45,13 @@ if (Meteor.isClient) {
         var cwd = Session.get(CWD);
         Dropzone.autoDiscover = false;
         var dropzone = new Dropzone(this.find('#fb-dropzone'), {
-            maxFileSize : 50,
+            maxFileSize : 500,
             previewsContainer : '#previews-container',
             url : '/null', // Necessary for the library but not for us
             clickable : '#fb-upload',
             accept: function(file, done) {
                 var fsFile = new FS.File(file);
+                fsFile.owner = Meteor.userId();
                 MeteorOS_FS.insert(fsFile, function(err, fileObj) {
                     UserManager.addFile(cwd, {
                         name : fileObj.name(),
@@ -50,6 +60,13 @@ if (Meteor.isClient) {
                         id : fileObj._id
                     });
                 });
+                
+                TO_UPLOAD_COUNT += 1;
+                if (!UPLOADING) {
+                    UPLOADING = true;
+                    Session.set(STATUS, '0 of ' + TO_UPLOAD_COUNT + ' files uploaded');
+                }
+
                 done('nope'); // Necessary for the library but not for us
             }
         });
@@ -59,7 +76,7 @@ if (Meteor.isClient) {
         currentPathFiles : function() {
             var cwd = Session.get(CWD);
             var files = UserManager.traverseFileTree(cwd).files.slice(0);
-            Session.set(STATUS, files.length + ' Files');
+            if (!UPLOADING) Session.set(STATUS, files.length + ' Files');
             
             if (Session.get(CWD) != '/')
                 files.splice(0,0,{ name : '..', type : FILES.DIR });
@@ -80,11 +97,16 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.fb_file.rendered = function() {
+        context.attach($(this.find('.fb-file')), METEOR_OS_FB_FILE_CONTEXT_MENU);
+    }
+
     Template.fb_file.events({
         'dblclick .fb-file' : function(event) {
             if (this.type == FILES.DIR) {
                 var cwd = Session.get(CWD);
                 UserManager.clearProgressbars(cwd);
+                UPLOADING = false;
                 if (this.name == '..') {
                     var new_dir = cwd.substring(0, cwd.lastIndexOf('/'));
                     if (new_dir == '') new_dir = '/';
@@ -117,6 +139,13 @@ if (Meteor.isClient) {
                 uploading : false,
                 id : fileObj._id
             });
+
+            UPLOADED_COUNT += 1;
+            Session.set(STATUS, UPLOADED_COUNT + ' of ' + TO_UPLOAD_COUNT + ' files uploaded');
+            if (UPLOADED_COUNT == TO_UPLOAD_COUNT) {
+                UPLOADED_COUNT = 0;
+                TO_UPLOAD_COUNT = 0;
+            }
         }
     });
 

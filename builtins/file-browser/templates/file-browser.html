@@ -59,8 +59,9 @@
 
 <template name='fb_file'>
 <div class='fb-file'>
+    <input class='fb_fileID' type='hidden' data-id={{id}} />
     <img class='td' src={{fileIconURL}} /> 
-    <span class='td'>{{text}}</span> 
+    <span class='td fb_fileName'>{{text}}</span> 
     
     {{#if isFile}}
         {{#if uploading}}

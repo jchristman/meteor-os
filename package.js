@@ -49,6 +49,8 @@ Package.onUse(function(api) {
           'lib/components/context-menus/body-context-menu.js',
           'lib/components/context-menus/context-menu-funcs.js',
           'lib/components/progress-bar/style.css',
+          'lib/components/notfound/notfound.html',
+          'lib/components/notfound/notfound.js',
           'img/meteor-os_background.jpg',
           'img/fb-folder-icon-24x24.png',
           'img/fb-folder-icon-16x16.png',
@@ -59,6 +61,8 @@ Package.onUse(function(api) {
 
   api.addFiles([
           'builtins/file-browser/config.js',
+          'builtins/file-browser/context-menus/context-menu-funcs.js',
+          'builtins/file-browser/context-menus/fb-file-context-menu.js',
           'builtins/file-browser/templates/file-browser.html',
           'builtins/file-browser/templates/file-browser.js',
           'builtins/file-browser/templates/file-browser.css'

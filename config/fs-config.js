@@ -13,6 +13,11 @@ if (Meteor.isServer) {
 }   
 
 MeteorOS_FS.allow({
+    download: function(userId, file) {
+        console.log(userId, file.owner);
+        return true;
+    },
+
     'insert' : function(userId, doc) {
         return true;
     },

@@ -1,19 +1,23 @@
+Router.configure({
+    notFoundTemplate: 'meteorOSNotFound'
+});
+
 Router.route('/', function() {
     this.redirect('/login');
 });
-   
+
 Router.map(function() {
     this.route('home', {
         path: '/home',
         template: 'meteorOS',
-        onBeforeAction: AccountsTemplates.ensureSignedIn
+        onBeforeAction: function(pause) {
+            if (!Meteor.userId()) {
+                this.redirect('/login');
+            }
+            this.next();
+        }
     });
 });
-
-AccountsTemplates.configureRoute('ensureSignedIn', {
-    template: 'meteorOSLoginError'
-});
-
 
 AccountsTemplates.configureRoute('signIn', {
     name: 'login',
