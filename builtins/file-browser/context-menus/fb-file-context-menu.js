@@ -24,7 +24,7 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
         icon: 'glyphicon-edit',
         text: 'Rename File',
         action: function(event, selector) {
-            console.log(selector);
+            // TODO
         }
     },
     {

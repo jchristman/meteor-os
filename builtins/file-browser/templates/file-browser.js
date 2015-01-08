@@ -98,6 +98,7 @@ if (Meteor.isClient) {
     });
 
     Template.fb_file.rendered = function() {
+        context.init({preventDoubleContext: false});
         context.attach($(this.find('.fb-file')), METEOR_OS_FB_FILE_CONTEXT_MENU);
     }
 
