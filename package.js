@@ -1,7 +1,7 @@
 Package.describe({
   name: 'jchristman:meteor-os',
   summary: 'Meteor package to easily allow desktop-like applications in meteor',
-  version: '1.0.4',
+  version: '1.0.5',
   git: 'https://github.com/jchristman/meteor-os'
 });
 
@@ -81,6 +81,7 @@ Package.onUse(function(api) {
           'MeteorOS',
           'UserCollection',
           'UserManager',
-          'METEOR_OS_CONTEXT_MENU_FUNCS'
+          'METEOR_OS_CONTEXT_MENU_FUNCS',
+          'ALERTS'
   ], ['client','server']); 
 });

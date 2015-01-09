@@ -43,14 +43,14 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
         icon: 'glyphicon-share-alt',
         text: 'Move File',
         action: function(event, selector) {
-            NotImplementedAlert();
+            ALERTS.NotImplemented();
         }
     },
     {
         icon: 'glyphicon-star',
         text: 'Make Favorite',
         action: function(event, selector) {
-            NotImplementedAlert();
+            ALERTS.NotImplemented();
         }
     },
     { divider : true },
