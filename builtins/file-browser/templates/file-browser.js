@@ -52,15 +52,9 @@ if (Meteor.isClient) {
             accept: function(file, done) {
                 var fsFile = new FS.File(file);
                 fsFile.owner = Meteor.userId();
-                MeteorOS_FS.insert(fsFile, function(err, fileObj) {
-                    UserManager.addFile(cwd, {
-                        name : fileObj.name(),
-                        type : FILES.FILE,
-                        uploading : true,
-                        id : fileObj._id
-                    });
-                });
-                
+
+                UserManager.addFile(cwd, fsFile);
+
                 TO_UPLOAD_COUNT += 1;
                 if (!UPLOADING) {
                     UPLOADING = true;

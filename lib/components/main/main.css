@@ -7,3 +7,12 @@
     background: url('/packages/jchristman_meteor-os/img/meteor-os_background.jpg') no-repeat center center fixed; 
     background-size: cover;
 }
+
+#meteor-os .alertBox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: auto;
+    height: auto;
+    z-index: 1000000;
+}

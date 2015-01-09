@@ -8,17 +8,24 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.0');
 
+  // Builtin meteor packages
   api.use('underscore');
   api.use('templating', 'client');
   api.use('jquery','client');
-  api.use('mizzao:jquery-ui@1.11.2','client')
+  // Accounts packages
   api.use('accounts-base');
-  api.use('useraccounts:bootstrap@1.4.0');
   api.use('accounts-password');
+  api.use('useraccounts:bootstrap@1.4.0');
+  // Filesystem packages
   api.use('dbarrett:dropzonejs@3.10.3','client');
   api.use('cfs:standard-packages@0.5.3');
   api.use('cfs:filesystem@0.1.1');
   api.use('cfs:ui@0.1.3');
+  // UI Packages
+  api.use('mizzao:jquery-ui@1.11.2','client');
+  api.use('mizzao:bootboxjs@4.3.0','client');
+  api.use('mrt:bootstrap-alerts@0.0.5','client');
+  // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
   api.use('jchristman:application-manager@1.0.2');
   api.imply('jchristman:application-manager@1.0.2');
@@ -26,12 +33,12 @@ Package.onUse(function(api) {
   api.addFiles([
           'lib/meteor-os.js',
           'lib/files/files.js',
+          'lib/files/fs-config.js',
           'lib/users/default.js',
           'lib/users/users-collection.js',
           'lib/users/users.js',
           'config/accounts.js',
-          'config/router.js',
-          'config/fs-config.js'
+          'config/router.js'
   ],['client','server']);
 
   api.addFiles([
@@ -51,6 +58,8 @@ Package.onUse(function(api) {
           'lib/components/progress-bar/style.css',
           'lib/components/notfound/notfound.html',
           'lib/components/notfound/notfound.js',
+          'lib/helpers/jquery-helpers.js',
+          'lib/helpers/alerts.js',
           'img/meteor-os_background.jpg',
           'img/fb-folder-icon-24x24.png',
           'img/fb-folder-icon-16x16.png',

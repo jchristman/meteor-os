@@ -1,5 +1,8 @@
 <template name="meteorOS">
     <div id="meteor-os">
+        <div class="alertBox">
+            {{> bootstrapAlerts}}
+        </div>
         {{#if checkUserStatus}}
             {{> Applications}}
         {{/if}}
