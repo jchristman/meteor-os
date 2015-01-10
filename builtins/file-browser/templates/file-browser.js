@@ -18,7 +18,7 @@ if (Meteor.isClient) {
     Template.file_browser.helpers({
         currentUserContext : function() {
             var user = UserManager.getUser(Meteor.user());
-            return user.fs;
+            return _.extend(this, user.fs);
         },
 
         currentPath : function() {
@@ -150,13 +150,62 @@ if (Meteor.isClient) {
         },
 
         statusContext : function() {
-            var uploadButton = {
-                buttonID : 'fb-upload',
-                buttonClass : 'btn-default',
-                buttonGlyphicon : 'glyphicon-upload',
-                buttonText : 'Upload Files'
+            var context = {
+                statusButtons : [
+                    {
+                        buttonID : 'fb-upload',
+                        buttonClass : 'btn-default',
+                        buttonGlyphicon : 'glyphicon-upload',
+                        buttonText : 'Upload Files'
+                    }
+                ]
             }
-            return _.extend(this, { statusButtons : [uploadButton] });
+            if (this.mode != undefined) {
+                context.statusButtons.push({
+                    buttonID : 'fb-cancel',
+                    buttonClass : 'btn-default',
+                    buttonGlyphicon : 'glyphicon-remove',
+                    buttonText : 'Cancel'
+                });       
+
+                if (this.mode == 'openFile') {
+                    context.statusButtons.push({
+                        buttonID : 'fb-openFile',
+                        buttonClass : 'btn-primary',
+                        buttonGlyphicon : 'glyphicon-folder-open',
+                        buttonText : 'Open File'
+                    });       
+                }
+            }
+            return _.extend(this, context);
+        }
+    });
+
+    Template.fb_pane_statusbar.events({
+        'click #fb-openFile' : function(event) {
+            if (_FB_DIALOG_CALLBACK_FUNC != undefined) _FB_DIALOG_CALLBACK_FUNC('Test');
+            else                                       ALERTS.Error('No callback provided for file dialog');
+            
+            var btn = $(event.target);
+            var appId = btn.closest('.window').data('appid');
+            MeteorOS.quitApplication(appId);
+        },
+
+        'click #fb-cancel' : function(event) {
+            var btn = $(event.target);
+            var appId = btn.closest('.window').data('appid');
+            MeteorOS.quitApplication(appId);
+        }
+    });
+
+
+    //---------------------------------------------------------------//
+    //                       DIALOG MODE CODE                        //
+    //---------------------------------------------------------------//
+
+    Template.file_browser_dialog.helpers({
+        dialogMode : function() {
+            return _.extend(this, { mode : Session.get('_fbDialogMode') });
         }
     });
 

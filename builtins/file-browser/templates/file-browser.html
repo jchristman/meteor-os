@@ -3,7 +3,9 @@
 </template>
 
 <template name='file_browser_dialog'>
-    {{> file_browser}}
+    {{#with dialogMode}}
+        {{> file_browser}}
+    {{/with}}
 </template>
 
 <template name='file_browser'>

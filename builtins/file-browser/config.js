@@ -1,7 +1,14 @@
+if (Meteor.isClient) {
+    _FB_DIALOG_CALLBACK_FUNC = undefined;
+    Meteor.startup(function() {
+        Session.set('_fbDialogMode', '');
+        Session.set('_fbDialogCallback', '');
+    });
+}
+
 var file_browser_app_windowed_mode = {
     appID : '323a996f-1d54-46f3-9c2f-89ccbd87dffa',
     appName : 'File Browser',
-    appOpen : true,
     type : Application.WINDOWED_APPLICATION,
     layout : {
         windows : [
@@ -28,16 +35,24 @@ var file_browser_app_dialog_mode = {
         windows : [
             {
                 id : 'file-browser-dialog',
-                title : 'File Browser',
+                title : 'File Dialog',
                 type : Application.NOT_TABBED_WINDOW,
                 focused : 'true',
-                top : '33%',
-                left : '33%',
-                width : '33%',
-                height : '33%',
+                top : '50px',
+                left : '50px',
+                width : '600px',
+                height : '350px',
                 template : 'file_browser_dialog'
             }
         ]
+    },
+    api : {
+        openFile : function(callback) {
+            setTimeout(function() {MeteorOS.startApplication('File Dialog')});
+            MeteorOS.getApp('File Dialog').setTitle('file-browser-dialog', 'Open File...');
+            Session.set('_fbDialogMode', 'openFile');
+            _FB_DIALOG_CALLBACK_FUNC = callback;
+        }
     }
 }
 
