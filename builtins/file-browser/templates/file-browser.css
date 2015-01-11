@@ -112,6 +112,10 @@
     white-space: nowrap;
 }
 
+.fb-files .fb-file.selected {
+    background: #ccc;
+}
+
 .fb-files .fb-file .td {
     display: table-cell;
     vertical-align: middle;
@@ -131,6 +135,10 @@
 
 .fb-pane.fb-pane-main .fb-files .fb-file:hover {
     background: #EEE;
+}
+
+.fb-pane.fb-pane-main .fb-files .fb-file.selected:hover {
+    background: #ccc;
 }
 
 .fb-pane-statusbar {

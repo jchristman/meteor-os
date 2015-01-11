@@ -50,7 +50,7 @@ iron:router@1.0.6
 iron:url@1.0.6
 jchristman:application-manager@1.0.6
 jchristman:context-menu@1.1.4
-jchristman:meteor-os@1.0.5
+jchristman:meteor-os@1.0.6
 jquery@1.0.2
 json@1.0.2
 launch-screen@1.0.1
