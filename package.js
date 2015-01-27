@@ -29,6 +29,12 @@ Package.onUse(function(api) {
   api.use('jchristman:context-menu@1.1.4','client');
   api.use('jchristman:application-manager@1.0.6');
   api.imply('jchristman:application-manager@1.0.6');
+  // Kadira
+  api.use('meteorhacks:kadira@2.17.1');
+
+  api.addFiles([
+          'server/kadira.js'
+  ],['server']);
 
   api.addFiles([
           'lib/meteor-os.js',
