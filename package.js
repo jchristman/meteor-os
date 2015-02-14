@@ -1,7 +1,7 @@
 Package.describe({
   name: 'jchristman:meteor-os',
   summary: 'Meteor package to easily allow desktop-like applications in meteor',
-  version: '1.1.1',
+  version: '1.1.1_1',
   git: 'https://github.com/jchristman/meteor-os'
 });
 
@@ -27,8 +27,8 @@ Package.onUse(function(api) {
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
-  api.use('jchristman:application-manager@1.0.6');
-  api.imply('jchristman:application-manager@1.0.6');
+  api.use('jchristman:application-manager@1.0.6_2');
+  api.imply('jchristman:application-manager@1.0.6_2');
 
   api.addFiles([
           'lib/meteor-os.js',
