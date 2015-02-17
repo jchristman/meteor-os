@@ -27,8 +27,8 @@ Package.onUse(function(api) {
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
-  api.use('jchristman:application-manager@1.0.6_2');
-  api.imply('jchristman:application-manager@1.0.6_2');
+  api.use('jchristman:application-manager@1.0.7_2');
+  api.imply('jchristman:application-manager@1.0.7_2');
 
   api.addFiles([
           'lib/meteor-os.js',
@@ -69,12 +69,18 @@ Package.onUse(function(api) {
   ],['client']);
 
   api.addFiles([
+          // File Browser
           'builtins/file-browser/config.js',
           'builtins/file-browser/context-menus/context-menu-funcs.js',
           'builtins/file-browser/context-menus/fb-file-context-menu.js',
           'builtins/file-browser/templates/file-browser.html',
           'builtins/file-browser/templates/file-browser.js',
-          'builtins/file-browser/templates/file-browser.css'
+          'builtins/file-browser/templates/file-browser.css',
+          // Team Manager
+          'builtins/settings/config.js',
+          'builtins/settings/templates/settings.html',
+          'builtins/settings/templates/settings.js',
+          'builtins/settings/templates/settings.css',
   ],['client','server']);
 
   api.export([
