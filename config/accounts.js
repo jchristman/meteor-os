@@ -6,28 +6,28 @@ AccountsTemplates.configure({
     overrideLoginErrors: true,
     sendVerificationEmail: false,
 
-    // Appearance
+        // Appearance
     showAddRemoveServices: false,
     showForgotPasswordLink: false,
     showLabels: true,
     showPlaceholders: true,
 
-    // Client-side Validation
+        // Client-side Validation
     continuousValidation: true,
     negativeFeedback: true,
     negativeValidation: true,
     positiveValidation: true,
     positiveFeedback: true,
 
-    // Privacy Policy and Terms of Use
-    //privacyUrl: 'privacy',
-    //termsUrl: 'terms-of-use',
+        // Privacy Policy and Terms of Use
+        //privacyUrl: 'privacy',
+        //termsUrl: 'terms-of-use',
 
-    // Redirects
+        // Redirects
     homeRoutePath: '/',
     redirectTimeout: 4000,
 
-    // Texts
+        // Texts
     texts: {
         button: {
             signUp: "Sign Up Now!"

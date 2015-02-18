@@ -31,6 +31,7 @@ coffeescript@1.0.5
 dbarrett:dropzonejs@3.10.3
 ddp@1.0.14
 deps@1.0.6
+edgee:meteor-server-deps@0.1.2
 ejson@1.0.5
 email@1.0.5
 fastclick@1.0.2
@@ -54,6 +55,7 @@ jchristman:meteor-os@1.1.1_1
 jquery@1.11.3
 json@1.0.2
 launch-screen@1.0.1
+lepozepo:reactive-publish@0.1.7
 less@1.0.12
 livedata@1.0.12
 localstorage@1.0.2

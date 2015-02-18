@@ -17,11 +17,11 @@ var team_manager_app = {
                     {
                         title : 'Account',
                         template : '_meteor_os_settings_accounts_page',
-                        selected : true
                     },
                     {
                         title : 'Team Management',
-                        template : '_meteor_os_settings_team_management_page'
+                        template : '_meteor_os_settings_team_management_page',
+                        selected : true
                     },
                     {
                         title : 'Interface Options',

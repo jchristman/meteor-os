@@ -12,6 +12,8 @@ Package.onUse(function(api) {
   api.use('underscore');
   api.use('templating', 'client');
   api.use('jquery','client');
+  // Server side reactivity
+  api.use('lepozepo:reactive-publish');
   // Accounts packages
   api.use('accounts-base');
   api.use('accounts-password');
@@ -76,11 +78,15 @@ Package.onUse(function(api) {
           'builtins/file-browser/templates/file-browser.html',
           'builtins/file-browser/templates/file-browser.js',
           'builtins/file-browser/templates/file-browser.css',
-          // Team Manager
+          // Settings Application
           'builtins/settings/config.js',
           'builtins/settings/templates/settings.html',
           'builtins/settings/templates/settings.js',
           'builtins/settings/templates/settings.css',
+          'builtins/settings/templates/bootboxes/newTeam.js',
+          'builtins/settings/team-model/team.js',
+          'builtins/settings/team-model/team-collection.js',
+          'builtins/settings/server/accounts.js',
   ],['client','server']);
 
   api.export([
@@ -88,6 +94,7 @@ Package.onUse(function(api) {
           'UserCollection',
           'UserManager',
           'METEOR_OS_CONTEXT_MENU_FUNCS',
-          'ALERTS'
+          'ALERTS',
+          'MeteorOSTeamCollection'
   ], ['client','server']); 
 });
