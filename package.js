@@ -1,7 +1,7 @@
 Package.describe({
   name: 'jchristman:meteor-os',
   summary: 'Meteor package to easily allow desktop-like applications in meteor',
-  version: '1.1.1_1',
+  version: '1.1.1_2',
   git: 'https://github.com/jchristman/meteor-os'
 });
 
@@ -25,7 +25,8 @@ Package.onUse(function(api) {
   api.use('cfs:ui@0.1.3');
   // UI Packages
   api.use('mizzao:jquery-ui@1.11.2','client');
-  api.use('mizzao:bootboxjs@4.3.0','client');
+  api.use('mizzao:autocomplete@0.4.10');
+  api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
@@ -83,7 +84,8 @@ Package.onUse(function(api) {
           'builtins/settings/templates/settings.html',
           'builtins/settings/templates/settings.js',
           'builtins/settings/templates/settings.css',
-          'builtins/settings/templates/bootboxes/newTeam.js',
+          'builtins/settings/templates/modals/newTeam.html',
+          'builtins/settings/templates/modals/newTeam.js',
           'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/team-collection.js',
           'builtins/settings/server/accounts.js',
@@ -94,7 +96,6 @@ Package.onUse(function(api) {
           'UserCollection',
           'UserManager',
           'METEOR_OS_CONTEXT_MENU_FUNCS',
-          'ALERTS',
-          'MeteorOSTeamCollection'
+          'ALERTS'
   ], ['client','server']); 
 });

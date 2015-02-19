@@ -17,7 +17,7 @@ if (Meteor.isClient) {
             var action = $(event.target).data('action');
             switch (action) {
                 case 'newTeam':
-                    bootbox.dialog(NEW_TEAM_BOOTBOX);
+                    NEW_TEAM_MODAL.show();
                     break;
                 default:
                     break;
