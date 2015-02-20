@@ -52,7 +52,8 @@ iron:router@1.0.7
 iron:url@1.0.7
 jchristman:application-manager@1.0.7_2
 jchristman:context-menu@1.1.4
-jchristman:meteor-os@1.1.1_1
+jchristman:meteor-os@1.1.1_2
+jchristman:tagsinput-autocomplete@1.0.0
 jquery@1.11.3
 json@1.0.2
 launch-screen@1.0.1
@@ -92,11 +93,11 @@ spacebars-compiler@1.0.4
 srp@1.0.2
 templating@1.0.11
 tracker@1.0.5
-twbs:bootstrap@3.3.1_2
+twbs:bootstrap@3.3.2
 ui@1.0.5
 underscore@1.0.2
 url@1.0.3
-useraccounts:bootstrap@1.7.1
-useraccounts:core@1.7.1
+useraccounts:bootstrap@1.8.0
+useraccounts:core@1.8.0
 webapp@1.1.6
 webapp-hashing@1.0.2

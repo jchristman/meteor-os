@@ -30,6 +30,8 @@ Package.onUse(function(api) {
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
+  api.use('jchristman:tagsinput-autocomplete@1.0.0');
+  api.imply('jchristman:tagsinput-autocomplete@1.0.0');
   api.use('jchristman:application-manager@1.0.7_2');
   api.imply('jchristman:application-manager@1.0.7_2');
 
@@ -68,7 +70,7 @@ Package.onUse(function(api) {
           'img/fb-folder-icon-16x16.png',
           'img/fb-file-icon-16x16.png',
           'img/favorites-icon-24x24.png',
-          'img/fb-success-icon-16x16.png'
+          'img/fb-success-icon-16x16.png',
   ],['client']);
 
   api.addFiles([
@@ -86,6 +88,7 @@ Package.onUse(function(api) {
           'builtins/settings/templates/settings.css',
           'builtins/settings/templates/modals/newTeam.html',
           'builtins/settings/templates/modals/newTeam.js',
+          'builtins/settings/templates/modals/newTeam.css',
           'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/team-collection.js',
           'builtins/settings/server/accounts.js',

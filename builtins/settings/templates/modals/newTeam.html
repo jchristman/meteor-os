@@ -3,8 +3,8 @@
     <div class="col-md-12">  
         <form class="form-horizontal">  
             <div class="form-group">  
-                <label class="col-md-4 control-label" for="name">Team Name</label>  
-                <div class="col-md-4">  
+                <label class="col-md-3 control-label" for="name">Team Name</label>  
+                <div class="col-md-6">  
                     <input id="name" name="name" type="text" placeholder="Team name" class="form-control input-md">  
                     <span class="help-block">Name your team</span>  
                 </div>  
@@ -16,18 +16,25 @@
     <div class="col-md-12">  
         <form class="form-horizontal">  
             <div class="form-group">  
-                <label class="col-md-4 control-label" for="invite">Invite</label>  
-                <div class="col-md-4">  
-                    <!--<input id="invite" name="invite" type="text" placeholder="User name" class="form-control input-md">-->
-                    {{> inputAutocomplete settings=settings id='invite' name='invite' type='text' placeholder='User name' class='form-control input-md'}}
-                    <span class="help-block">Invite Users</span>  
+                <label class="col-md-3 control-label" for="invite">Invite</label>  
+                <div class="col-md-6">
+                    {{> tagsinput tagField='username' id='invite' name='invite' placeholder='User name' autocompleteSettings=settings}}
+                    <span class="help-block">Start typing a name</span>  
                 </div>  
             </div>  
-        </form>  
+        </form>
     </div>  
 </div>
 </template>
 
+<template name="invitedUsers">
+    Test
+</template>
+
 <template name="userPill">
     <span class="label label-default">{{username}}</span>
+</template>
+
+<template name="userNoMatch">
+    <span class="text-danger">No user found for <b>{{getFilter}}</b>!</span>
 </template>
