@@ -9,7 +9,7 @@ Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.0');
 
   // Builtin meteor packages
-  api.use('underscore');
+  api.use('underscore@1.0.2');
   api.use('templating', 'client');
   api.use('jquery','client');
   // Server side reactivity
@@ -30,8 +30,8 @@ Package.onUse(function(api) {
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
-  api.use('jchristman:tagsinput-autocomplete@1.0.0');
-  api.imply('jchristman:tagsinput-autocomplete@1.0.0');
+  api.use('jchristman:tagsinput-autocomplete@1.0.1');
+  api.imply('jchristman:tagsinput-autocomplete@1.0.1');
   api.use('jchristman:application-manager@1.0.7_2');
   api.imply('jchristman:application-manager@1.0.7_2');
 

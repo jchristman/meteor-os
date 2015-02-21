@@ -53,7 +53,7 @@ iron:url@1.0.7
 jchristman:application-manager@1.0.7_2
 jchristman:context-menu@1.1.4
 jchristman:meteor-os@1.1.1_2
-jchristman:tagsinput-autocomplete@1.0.0
+jchristman:tagsinput-autocomplete@1.0.1
 jquery@1.11.3
 json@1.0.2
 launch-screen@1.0.1
@@ -97,7 +97,7 @@ twbs:bootstrap@3.3.2
 ui@1.0.5
 underscore@1.0.2
 url@1.0.3
-useraccounts:bootstrap@1.8.0
-useraccounts:core@1.8.0
+useraccounts:bootstrap@1.8.1
+useraccounts:core@1.8.1
 webapp@1.1.6
 webapp-hashing@1.0.2

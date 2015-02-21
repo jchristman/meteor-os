@@ -13,7 +13,21 @@ Accounts Page
         <div class='scroll-container'>
             <div class='current-teams'>
                 {{#each myteams}}
-                <span class='team'><b>Team: </b>{{name}}{{#if isOwner}} <span class='label label-default'>Owner</span>{{/if}}</span><br>
+                <span class='team' data-id={{_id}}>
+                        <b>{{name}}</b>
+                        {{#if isOwner}}<span class='label label-default'>Owner</span>
+                        {{else}}
+                            {{#if isPending}}
+                                <span class='label label-warning'>Pending</span>
+                                <div class='btn-group btn-group-xs' role='group'>
+                                    <button type='button' class='btn btn-success' data-action='acceptInvite'><span class='click-thru glyphicon glyphicon-ok'></span></button>
+                                    <button type='button' class='btn btn-primary' data-action='viewInvite'><span class='click-thru glyphicon glyphicon-th-list'></span></button>
+                                    <button type='button' class='btn btn-danger' data-action='declineInvite'><span class='click-thru glyphicon glyphicon-trash'></span></button>
+                                </div>
+                            {{else}}<span class='label label-success'>Member</span>
+                            {{/if}}
+                        {{/if}}
+                    </span><br>
                 {{else}}
                     No Teams yet
                 {{/each}}
