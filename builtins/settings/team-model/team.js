@@ -11,6 +11,14 @@ TeamModel.prototype.newTeam = function(team) {
     });
 }
 
+TeamModel.prototype.acceptInvite = function(team_id) {
+    Meteor.call('acceptInviteToMeteorOSTeam',team_id);
+}
+
+TeamModel.prototype.declineInvite = function(team_id) {
+    Meteor.call('declineInviteToMeteorOSTeam',team_id);
+}
+
 if (Meteor.isServer) {
     Meteor.methods({
         inviteUserToMeteorOSTeam : function(user, team_id) {

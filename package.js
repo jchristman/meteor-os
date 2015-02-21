@@ -83,15 +83,20 @@ Package.onUse(function(api) {
           'builtins/file-browser/templates/file-browser.css',
           // Settings Application
           'builtins/settings/config.js',
-          'builtins/settings/templates/settings.html',
-          'builtins/settings/templates/settings.js',
+          'builtins/settings/templates/pages/team-management/team_management.html',
+          'builtins/settings/templates/pages/team-management/team_management.js',
           'builtins/settings/templates/settings.css',
-          'builtins/settings/templates/modals/newTeam.html',
-          'builtins/settings/templates/modals/newTeam.js',
-          'builtins/settings/templates/modals/newTeam.css',
+          'builtins/settings/templates/modals/newTeam/newTeam.html',
+          'builtins/settings/templates/modals/newTeam/newTeam.js',
+          'builtins/settings/templates/modals/newTeam/newTeam.css',
           'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/team-collection.js',
           'builtins/settings/server/accounts.js',
+  ],['client','server']);
+
+  //TESTING
+  api.addFiles([
+          'testing/users.js'
   ],['client','server']);
 
   api.export([
