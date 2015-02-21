@@ -62,12 +62,11 @@ if (Meteor.isClient) {
                     break;
                 case 'acceptInvite':
                     var team_id = $(event.target).closest('.team').data('id');
-                    console.log('Accept invite to',team_id);
                     Meteor.call('acceptInviteToMeteorOSTeam',team_id);
                     break;
                 case 'declineInvite':
                     var team_id = $(event.target).closest('.team').data('id');
-                    console.log('Decline invite to',team_id);
+                    Meteor.call('declineInviteToMeteorOSTeam',team_id);
                     break;
                 case 'viewInvite':
                     var team_id = $(event.target).closest('.team').data('id');

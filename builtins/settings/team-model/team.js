@@ -47,6 +47,34 @@ if (Meteor.isServer) {
                     MeteorOSTeamCollection.update({_id : team._id}, team);
                 }
             }
+        },
+
+        declineInviteToMeteorOSTeam : function(team_id) {
+            var user = Meteor.users.findOne(this.userId);
+            if (user == undefined) return;
+            var index = -1;
+            _.find(user.profile.MeteorOSTeamsPending, function(pending_team_id) {
+                index += 1;
+                return pending_team_id == team_id;
+            });
+            if (index > -1) {
+                // Remove the team from pending
+                user.profile.MeteorOSTeamsPending.splice(index,1);
+                Meteor.users.update({_id : user._id}, user);
+
+                // Update the team
+                var team = MeteorOSTeamCollection.findOne(team_id);
+                index = -1;
+                _.find(team.pending, function(pending_user) {
+                    index += 1;
+                    return pending_user._id == user._id;
+                });
+                if (index > -1) {
+                    // Remove the user from pending
+                    var pending_user = team.pending.splice(index,1);
+                    MeteorOSTeamCollection.update({_id : team._id}, team);
+                }
+            }
         }
     });
 }
