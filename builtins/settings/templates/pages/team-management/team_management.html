@@ -33,3 +33,11 @@
     </div>
 </div>
 </template>
+
+<template name="userPill">
+    <span class="label label-default">{{username}}</span>
+</template>
+
+<template name="userNoMatch">
+    <span class="text-danger">No user found for <b>{{getFilter}}</b>!</span>
+</template>

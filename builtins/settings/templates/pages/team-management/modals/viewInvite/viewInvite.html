@@ -1,0 +1,18 @@
+<template name='_meteor_os_settings_team_management_view_invite'>
+{{#with team}}
+    <div class="row">   
+        <label class="col-md-3 control-label text-right" for="owner">Owner</label>  
+        <span name="owner" class="col-md-6">{{owner.username}}</span>  
+    </div>  
+    <div class="row">   
+        <label class="col-md-3 control-label text-right" for="members">Members</label>  
+        <div name="members" class="col-md-6">
+            {{#each members}}
+                <span>{{username}}</span>
+            {{else}}
+                <span>No other members have accepted this invitation yet.</span>
+            {{/each}}
+        </div>
+    </div>  
+{{/with}}
+</template>
