@@ -32,7 +32,7 @@ MeteorOSTeamCollection.allow({
         var user = Meteor.users.findOne(userId);
         if (user == undefined)
             return false;
-        return (settings.owner == userId);
+        return (settings.owner._id == user._id);
     }
 });
 

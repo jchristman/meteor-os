@@ -28,6 +28,8 @@ Package.onUse(function(api) {
   api.use('mizzao:autocomplete@0.4.10');
   api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
+  // Debug Packages
+  //api.use('msavin:mongol');
   // Custom packages
   api.use('jchristman:context-menu@1.1.4','client');
   api.use('jchristman:tagsinput-autocomplete@1.0.1');
@@ -85,6 +87,11 @@ Package.onUse(function(api) {
           'builtins/settings/config.js',
           'builtins/settings/templates/pages/team-management/team_management.html',
           'builtins/settings/templates/pages/team-management/team_management.js',
+          'builtins/settings/templates/pages/team-management/modals/common-modal-templates.html',
+          'builtins/settings/templates/pages/team-management/modals/common-modal-templates.js',
+          'builtins/settings/templates/pages/team-management/modals/editTeam/editTeam.html',
+          'builtins/settings/templates/pages/team-management/modals/editTeam/editTeam.js',
+          'builtins/settings/templates/pages/team-management/modals/editTeam/editTeam.css',
           'builtins/settings/templates/pages/team-management/modals/newTeam/newTeam.html',
           'builtins/settings/templates/pages/team-management/modals/newTeam/newTeam.js',
           'builtins/settings/templates/pages/team-management/modals/viewInvite/viewInvite.html',
@@ -97,7 +104,8 @@ Package.onUse(function(api) {
 
   //TESTING
   api.addFiles([
-          'testing/users.js'
+          'testing/users.js',
+          //'testing/mongol.js'
   ],['client','server']);
 
   api.export([

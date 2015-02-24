@@ -1,0 +1,4 @@
+div.members {
+    max-height: 140px;
+    overflow: auto;
+}

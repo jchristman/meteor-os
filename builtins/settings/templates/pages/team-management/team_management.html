@@ -7,7 +7,11 @@
                 {{#each myteams}}
                 <span class='team' data-id={{_id}}>
                         <b>{{name}}</b>
-                        {{#if isOwner}}<span class='label label-default'>Owner</span>
+                        {{#if isOwner}}
+                                <span class='label label-default'>Owner</span>
+                                <div class='btn-group btn-group-xs' role='group'>
+                                    <button type='button' class='btn btn-primary' data-action='ownerEditTeam'><span class='click-thru glyphicon glyphicon-th-list'></span></button>
+                                </div>
                         {{else}}
                             {{#if isPending}}
                                 <span class='label label-warning'>Pending</span>
@@ -32,12 +36,4 @@
         </div>
     </div>
 </div>
-</template>
-
-<template name="userPill">
-    <span class="label label-default">{{username}}</span>
-</template>
-
-<template name="userNoMatch">
-    <span class="text-danger">No user found for <b>{{getFilter}}</b>!</span>
 </template>
