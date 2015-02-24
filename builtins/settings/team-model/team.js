@@ -3,9 +3,9 @@ TeamModel = function() {
 }
 
 TeamModel.prototype.newTeam = function(team) {
-    // TODO: Validate the data
     var id = MeteorOSTeamCollection.insert(team);
     Meteor.users.update({_id : Meteor.user()._id}, {$addToSet : { 'profile.MeteorOSTeams' : id}});
+    team.pending = _.reject(team.pending, function(user) { return user._id == team.owner._id });
     _.each(team.pending, function(user) {
         Meteor.call('inviteUserToMeteorOSTeam', user, id);
     });
@@ -19,6 +19,9 @@ TeamModel.prototype.updateTeam = function(team) {
     p_team.pending = _.uniq(p_team.pending, function(item) { // And eliminate dups
         return item._id;
     });
+    
+    p_team.pending = _.reject(p_team.pending, function(user) { return user._id == p_team.owner._id });
+    p_team.pending = _.reject(p_team.pending, function(user) { return _.findWhere(p_team.members, { _id: user._id }) != undefined });
 
     MeteorOSTeamCollection.update({_id : p_team._id}, { $set : { pending : p_team.pending } });
     

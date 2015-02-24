@@ -3,16 +3,16 @@
     <div class="row">   
         <label class="col-md-3 control-label text-right" for="owner">Owner</label>  
         <span name="owner" class="col-md-6">{{owner.username}}</span>  
-    </div>  
+    </div><br>
     <div class="row">   
         <label class="col-md-3 control-label text-right" for="members">Members</label>  
-        <div name="members" class="col-md-6">
+        <div name="members" class="col-md-6 members">
             {{#each members}}
-                <span>{{username}}</span>
+                <span>{{username}}</span><br>
             {{else}}
                 <span>No other members have accepted this invitation yet.</span>
             {{/each}}
         </div>
-    </div>  
+    </div><br>
 {{/with}}
 </template>

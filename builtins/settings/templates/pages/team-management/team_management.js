@@ -49,15 +49,13 @@ if (Meteor.isClient) {
     });
 
     var newTeamModal = function() {
+        var tagsVar = 'inviteUsersTagsVar';
         var new_team_modal = ReactiveModal.initDialog(NEW_TEAM_MODAL);
         new_team_modal.buttons.create.on('click', function(button) {
             var team_name_input = $(new_team_modal.modalTarget).find('#name');
             
             var team_name = team_name_input.val();
-            var invited = Session.get('inviteUsersTagsVar');
-            
-            team_name_input.val('');
-            Session.set('inviteUsersTagsVar',[]);
+            var invited = Session.get(tagsVar);
             
             MeteorOS.Team.newTeam({
                 name : team_name,
@@ -66,9 +64,7 @@ if (Meteor.isClient) {
                 pending : invited
             });
         });
-        var team_name_input = $(new_team_modal.modalTarget).find('#name');
-        team_name_input.val('');
-        Session.set('newTeamTagsVar',[]);
+        Session.set(tagsVar,[]);
         new_team_modal.show();
     }
     
@@ -85,19 +81,21 @@ if (Meteor.isClient) {
     }
     
     var editTeamModal = function(team_id) {
+        var tagsVar = 'inviteUsersTagsVar';
         EDIT_TEAM_MODAL.doc = { id : team_id };
         var edit_team_modal = ReactiveModal.initDialog(EDIT_TEAM_MODAL);
         edit_team_modal.buttons.destroy.on('click', function(button) {
             ALERTS.NotImplemented();
         });
         edit_team_modal.buttons.update.on('click', function(button) {
-            var invited = Session.get('inviteUsersTagsVar');
-            Session.set('inviteUsersTagsVar',[]);
+            var invited = Session.get(tagsVar);
+            Session.set(tagsVar,[]);
             MeteorOS.Team.updateTeam({
                 _id : team_id,
                 pending : invited
             });
         });
+        Session.set(tagsVar,[]);
         edit_team_modal.show();
     }
 }
