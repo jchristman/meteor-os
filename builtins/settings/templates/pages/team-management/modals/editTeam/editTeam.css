@@ -1,4 +1,27 @@
-div.members {
+.members {
     max-height: 140px;
     overflow: auto;
+}
+
+.user {
+    border: 1px solid gray;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.user:hover {
+    background: #eee;
+}
+
+.removeMember,.removePending {
+    float: right;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    color: #aaa;
+    text-decoration: none;
 }

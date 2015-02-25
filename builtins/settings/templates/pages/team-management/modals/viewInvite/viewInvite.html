@@ -2,13 +2,15 @@
 {{#with team}}
     <div class="row">   
         <label class="col-md-3 control-label text-right" for="owner">Owner</label>  
-        <span name="owner" class="col-md-6">{{owner.username}}</span>  
+        <div name="owner" class="col-md-6">
+            <div class="user"><img src={{owner.profile.gravatarUrl}}> <span>{{owner.username}}</span></div>
+        </div>
     </div><br>
     <div class="row">   
         <label class="col-md-3 control-label text-right" for="members">Members</label>  
         <div name="members" class="col-md-6 members">
             {{#each members}}
-                <span>{{username}}</span><br>
+                <div class='user'><img src={{profile.gravatarUrl}}> <span>{{username}}</span></div>
             {{else}}
                 <span>No other members have accepted this invitation yet.</span>
             {{/each}}

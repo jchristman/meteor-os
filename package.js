@@ -28,6 +28,7 @@ Package.onUse(function(api) {
   api.use('mizzao:autocomplete@0.4.10');
   api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
+  api.use('jparker:gravatar@0.3.1');
   // Debug Packages
   //api.use('msavin:mongol');
   // Custom packages
@@ -110,9 +111,6 @@ Package.onUse(function(api) {
 
   api.export([
           'MeteorOS',
-          'UserCollection',
-          'UserManager',
           'METEOR_OS_CONTEXT_MENU_FUNCS',
-          'ALERTS'
   ], ['client','server']); 
 });

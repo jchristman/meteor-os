@@ -3,9 +3,11 @@ TeamModel = function() {
 }
 
 TeamModel.prototype.newTeam = function(team) {
+    team.pending = _.reject(team.pending, function(user) { return user._id == team.owner._id });
+
     var id = MeteorOSTeamCollection.insert(team);
     Meteor.users.update({_id : Meteor.user()._id}, {$addToSet : { 'profile.MeteorOSTeams' : id}});
-    team.pending = _.reject(team.pending, function(user) { return user._id == team.owner._id });
+
     _.each(team.pending, function(user) {
         Meteor.call('inviteUserToMeteorOSTeam', user, id);
     });
@@ -34,8 +36,12 @@ TeamModel.prototype.acceptInvite = function(team_id) {
     Meteor.call('acceptInviteToMeteorOSTeam',team_id);
 }
 
-TeamModel.prototype.declineInvite = function(team_id) {
-    Meteor.call('declineInviteToMeteorOSTeam',team_id);
+TeamModel.prototype.declineInvite = function(team_id, user_id) {
+    Meteor.call('declineInviteToMeteorOSTeam',team_id,user_id);
+}
+
+TeamModel.prototype.leaveTeam = function(team_id, user_id) {
+    Meteor.call('leaveMeteorOSTeam', team_id, user_id);
 }
 
 if (Meteor.isServer) {
@@ -78,13 +84,21 @@ if (Meteor.isServer) {
             }
         },
 
-        declineInviteToMeteorOSTeam : function(team_id) {
-            var user = Meteor.users.findOne(this.userId);
+        declineInviteToMeteorOSTeam : function(team_id, user_id) {
+            var team = MeteorOSTeamCollection.findOne(team_id);
+            var user = undefined;
+            if (user_id != undefined) {
+                if (this.userId != team.owner._id) return; // Reject any changes like this if the user is not the team owner
+                user = Meteor.users.findOne(user_id);
+            } else {
+                user = Meteor.users.findOne(this.userId);
+            }
             if (user == undefined) return;
+
             var index = -1;
             _.find(user.profile.MeteorOSTeamsPending, function(pending_team_id) {
                 index += 1;
-                return pending_team_id == team_id;
+                return pending_team_id == team._id;
             });
             if (index > -1) {
                 // Remove the team from pending
@@ -92,7 +106,6 @@ if (Meteor.isServer) {
                 Meteor.users.update({_id : user._id}, user);
 
                 // Update the team
-                var team = MeteorOSTeamCollection.findOne(team_id);
                 index = -1;
                 _.find(team.pending, function(pending_user) {
                     index += 1;
@@ -100,7 +113,43 @@ if (Meteor.isServer) {
                 });
                 if (index > -1) {
                     // Remove the user from pending
-                    var pending_user = team.pending.splice(index,1);
+                    team.pending.splice(index,1);
+                    MeteorOSTeamCollection.update({_id : team._id}, team);
+                }
+            }
+        },
+
+        leaveMeteorOSTeam : function(team_id, user_id) {
+            var team = MeteorOSTeamCollection.findOne(team_id);
+            var user = undefined;
+            if (user_id != undefined) {
+                if (this.userId != team.owner._id) return; // Reject any changes like this if the user is not the team owner
+                user = Meteor.users.findOne(user_id);
+            } else {
+                user = Meteor.users.findOne(this.userId);
+            }
+            if (user == undefined) return;
+
+            var index = -1;
+            _.find(user.profile.MeteorOSTeams, function(team_id) {
+                index += 1;
+                return team._id == team_id;
+            });
+
+            if (index > -1) {
+                // Remove the team
+                user.profile.MeteorOSTeams.splice(index,1);
+                Meteor.users.update({_id : user._id}, user);
+
+                // Update the team
+                index = -1;
+                _.find(team.members, function(member) {
+                    index += 1;
+                    return member._id == user._id;
+                });
+                if (index > -1) {
+                    // Remove the user from members
+                    var member = team.members.splice(index,1);
                     MeteorOSTeamCollection.update({_id : team._id}, team);
                 }
             }

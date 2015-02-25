@@ -1,25 +1,16 @@
 if (Meteor.isServer) {
     Meteor.startup(function() {
-        if (Meteor.users.find().count() < 1000) {
-            Meteor.defer(function() {
-                function randString(x){
-                    var s = "";
-                    while(s.length<x&&x>0){
-                        var r = Math.random();
-                        s+= String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65));
-                    }
-                    return s;
-                }
-
-                for (var i = 0; i < 1000; i++) {
-                    Accounts.createUser({
-                        username: randString(4),
-                        email: '',
-                        password: 'bob',
-                        profile: {}
-                    });
-                }
-            });
-        }
+        Meteor.defer(function() {
+            var testUsers = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','aa','aaa','aaaa','aaaaa'];
+            for (var i = 0; i < testUsers.length; i++) {
+                if (Meteor.users.findOne({username : testUsers[i]}) != undefined) continue;
+                Accounts.createUser({
+                    username: testUsers[i],
+                    email: testUsers[i] + '@test.com',
+                    password: 'asdf',
+                    profile: {}
+                });
+            }
+        });
     });    
 }

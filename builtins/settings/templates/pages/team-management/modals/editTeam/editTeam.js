@@ -1,8 +1,19 @@
 if (Meteor.isClient) {
     Template._meteor_os_settings_team_management_edit_team.helpers({
         team : function() {
-            console.log(MeteorOSTeamCollection.findOne({_id : this.id}));
             return MeteorOSTeamCollection.findOne({_id : this.id});
+        }
+    });
+
+    Template._meteor_os_settings_team_management_edit_team.events({
+        'click .removeMember' : function(event, context) {
+            var user_id = $(event.target).data('id');
+            MeteorOS.Team.leaveTeam(context.data.id, user_id);
+        },
+
+        'click .removePending' : function(event, context) {
+            var user_id = $(event.target).data('id');
+            MeteorOS.Team.declineInvite(context.data.id, user_id);
         }
     });
         
@@ -17,7 +28,8 @@ if (Meteor.isClient) {
             },
             update : {
                 label : 'Update',
-                class : 'btn-primary'
+                class : 'btn-primary',
+                closeModalOnClick: false
             },
             cancel : {
                 label : 'Close',

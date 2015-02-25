@@ -22,24 +22,24 @@ if (Meteor.isClient) {
     Template._meteor_os_settings_team_management_page.events({
         'click .btn' : function(event, context) {
             var action = $(event.target).data('action');
+            var team_id = $(event.target).closest('.team').data('id');
             switch (action) {
                 case 'newTeam':
                     newTeamModal();
                     break;
                 case 'acceptInvite':
-                    var team_id = $(event.target).closest('.team').data('id');
                     MeteorOS.Team.acceptInvite(team_id);
                     break;
                 case 'declineInvite':
-                    var team_id = $(event.target).closest('.team').data('id');
                     MeteorOS.Team.declineInvite(team_id);
                     break;
                 case 'viewInvite':
-                    var team_id = $(event.target).closest('.team').data('id');
                     viewTeamModal(team_id);
                     break;
+                case 'leaveTeam':
+                    MeteorOS.Alerts.NotImplemented();
+                    break;
                 case 'ownerEditTeam':
-                    var team_id = $(event.target).closest('.team').data('id');
                     editTeamModal(team_id);
                     break;
                 default:
@@ -59,7 +59,7 @@ if (Meteor.isClient) {
             
             MeteorOS.Team.newTeam({
                 name : team_name,
-                owner : { _id : Meteor.user()._id, username : Meteor.user().username },
+                owner : { _id : Meteor.user()._id, username : Meteor.user().username, profile : { gravatarUrl : Meteor.user().profile.gravatarUrl } },
                 members : [],
                 pending : invited
             });
