@@ -86,6 +86,7 @@ Package.onUse(function(api) {
           'builtins/file-browser/templates/file-browser.css',
           // Settings Application
           'builtins/settings/config.js',
+          'builtins/settings/templates/pages/accounts/accounts.html',
           'builtins/settings/templates/pages/team-management/team_management.html',
           'builtins/settings/templates/pages/team-management/team_management.js',
           'builtins/settings/templates/pages/team-management/modals/common-modal-templates.html',
@@ -97,6 +98,7 @@ Package.onUse(function(api) {
           'builtins/settings/templates/pages/team-management/modals/newTeam/newTeam.js',
           'builtins/settings/templates/pages/team-management/modals/viewInvite/viewInvite.html',
           'builtins/settings/templates/pages/team-management/modals/viewInvite/viewInvite.js',
+          'builtins/settings/templates/pages/interface/interface.html',
           'builtins/settings/templates/settings.css',
           'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/team-collection.js',
