@@ -44,6 +44,10 @@ TeamModel.prototype.leaveTeam = function(team_id, user_id) {
     Meteor.call('leaveMeteorOSTeam', team_id, user_id);
 }
 
+TeamModel.prototype.deleteTeam = function(team_id) {
+    Meteor.call('deleteMeteorOSTeam', team_id);
+}
+
 if (Meteor.isServer) {
     Meteor.methods({
         inviteUserToMeteorOSTeam : function(user, team_id) {
@@ -152,6 +156,20 @@ if (Meteor.isServer) {
                     var member = team.members.splice(index,1);
                     MeteorOSTeamCollection.update({_id : team._id}, team);
                 }
+            }
+        },
+
+        deleteMeteorOSTeam : function(team_id) {
+            var team = MeteorOSTeamCollection.findOne(team_id);
+            if (this.userId == team.owner._id) {
+                _.each(team.members, function(member) {
+                    MeteorOS.Team.leaveTeam(team._id, member._id);
+                });
+                _.each(team.pending, function(pending_user) {
+                    MeteorOS.Team.declineInvite(team._id, pending_user._id);
+                });
+                MeteorOS.Team.leaveTeam(team._id);
+                MeteorOSTeamCollection.remove({_id : team._id});
             }
         }
     });

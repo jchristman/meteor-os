@@ -20,7 +20,11 @@
                                     <button type='button' class='btn btn-primary' data-action='viewInvite'><span class='click-thru glyphicon glyphicon-th-list'></span></button>
                                     <button type='button' class='btn btn-danger' data-action='declineInvite'><span class='click-thru glyphicon glyphicon-trash'></span></button>
                                 </div>
-                            {{else}}<span class='label label-success'>Member</span>
+                            {{else}}
+                                <span class='label label-success'>Member</span>
+                                <div class='btn-group btn-group-xs' role='group'>
+                                    <button type='button' class='btn btn-danger' data-action='leaveTeam'><span class='click-thru glyphicon glyphicon-log-out'></span></button>
+                                </div>
                             {{/if}}
                         {{/if}}
                     </span><br>

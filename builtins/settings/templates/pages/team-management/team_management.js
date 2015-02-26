@@ -37,7 +37,7 @@ if (Meteor.isClient) {
                     viewTeamModal(team_id);
                     break;
                 case 'leaveTeam':
-                    MeteorOS.Alerts.NotImplemented();
+                    MeteorOS.Team.leaveTeam(team_id);
                     break;
                 case 'ownerEditTeam':
                     editTeamModal(team_id);
@@ -84,8 +84,28 @@ if (Meteor.isClient) {
         var tagsVar = 'inviteUsersTagsVar';
         EDIT_TEAM_MODAL.doc = { id : team_id };
         var edit_team_modal = ReactiveModal.initDialog(EDIT_TEAM_MODAL);
+        
+        // Set the session variable to blank
+        Session.set(tagsVar,[]);
+        // Set up a listener on the variable
+        var enableComputation = Tracker.autorun(function() {
+            if (Session.get(tagsVar).length > 0) {
+                edit_team_modal.buttons.update.enable();
+            } else {
+                edit_team_modal.buttons.update.disable();
+            }
+            edit_team_modal.buttons.destroy.noCloseOnClick();
+            edit_team_modal.buttons.destroy.setLabel('Destroy Team');
+        });
+        // Set up button listeners
         edit_team_modal.buttons.destroy.on('click', function(button) {
-            ALERTS.NotImplemented();
+            if (!edit_team_modal.buttons.destroy.closeModalOnClick.get()) {
+                edit_team_modal.buttons.destroy.closeOnClick();
+                edit_team_modal.buttons.destroy.setLabel('Are you sure?');
+            } else {
+                MeteorOS.Team.deleteTeam(team_id);
+                enableComputation.stop();
+            }
         });
         edit_team_modal.buttons.update.on('click', function(button) {
             var invited = Session.get(tagsVar);
@@ -95,7 +115,10 @@ if (Meteor.isClient) {
                 pending : invited
             });
         });
-        Session.set(tagsVar,[]);
+        edit_team_modal.buttons.cancel.on('click', function(button) {
+            enableComputation.stop();
+        });
+        // Show the modal
         edit_team_modal.show();
     }
 }

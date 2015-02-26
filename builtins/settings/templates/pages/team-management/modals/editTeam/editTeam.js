@@ -24,11 +24,13 @@ if (Meteor.isClient) {
         buttons: {
             destroy : {
                 label : 'Destroy Team',
-                class : 'btn-danger'
+                class : 'btn-danger',
+                closeModalOnClick: false
             },
             update : {
                 label : 'Update',
                 class : 'btn-primary',
+                disabled : true,
                 closeModalOnClick: false
             },
             cancel : {
