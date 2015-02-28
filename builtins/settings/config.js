@@ -1,7 +1,7 @@
 var team_manager_app = {
     appID : '5534de45-3b16-4faf-84be-b02daa5f8c4a',
     appName : 'Settings',
-    appOpen : true,
+    appOpen : false,
     layout : {
         windows : [
             {

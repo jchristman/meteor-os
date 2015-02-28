@@ -10,6 +10,7 @@ var file_browser_app_windowed_mode = {
     appID : '323a996f-1d54-46f3-9c2f-89ccbd87dffa',
     appName : 'File Browser',
     type : Application.WINDOWED_APPLICATION,
+    appOpen : true,
     layout : {
         windows : [
             {
@@ -17,7 +18,7 @@ var file_browser_app_windowed_mode = {
                 title : 'File Browser',
                 type : Application.NOT_TABBED_WINDOW,
                 focused : 'true',
-                top : '50px',
+                top : '100px',
                 left : '50px',
                 width : '800px',
                 height : '450px',

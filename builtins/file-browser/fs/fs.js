@@ -1,5 +1,6 @@
 FileSystem = function() {
     this.root = this.defaultFS();
+    this.cwd = this.root;
 }
 
 FileSystem.prototype.defaultFS = function() {
@@ -8,4 +9,15 @@ FileSystem.prototype.defaultFS = function() {
     return root;
 }
 
-MeteorOS.FS = new FileSystem();
+FileSystem.prototype.unserialize = function(root) {
+    this.root = root.unserialize();
+}
+
+FileSystem.prototype.serialize = function() {
+    return this.root.serialize();
+}
+
+FileSystem.Types = {
+    Dir : 1,
+    File : 2
+}
