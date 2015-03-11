@@ -39,12 +39,17 @@ Package.onUse(function(api) {
   api.imply('jchristman:application-manager@1.0.7_2');
 
   api.addFiles([
+          'config/users.js'
+  ],['server']);
+
+  api.addFiles([
           'lib/meteor-os.js',
           'lib/files/files.js',
           'lib/files/fs-config.js',
           'lib/users/default.js',
           'lib/users/users-collection.js',
           'lib/users/users.js',
+          'lib/helpers/watch.js',
           'config/accounts.js',
           'config/router.js'
   ],['client','server']);
@@ -66,8 +71,8 @@ Package.onUse(function(api) {
           'lib/components/progress-bar/style.css',
           'lib/components/notfound/notfound.html',
           'lib/components/notfound/notfound.js',
-          'lib/helpers/jquery-helpers.js',
           'lib/helpers/alerts.js',
+          'lib/helpers/jquery-helpers.js',
           'img/meteor-os_background.jpg',
           'img/fb-folder-icon-24x24.png',
           'img/fb-folder-icon-16x16.png',
@@ -79,10 +84,10 @@ Package.onUse(function(api) {
   api.addFiles([
           // File Browser
           'builtins/file-browser/config.js',
-          'builtins/file-browser/server/accounts.js',
           'builtins/file-browser/fs/fs.js',
           'builtins/file-browser/fs/file.js',
           'builtins/file-browser/fs/dir.js',
+          'builtins/file-browser/fs/fsdb.js',
           'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
           'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
           'builtins/file-browser/templates/file-browser.html',
@@ -117,6 +122,7 @@ Package.onUse(function(api) {
 
   api.export([
           'MeteorOS',
+          'FileSystem',
           'METEOR_OS_CONTEXT_MENU_FUNCS',
   ], ['client','server']); 
 });
