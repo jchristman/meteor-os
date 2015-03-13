@@ -32,6 +32,40 @@ FileSystem.Dir.prototype.addDir = function(dir, save) {
         this.save('files', dir.serialize(), '$push');
 }
 
+FileSystem.Dir.prototype.path = function(path, caller) {
+    if (path === undefined || caller === undefined) {
+        return this.parent.path('', this);
+    } else {
+        var index = this.findIndex(caller);
+
+        if (index != -1) {
+            if (path === '')    path = 'files.' + index;
+            else                path = 'files.' + index + '.' + path;
+            return this.parent.path(path, this);
+        } else {
+            throw new Meteor.Error('Unable to find child file');
+        }
+    }
+}
+
+FileSystem.Dir.prototype.followPath = function(path) {
+    if (path === '') {
+        return this;
+    } else {
+        if (path.lastIndexOf('files.', 0) === 0) path = path.substring('files.'.length);
+        var indexOfFirstPeriod = path.indexOf('.');
+        if (indexOfFirstPeriod === -1) {
+           var indexOfDir = parseInt(path);
+           path = '';
+        } else {
+           var indexOfDir = parseInt(path.substring(0, indexOfFirstPeriod));
+           path = path.substring(indexOfFirstPeriod + 1);
+        }
+        console.log(path, indexOfDir);
+        return this.files[indexOfDir].followPath(path);
+    }
+}
+
 FileSystem.Dir.prototype.findIndex = function(toFind) {
     // Find the index of the file who called save on us
     var index = -1;

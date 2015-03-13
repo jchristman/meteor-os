@@ -12,6 +12,7 @@ Package.onUse(function(api) {
   api.use('underscore@1.0.2');
   api.use('templating', 'client');
   api.use('jquery','client');
+  api.use('tracker');
   // Server side reactivity
   api.use('lepozepo:reactive-publish');
   // Accounts packages
