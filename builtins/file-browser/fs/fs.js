@@ -1,26 +1,36 @@
 FileSystem = function(def) {
-    if (def === undefined || def === true) this.root = this.defaultFS();
-    else this.root = undefined;
-    this.CWD_DEP = Tracker.Dependency;
-    this.CWD = this.root;
+    if (def === undefined || def === true) {
+        this.root = this.defaultFS();
+        this.CWD = this.internalFollowPath('root.FILES.0');
+    } else {
+        this.root = undefined;
+        this.CWD = this.root;
+    }
+    this.CWD_DEP = new Tracker.Dependency;
 }
 
 FileSystem.prototype.defaultFS = function() {
     var root = new FileSystem.Dir('', this); // The root of the file system has no name and has this as a parent
     root.addDir(new FileSystem.Dir('home'), false);
-    root.files[0].addDir(new FileSystem.Dir('test'), false);
+    root.FILES[0].addDir(new FileSystem.Dir('test'), false);
     return root;
 }
 
-FileSystem.prototype.path = function(path, caller) {
+FileSystem.prototype.internalPath = function(path, caller) {
     if (path === '')    path = 'root';
     else                path = 'root.' + path;
     return path;
 }
 
-FileSystem.prototype.followPath = function(path) {
+FileSystem.prototype.internalFollowPath = function(path) {
     if (path.lastIndexOf('root.',0) === 0) path = path.substring('root.'.length);
-    return this.root.followPath(path);
+    else if (path.lastIndexOf('root',0) === 0) path = path.substring('root'.length);
+    return this.root.internalFollowPath(path);
+}
+
+FileSystem.prototype.path = function(path) {
+    if (path === '')    path = '/';
+    return path;
 }
 
 FileSystem.prototype.save = function(prop, value, action, caller) {
@@ -28,8 +38,8 @@ FileSystem.prototype.save = function(prop, value, action, caller) {
 }
 
 FileSystem.prototype.cd = function(path) {
-    if (this.CWD.path() !== path) {
-        var newCWD = this.followPath(path);
+    if (this.CWD.internalPath() !== path) {
+        var newCWD = this.internalFollowPath(path);
         if (newCWD) {
             this.CWD = newCWD;
             this.CWD_DEP.changed();
@@ -47,12 +57,12 @@ FileSystem.prototype.cwd = function() {
 FileSystem.unserialize = function(fs) {
     var newfs = new FileSystem(false);
     newfs.root = FileSystem.Dir.unserialize(fs.root, newfs);
-    newfs.cwd = fs.cwd;
+    newfs.CWD = newfs.internalFollowPath(fs.cwd);
     return newfs;
 }
 
 FileSystem.prototype.serialize = function() {
-    return this.root.serialize();
+    return { root : this.root.serialize(), cwd : this.CWD.internalPath() };
 }
 
 FileSystem.Types = {

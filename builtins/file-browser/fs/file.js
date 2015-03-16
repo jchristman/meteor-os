@@ -2,16 +2,51 @@ FileSystem.File = function(name, parent) {
     if (name == undefined) Meteor.Error('Must specify a name in the File constructor');
 
     this.parent = parent;
-    this.name = name;
-    this.type = FileSystem.Types.File;
-    this.shared = []; // A list of team IDs its shared with
+    this.NAME = new ReactiveVar(name);
+    this.TYPE = new ReactiveVar(FileSystem.Types.File);
+    this.SHARED = []; // A list of team IDs its shared with
+    this.SHARED_DEP = new Tracker.Dependency;
 
-    this.watchFile();
+    this.watch();
 }
 
-FileSystem.File.prototype.watchFile = function() {
-    this.watch('name', this.watcher);
-    this.watch('type', this.watcher);
+// Accessors/Mutators
+FileSystem.File.prototype.name = function(newVal) {
+    if (newVal) {
+        this.NAME.set(newVal);
+    } else {
+        return this.NAME.get();
+    }
+}
+
+FileSystem.File.prototype.type = function(newVal) {
+    if (newVal) {
+        this.TYPE.set(newVal);
+    } else {
+        return this.TYPE.get();
+    }
+}
+
+FileSystem.File.prototype.shared = function() {
+    this.SHARED_DEP.depend();
+    return this.SHARED;
+}
+
+//TODO: share method
+
+FileSystem.File.prototype.watch = function() {
+    this._watch('NAME', this.name);
+    this._watch('TYPE', this.type);
+}
+
+FileSystem.File.prototype._watch = function(prop, func) {
+    var self = this;
+    Tracker.autorun(function(comp) {
+        var val = func(); // Reactive on the property
+        if (!comp.firstRun) {
+            self.save(prop, val, '$set');
+        }
+    });
 }
 
 FileSystem.File.prototype.watcher = function(prop, oldval, newval) {
@@ -24,16 +59,16 @@ FileSystem.File.prototype.save = function(prop, newval, action) {
 }
 
 FileSystem.File.unserialize = function(file, parent) {
-    var newFile = new FileSystem.File(file.name, parent);
-    newFile.shared = file.shared;
+    var newFile = new FileSystem.File(file.NAME, parent);
+    newFile.SHARED = file.SHARED;
     return newFile;
 }
 
 FileSystem.File.prototype.serialize = function() {
     var result = {
-        name : this.name,
-        type : this.type,
-        shared : this.shared,
+        NAME : this.name(),
+        TYPE : this.type(),
+        SHARED : this.SHARED,
     }
     return result;
 }

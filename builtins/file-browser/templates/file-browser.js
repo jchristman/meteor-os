@@ -16,13 +16,12 @@ if (Meteor.isClient) {
     });
 
     Template.file_browser.helpers({
-        currentUserContext : function() {
-            var user = UserManager.getUser(Meteor.user());
-            return _.extend(this, user.fs);
+        fsContext : function() {
+            return _.extend(this, { fs : MeteorOS.FS.current() });
         },
 
-        currentPath : function() {
-            return { path : Session.get(CWD) };
+        path : function() {
+            return this.fs.cwd().path();
         }
     });
 
@@ -68,22 +67,14 @@ if (Meteor.isClient) {
 
     Template.fb_pane_main.helpers({
         currentPathFiles : function() {
-            var cwd = Session.get(CWD);
-            var files = UserManager.traverseFileTree(cwd).files.slice(0);
-            if (!UPLOADING) Session.set(STATUS, files.length + ' Files');
-            
-            if (Session.get(CWD) != '/')
-                files.splice(0,0,{ name : '..', type : FILES.DIR });
-
-            return { 'files' : files };
+            return { files : this.fs.cwd().files() };
         },
 
         fileContext : function() {
             var context = {};
-            var cwd = Session.get(CWD);
-            if (this.type == FILES.FILE)
+            if (this.type() === FileSystem.Types.File)
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-file-icon-16x16.png';
-            else if (this.type == FILES.DIR)
+            else if (this.type() === FileSystem.Types.Dir)
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-folder-icon-16x16.png';
             context.text = this.name;
 
@@ -124,7 +115,7 @@ if (Meteor.isClient) {
 
     Template.fb_file.helpers({
         isFile : function() {
-            return (this.type == FILES.FILE && this.uploading != undefined);
+            return (this.type() == FileSystem.Types.File && this.uploading != undefined);
         },
 
         fileContext : function() {
@@ -136,6 +127,7 @@ if (Meteor.isClient) {
         },
 
         finishedUpload : function(fileObj) {
+            //TODO: Fix this
             UserManager.updateFile(Session.get(CWD), {
                 name : fileObj.name(),
                 type : FILES.FILE,

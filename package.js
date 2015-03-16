@@ -13,6 +13,7 @@ Package.onUse(function(api) {
   api.use('templating', 'client');
   api.use('jquery','client');
   api.use('tracker');
+  api.use('reactive-var');
   // Server side reactivity
   api.use('lepozepo:reactive-publish');
   // Accounts packages
@@ -50,7 +51,6 @@ Package.onUse(function(api) {
           'lib/users/default.js',
           'lib/users/users-collection.js',
           'lib/users/users.js',
-          'lib/helpers/watch.js',
           'config/accounts.js',
           'config/router.js'
   ],['client','server']);
@@ -62,6 +62,7 @@ Package.onUse(function(api) {
           'lib/components/main/main.js',
           'lib/components/login-flow/login.html',
           'lib/components/login-flow/login.css',
+          'lib/components/login-flow/login.js',
           'lib/components/footer/footer.html',
           'lib/components/footer/footer.css',
           'lib/components/start-menu/start-menu.html',

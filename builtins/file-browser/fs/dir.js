@@ -6,53 +6,89 @@ FileSystem.Dir = function(name, parent) {
         var dir = name;
         this.unserialize(dir);
     } else {
-        this.name = name;
-        this.type = FileSystem.Types.Dir;
-        this.shared = []; // A list of team IDs its shared with
-        this.files = [];
+        this.NAME = new ReactiveVar(name);
+        this.TYPE = new ReactiveVar(FileSystem.Types.Dir);
+        this.SHARED = []; // A list of team IDs its shared with
+        this.SHARED_DEP = new Tracker.Dependency;
+        this.FILES = [];
+        this.FILES_DEP = new Tracker.Dependency;
     }
 
-    this.watchDir();
+    this.watch();
+}
+
+// -----------------------------------------------------------------//
+//  Accessors/Mutators                                              //
+// -----------------------------------------------------------------//
+FileSystem.Dir.prototype.name = function(newVal) {
+    if (newVal !== undefined) {
+        this.NAME.set(newVal);
+    } else {
+        return this.NAME.get();
+    }
+}
+
+FileSystem.Dir.prototype.type = function(newVal) {
+    if (newVal !== undefined) {
+        this.TYPE.set(newVal);
+    } else {
+        return this.TYPE.get();
+    }
+}
+
+FileSystem.Dir.prototype.files = function() {
+    this.FILES_DEP.depend();
+    return this.FILES;
+}
+
+FileSystem.Dir.prototype.shared = function() {
+    this.SHARED_DEP.depend();
+    return this.SHARED;
 }
 
 FileSystem.Dir.prototype.addFile = function(file, save) {
     if (!(file instanceof FileSystem.File)) throw new Meteor.Error('Must only add FileSystem.File objects using .addFile');
     file.parent = this;
-    this.files.push(file);
+    this.FILES.push(file);
 
     if (save === undefined || save === true)
-        this.save('files', file.serialize(), '$push');
+        this.save('FILES', file.serialize(), '$push');
 }
 
 FileSystem.Dir.prototype.addDir = function(dir, save) {
     if (!(dir instanceof FileSystem.Dir)) throw new Meteor.Error('Must only add FileSystem.Dir objects using .addDir');
     dir.parent = this;
-    this.files.push(dir);
+    this.FILES.push(dir);
     if (save === undefined || save === true)
         this.save('files', dir.serialize(), '$push');
 }
 
-FileSystem.Dir.prototype.path = function(path, caller) {
+//TODO: Delete dir and file
+
+// -----------------------------------------------------------------//
+//   Internals                                                      //
+// -----------------------------------------------------------------//
+FileSystem.Dir.prototype.internalPath = function(path, caller) {
     if (path === undefined || caller === undefined) {
-        return this.parent.path('', this);
+        return this.parent.internalPath('', this);
     } else {
         var index = this.findIndex(caller);
 
         if (index != -1) {
-            if (path === '')    path = 'files.' + index;
-            else                path = 'files.' + index + '.' + path;
-            return this.parent.path(path, this);
+            if (path === '')    path = 'FILES.' + index;
+            else                path = 'FILES.' + index + '.' + path;
+            return this.parent.internalPath(path, this);
         } else {
             throw new Meteor.Error('Unable to find child file');
         }
     }
 }
 
-FileSystem.Dir.prototype.followPath = function(path) {
+FileSystem.Dir.prototype.internalFollowPath = function(path) {
     if (path === '') {
         return this;
     } else {
-        if (path.lastIndexOf('files.', 0) === 0) path = path.substring('files.'.length);
+        if (path.lastIndexOf('FILES.', 0) === 0) path = path.substring('FILES.'.length);
         var indexOfFirstPeriod = path.indexOf('.');
         if (indexOfFirstPeriod === -1) {
            var indexOfDir = parseInt(path);
@@ -61,17 +97,25 @@ FileSystem.Dir.prototype.followPath = function(path) {
            var indexOfDir = parseInt(path.substring(0, indexOfFirstPeriod));
            path = path.substring(indexOfFirstPeriod + 1);
         }
-        console.log(path, indexOfDir);
-        return this.files[indexOfDir].followPath(path);
+        return this.FILES[indexOfDir].internalFollowPath(path);
+    }
+}
+
+FileSystem.Dir.prototype.path = function(path) {
+    if (path === undefined) {
+        return this.parent.path(this.name());
+    } else {
+        if (this.name() === '') return '/' + path;
+        else                    return this.parent.path(this.name()) + '/' + path;
     }
 }
 
 FileSystem.Dir.prototype.findIndex = function(toFind) {
     // Find the index of the file who called save on us
     var index = -1;
-    _.find(this.files, function(file) {
+    _.find(this.FILES, function(file) {
         index += 1;
-        return file.name == toFind.name;
+        return file.name() === toFind.name();
     });
     return index;
 }
@@ -81,14 +125,23 @@ FileSystem.Dir.prototype.find = function(toFind) {
     return this.files(index);
 }
 
-FileSystem.Dir.prototype.watchDir = function() {
-    this.watch('name', this.watcher);
-    this.watch('type', this.watcher);
+// -----------------------------------------------------------------//
+//  Code for synchronizing to db                                    //
+// -----------------------------------------------------------------//
+FileSystem.Dir.prototype.watch = function() {
+    this._watch('NAME', this.name);
+    this._watch('TYPE', this.type);
 }
 
-FileSystem.Dir.prototype.watcher = function(prop, oldval, newval) {
-    this.save(prop, newval, '$set');
-    return newval;
+FileSystem.Dir.prototype._watch = function(prop, func) {
+    var self = this;
+    Tracker.autorun(function(comp) {
+        var val = func.call(self); // Reactive on the property
+        if (!comp.firstRun) {
+            console.log('Saving:',prop,val);
+            self.save(prop, val, '$set');
+        }
+    });
 }
 
 FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
@@ -99,7 +152,7 @@ FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
         var index = this.findIndex(caller);
 
         if (index != -1) {
-            prop = 'files.' + index + '.' + prop;
+            prop = 'FILES.' + index + '.' + prop;
             this.parent.save(prop, value, action, this);
         } else {
             throw new Meteor.Error('Unable to find child file');
@@ -107,27 +160,30 @@ FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
     }
 }
 
+// -----------------------------------------------------------------//
+//  Serialize/Unserialize Code                                      //
+// -----------------------------------------------------------------//
 FileSystem.Dir.unserialize = function(dir, parent) {
-    var newDir = new FileSystem.Dir(dir.name, parent);
-    newDir.shared = dir.shared;
-    _.each(dir.files, function(file) {
-        if (file.type == FileSystem.Types.File) newDir.files.push(FileSystem.File.unserialize(file, newDir)); // Unserialize each file in the array
-        if (file.type == FileSystem.Types.Dir)  newDir.files.push(FileSystem.Dir.unserialize(file, newDir)); // Unserialize each dir in the array
+    var newDir = new FileSystem.Dir(dir.NAME, parent);
+    newDir.SHARED = dir.SHARED;
+    _.each(dir.FILES, function(file) {
+        if (file.TYPE == FileSystem.Types.File) newDir.FILES.push(FileSystem.File.unserialize(file, newDir)); // Unserialize each file in the array
+        if (file.TYPE == FileSystem.Types.Dir)  newDir.FILES.push(FileSystem.Dir.unserialize(file, newDir)); // Unserialize each dir in the array
     });
     return newDir;
 }
 
 FileSystem.Dir.prototype.serialize = function() {
     var result = {
-        name : this.name,
-        type : this.type,
-        shared : this.shared,
-        files : [
+        NAME : this.name(),
+        TYPE : this.type(),
+        SHARED : this.SHARED,
+        FILES : [
 
         ]
     }
-    _.each(this.files, function(file) {
-        result.files.push(file.serialize());
+    _.each(this.FILES, function(file) {
+        result.FILES.push(file.serialize());
     });
     return result;
 }

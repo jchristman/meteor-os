@@ -9,12 +9,10 @@
 </template>
 
 <template name='file_browser'>
-    {{#with currentUserContext}}
+    {{#with fsContext}}
     <div class='fb-main'>
         <div class='fb-pane-navbar'>
-            {{#with currentPath}}
-                <input type='text' id='fb-current-path' value={{path}} />
-            {{/with}}
+            <input type='text' id='fb-current-path' value={{path}} />
         </div>
         <div class='fb-pane fb-pane-nav'>
             {{> fb_pane_nav}}
