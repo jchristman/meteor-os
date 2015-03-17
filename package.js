@@ -14,6 +14,8 @@ Package.onUse(function(api) {
   api.use('jquery','client');
   api.use('tracker');
   api.use('reactive-var');
+  // Meteor extension packages
+  api.use('dburles:mongo-collection-instances@0.3.3');
   // Server side reactivity
   api.use('lepozepo:reactive-publish');
   // Accounts packages
@@ -22,8 +24,8 @@ Package.onUse(function(api) {
   api.use('useraccounts:bootstrap@1.4.0');
   // Filesystem packages
   api.use('dbarrett:dropzonejs@3.10.3','client');
-  api.use('cfs:standard-packages@0.5.3');
-  api.use('cfs:filesystem@0.1.1');
+  api.use('cfs:standard-packages@0.5.4');
+  api.use('cfs:filesystem@0.1.2');
   api.use('cfs:ui@0.1.3');
   // UI Packages
   api.use('mizzao:jquery-ui@1.11.2','client');
@@ -41,7 +43,8 @@ Package.onUse(function(api) {
   api.imply('jchristman:application-manager@1.0.7_2');
 
   api.addFiles([
-          'config/users.js'
+          'config/users.js',
+          'config/general.js'
   ],['server']);
 
   api.addFiles([

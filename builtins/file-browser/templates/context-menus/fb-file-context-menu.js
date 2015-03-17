@@ -5,7 +5,7 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
         header: 'Main Actions'
     },
     {
-        icon: 'glyphicon-download',
+        icon: 'glyphicon-save-file',
         text: 'Download File',
         action: function(event, selector) {
             var fileId = selector.find('.fb_fileID').data('id');

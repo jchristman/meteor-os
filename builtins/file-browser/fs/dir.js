@@ -21,7 +21,7 @@ FileSystem.Dir = function(name, parent) {
 //  Accessors/Mutators                                              //
 // -----------------------------------------------------------------//
 FileSystem.Dir.prototype.name = function(newVal) {
-    if (newVal !== undefined) {
+    if (newVal) {
         this.NAME.set(newVal);
     } else {
         return this.NAME.get();
@@ -29,7 +29,7 @@ FileSystem.Dir.prototype.name = function(newVal) {
 }
 
 FileSystem.Dir.prototype.type = function(newVal) {
-    if (newVal !== undefined) {
+    if (newVal) {
         this.TYPE.set(newVal);
     } else {
         return this.TYPE.get();
@@ -97,6 +97,7 @@ FileSystem.Dir.prototype.internalFollowPath = function(path) {
            var indexOfDir = parseInt(path.substring(0, indexOfFirstPeriod));
            path = path.substring(indexOfFirstPeriod + 1);
         }
+        if (indexOfDir >= this.FILES.length) return undefined;
         return this.FILES[indexOfDir].internalFollowPath(path);
     }
 }
@@ -110,19 +111,49 @@ FileSystem.Dir.prototype.path = function(path) {
     }
 }
 
+FileSystem.Dir.prototype.followPath = function(path) {
+    if (path === '') {
+        return this;
+    } else {
+        var next = path.indexOf('/');
+        if (next === -1) next = path.length;
+        var fileName = path.substring(0, next);
+        var dir = this.find(fileName);
+        if (dir !== undefined) {
+            return dir.followPath(path.substring(next + 1));
+        } else {
+            return undefined;
+        }
+    }
+}
+
 FileSystem.Dir.prototype.findIndex = function(toFind) {
     // Find the index of the file who called save on us
     var index = -1;
-    _.find(this.FILES, function(file) {
-        index += 1;
-        return file.name() === toFind.name();
-    });
+    if (toFind instanceof FileSystem.Dir || toFind instanceof FileSystem.File) {
+        var found = _.find(this.FILES, function(file) {
+            index += 1;
+            return file.name() === toFind.name();
+        });
+        if (found === undefined) return undefined;
+    } else {
+        var found = _.find(this.FILES, function(file) {
+            index += 1;
+            return file.name() === toFind;
+        });
+        if (found === undefined) return undefined;
+    }
     return index;
 }
 
 FileSystem.Dir.prototype.find = function(toFind) {
     var index = this.findIndex(toFind);
-    return this.files(index);
+    if (index !== undefined) {
+        var files = this.files();
+        return files[index];
+    } else {
+        return undefined;
+    }
 }
 
 // -----------------------------------------------------------------//
@@ -151,7 +182,7 @@ FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
     } else {
         var index = this.findIndex(caller);
 
-        if (index != -1) {
+        if (index !== undefined) {
             prop = 'FILES.' + index + '.' + prop;
             this.parent.save(prop, value, action, this);
         } else {

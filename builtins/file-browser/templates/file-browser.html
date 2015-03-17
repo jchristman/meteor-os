@@ -12,7 +12,12 @@
     {{#with fsContext}}
     <div class='fb-main'>
         <div class='fb-pane-navbar'>
-            <input type='text' id='fb-current-path' value={{path}} />
+            <div class='input-group input-group-sm'>
+                <span class='input-group-btn'>
+                    <button class='btn btn-custom-gray'><span class='glyphicon glyphicon-arrow-up'></span></button>
+                </span>
+                <input type='text' id='fb-current-path' class='form-control' value={{path}} style='font-size: 16px;' />
+            </div>
         </div>
         <div class='fb-pane fb-pane-nav'>
             {{> fb_pane_nav}}
@@ -37,9 +42,7 @@
 </template>
 
 <template name='fb_favorite'>
-    {{#with convertPath}}
-        <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> <span>{{text}}</span></div>
-    {{/with}}
+    <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> <span>{{getPath}}</span></div>
 </template>
 
 <template name='fb_pane_main'>

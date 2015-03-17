@@ -4,14 +4,12 @@
  */
 
 if (Meteor.isClient) {
-    var CWD = '_fb_cwd';
     var STATUS = '_fb_status';
     var UPLOADING = false;
     var UPLOADED_COUNT = 0;
     var TO_UPLOAD_COUNT = 0;
 
     Meteor.startup(function() {
-        Session.set(CWD, '/home');
         Session.set(STATUS, '');
     });
 
@@ -25,23 +23,27 @@ if (Meteor.isClient) {
         }
     });
 
+    Template.fb_pane_nav.helpers({
+        favorites : function() {
+            return this.fs.favorites();
+        }
+    });
+
     Template.fb_favorite.helpers({
-        convertPath : function() {
-            return _.extend(this, { text : this.path.substring(this.path.lastIndexOf('/') + 1) })
+        getPath : function() {
+            return this.path();
         }
     });
 
     Template.fb_favorite.events({
         'dblclick .fb-favorite' : function(event) {
-            UserManager.clearProgressbars(Session.get(CWD));
-            Session.set(CWD, this.path);
-            UPLOADING = false;
+            var fs = MeteorOS.FS.current();
+            fs.cd(this); // Change directory to the current context
         } 
     });
 
     Template.file_browser.rendered = function() {
         var self = this;
-        var cwd = Session.get(CWD);
         Dropzone.autoDiscover = false;
         var dropzone = new Dropzone(this.find('#fb-dropzone'), {
             maxFileSize : 500,
@@ -64,6 +66,18 @@ if (Meteor.isClient) {
             }
         });
     }
+
+    Template.file_browser.events({
+        'click button' : function(event) {
+            this.fs.cd(this.fs.cwd().parent);
+        },
+
+        'keypress input#fb-current-path' : function(event) {
+            if (event.which === 13) {
+                this.fs.cd($(event.target).val());
+            }
+        }
+    });
 
     Template.fb_pane_main.helpers({
         currentPathFiles : function() {
@@ -89,19 +103,8 @@ if (Meteor.isClient) {
 
     Template.fb_file.events({
         'dblclick .fb-file' : function(event) {
-            if (this.type == FILES.DIR) {
-                var cwd = Session.get(CWD);
-                UserManager.clearProgressbars(cwd);
-                UPLOADING = false;
-                if (this.name == '..') {
-                    var new_dir = cwd.substring(0, cwd.lastIndexOf('/'));
-                    if (new_dir == '') new_dir = '/';
-                    Session.set(CWD, new_dir);
-                } else {
-                    if (cwd == '/') Session.set(CWD, cwd + this.name);
-                    else            Session.set(CWD, cwd + '/' + this.name);
-                }
-            }
+            var fs = MeteorOS.FS.current();
+            fs.cd(this); // Change directory to the current context
         },
 
         'click .fb-file' : function(event) {
