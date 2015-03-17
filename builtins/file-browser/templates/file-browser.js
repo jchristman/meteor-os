@@ -54,13 +54,15 @@ if (Meteor.isClient) {
                 var fsFile = new FS.File(file);
                 fsFile.owner = Meteor.userId();
 
-                UserManager.addFile(cwd, fsFile);
+                var cwd = self.data.fs.cwd();
+                cwd.addFile(new FileSystem.File(fsFile.name(), cwd, fsFile));
+                /*UserManager.addFile(cwd, fsFile);
 
                 TO_UPLOAD_COUNT += 1;
                 if (!UPLOADING) {
                     UPLOADING = true;
                     Session.set(STATUS, '0 of ' + TO_UPLOAD_COUNT + ' files uploaded');
-                }
+                }*/
 
                 done('nope'); // Necessary for the library but not for us
             }
@@ -68,7 +70,7 @@ if (Meteor.isClient) {
     }
 
     Template.file_browser.events({
-        'click button' : function(event) {
+        'click .fb-pane-navbar button' : function(event) {
             this.fs.cd(this.fs.cwd().parent);
         },
 

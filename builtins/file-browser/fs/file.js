@@ -1,4 +1,4 @@
-FileSystem.File = function(name, parent, collectionFSFile) {
+FileSystem.File = function(name, parent, fsFile) {
     if (name == undefined) Meteor.Error('Must specify a name in the File constructor');
 
     this.parent = parent;
@@ -6,7 +6,9 @@ FileSystem.File = function(name, parent, collectionFSFile) {
     this.TYPE = new ReactiveVar(FileSystem.Types.File);
     this.SHARED = []; // A list of team IDs its shared with
     this.SHARED_DEP = new Tracker.Dependency;
-    this.FILE = new ReactiveVar((collectionFSFile !== undefined && collectionFSFile._id !== undefined) ? collectionFSFile._id : '');
+    this.FILE = new ReactiveVar('');
+    if (fsFile)
+        this.file(fsFile);
 
     this.watch();
 }
@@ -33,13 +35,15 @@ FileSystem.File.prototype.shared = function() {
     return this.SHARED;
 }
 
-FileSystem.File.prototype.file = function(collectionFSFile) {
-    if (collectionFSFile) {
-        if (collectionFSFile._id !== undefined) {
-            this.FILE.set(collectionFSFile._id);
+FileSystem.File.prototype.file = function(fsFile) {
+    console.log(fsFile);
+    if (fsFile) {
+        if (fsFile._id !== undefined) {
+            this.FILE.set(fsFile._id);
+            MeteorOS.FS.current().upsert(fsFile);
         }
     } else {
-        
+        return MeteorOS.FS.current.getFile(this.FILE.get());
     }
 }
 
@@ -53,7 +57,7 @@ FileSystem.File.prototype.watch = function() {
 FileSystem.File.prototype._watch = function(prop, func) {
     var self = this;
     Tracker.autorun(function(comp) {
-        var val = func(); // Reactive on the property
+        var val = func.call(self); // Reactive on the property
         if (!comp.firstRun) {
             self.save(prop, val, '$set');
         }

@@ -21,8 +21,6 @@ FileSystem = function(def, user) {
     var unique_name = 'MeteorOS.FS.'+username;
 
     var collection = Mongo.Collection.get(unique_name);
-    console.log(collection);
-    console.log(Mongo.Collection.getAll());
 
     if (collection) {
         this.FS_COLLECTION = collection;
@@ -33,6 +31,12 @@ FileSystem = function(def, user) {
             });
             this.FS_COLLECTION = new FS.Collection(unique_name, {
                 stores : [fileStore]
+            });
+            this.FS_COLLECTION.allow({
+                insert : function() { return true; },
+                update : function() { return true; },
+                remove : function() { return true; },
+                download : function() { return true; }
             });
         } else {
             this.FS_COLLECTION = new FS.Collection(unique_name, {
@@ -46,10 +50,16 @@ FileSystem.prototype.getFile = function(fileId) {
     return this.FS_COLLECTION.findOne(fileId);
 }
 
-FileSystem.prototype.addFile = function(fsFile) {
+FileSystem.prototype.upsert = function(fsFile) {
+    console.log(fsFile);
     var exists = this.FS_COLLECTION.findOne(fsFile._id);
     if (exists) return exists;
-    
+    this.FS_COLLECTION.insert(fsFile, function(err, fileObj) {
+        console.log(err, fileObj);
+        if (err) {
+            ALERTS.Error('Error inserting file ' + fsFile.name() + '!');
+        }
+    });
 }
 
 FileSystem.prototype.defaultFS = function() {
