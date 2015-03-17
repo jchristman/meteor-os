@@ -10,6 +10,7 @@ FileSystem = function(def, user) {
     }
     this.CWD_DEP = new Tracker.Dependency;
     this.FAVORITES_DEP = new Tracker.Dependency;
+    this.STATUS = new ReactiveVar(FileSystem.Status.Idle());
     
     // Create the file collection
     if (user) {
@@ -20,17 +21,35 @@ FileSystem = function(def, user) {
     var unique_name = 'MeteorOS.FS.'+username;
 
     var collection = Mongo.Collection.get(unique_name);
+    console.log(collection);
+    console.log(Mongo.Collection.getAll());
 
     if (collection) {
         this.FS_COLLECTION = collection;
     } else {
-        var fileStore = new FS.Store.FileSystem(unique_name, {
-            path : process.cwd() + '/users/' + username + '/files'
-        });
-        this.FS_COLLECTION = new FS.Collection(unique_name, {
-            stores : [fileStore]
-        });
+        if (Meteor.isServer) {
+            var fileStore = new FS.Store.FileSystem(unique_name, {
+                path : process.cwd() + '/users/' + username + '/files'
+            });
+            this.FS_COLLECTION = new FS.Collection(unique_name, {
+                stores : [fileStore]
+            });
+        } else {
+            this.FS_COLLECTION = new FS.Collection(unique_name, {
+                stores : [new FS.Store.FileSystem('/tmp/test')]   // I don't know if this is something that is going to break?
+            });
+        }
     }
+}
+
+FileSystem.prototype.getFile = function(fileId) {
+    return this.FS_COLLECTION.findOne(fileId);
+}
+
+FileSystem.prototype.addFile = function(fsFile) {
+    var exists = this.FS_COLLECTION.findOne(fsFile._id);
+    if (exists) return exists;
+    
 }
 
 FileSystem.prototype.defaultFS = function() {
@@ -122,9 +141,4 @@ FileSystem.unserialize = function(fs) {
 
 FileSystem.prototype.serialize = function() {
     return { root : this.root.serialize(), cwd : this.CWD.internalPath(), favorites : _.map(this.FAVORITES, function(fav) { return fav.internalPath(); }) };
-}
-
-FileSystem.Types = {
-    Dir : 1,
-    File : 2
 }

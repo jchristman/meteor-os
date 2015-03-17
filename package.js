@@ -93,6 +93,8 @@ Package.onUse(function(api) {
           'builtins/file-browser/fs/file.js',
           'builtins/file-browser/fs/dir.js',
           'builtins/file-browser/fs/fsdb.js',
+          'builtins/file-browser/fs/types.js',
+          'builtins/file-browser/fs/status.js',
           'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
           'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
           'builtins/file-browser/templates/file-browser.html',
