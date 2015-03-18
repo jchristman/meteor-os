@@ -36,7 +36,7 @@ Package.onUse(function(api) {
   // Debug Packages
   //api.use('msavin:mongol');
   // Custom packages
-  api.use('jchristman:context-menu@1.1.4','client');
+  api.use('jchristman:context-menu@1.2.0','client');
   api.use('jchristman:tagsinput-autocomplete@1.0.1');
   api.imply('jchristman:tagsinput-autocomplete@1.0.1');
   api.use('jchristman:application-manager@1.0.7_2');

@@ -36,15 +36,27 @@ FileSystem.File.prototype.shared = function() {
 }
 
 FileSystem.File.prototype.file = function(fsFile) {
-    console.log(fsFile);
-    if (fsFile) {
-        if (fsFile._id !== undefined) {
+    if (fsFile) { // If it exists, we are uploading or setting
+        if (fsFile._id) { // We are just setting the ID. TODO: Maybe we are updating?
             this.FILE.set(fsFile._id);
-            MeteorOS.FS.current().upsert(fsFile);
+        } else { // We are uploading the file because there is no ID
+            MeteorOS.FS.current().upload(fsFile);
         }
-    } else {
-        return MeteorOS.FS.current.getFile(this.FILE.get());
+    } else { // We are getting the file. We are just going to return the file object here.
+        return MeteorOS.FS.current().getFile(this.FILE.get());
     }
+}
+
+// Generate the URL, generate a link, click the link, remove the link
+FileSystem.File.prototype.download = function() {
+    var fsFile = this.file();
+    var url = fsFile.url({download : true, auth : true, filename : downloadName});
+    console.log(url);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = downloadName;
+    link.click();
+    link.remove();
 }
 
 //TODO: share method

@@ -7,8 +7,9 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
     {
         icon: 'glyphicon-save-file',
         text: 'Download File',
-        action: function(event, selector) {
-            var fileId = selector.find('.fb_fileID').data('id');
+        action: function(event, selector, context) {
+            console.log(context);
+            /*var fileId = selector.find('.fb_fileID').data('id');
             var fsFile = MeteorOS_FS.findOne(fileId);
             var downloadName = selector.find('.fb_fileName').text();
             var url = fsFile.url({download : true, auth : true, filename : downloadName});
@@ -17,7 +18,7 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
             link.href = url;
             link.download = downloadName;
             link.click();
-            link.remove();
+            link.remove();*/
         }
     },
     {

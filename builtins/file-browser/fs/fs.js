@@ -50,14 +50,19 @@ FileSystem.prototype.getFile = function(fileId) {
     return this.FS_COLLECTION.findOne(fileId);
 }
 
-FileSystem.prototype.upsert = function(fsFile) {
-    console.log(fsFile);
-    var exists = this.FS_COLLECTION.findOne(fsFile._id);
-    if (exists) return exists;
+FileSystem.prototype.upload = function(fsFile, file) {
+    // Check to see if the file already exists
+    // TODO: Might be a different file. Should check a hash
+    if (fsFile._id) {
+        var exists = this.FS_COLLECTION.findOne(fsFile._id);
+        if (exists) return exists;
+    }
+    
     this.FS_COLLECTION.insert(fsFile, function(err, fileObj) {
-        console.log(err, fileObj);
         if (err) {
             ALERTS.Error('Error inserting file ' + fsFile.name() + '!');
+        } else {
+            file.file(fileObj);
         }
     });
 }
