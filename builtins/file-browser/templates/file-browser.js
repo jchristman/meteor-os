@@ -88,9 +88,9 @@ if (Meteor.isClient) {
 
         fileContext : function() {
             var context = {};
-            if (this.type() === FileSystem.Types.File)
+            if (this.type() === FileSystem.Type.File)
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-file-icon-16x16.png';
-            else if (this.type() === FileSystem.Types.Dir)
+            else if (this.type() === FileSystem.Type.Dir)
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-folder-icon-16x16.png';
             context.text = this.name;
 
@@ -120,7 +120,7 @@ if (Meteor.isClient) {
 
     Template.fb_file.helpers({
         isFile : function() {
-            return (this.type() == FileSystem.Types.File && this.uploading != undefined);
+            return (this.type() == FileSystem.Type.File && this.uploading != undefined);
         },
 
         fileContext : function() {

@@ -1,49 +1,22 @@
 FileSystem.Dir = function(name, parent) {
-    if (name == undefined) Meteor.Error('Must specify a name in the Dir constructor');
+    FileSystem.Type.call(this, name, parent); // Super constructor
     
-    this.parent = parent;
-    if (name instanceof Object) {
-        var dir = name;
-        this.unserialize(dir);
-    } else {
-        this.NAME = new ReactiveVar(name);
-        this.TYPE = new ReactiveVar(FileSystem.Types.Dir);
-        this.SHARED = []; // A list of team IDs its shared with
-        this.SHARED_DEP = new Tracker.Dependency;
-        this.FILES = [];
-        this.FILES_DEP = new Tracker.Dependency;
-    }
+    this.TYPE = new ReactiveVar(FileSystem.Type.Dir);
+    this.FILES = [];
+    this.FILES_DEP = new Tracker.Dependency;
 
-    this.watch();
+    this.watch('TYPE');
 }
+
+FileSystem.Dir.prototype = Object.create(FileSystem.Type.prototype);
+FileSystem.Dir.prototype.constructor = FileSystem.Dir;
 
 // -----------------------------------------------------------------//
 //  Accessors/Mutators                                              //
 // -----------------------------------------------------------------//
-FileSystem.Dir.prototype.name = function(newVal) {
-    if (newVal) {
-        this.NAME.set(newVal);
-    } else {
-        return this.NAME.get();
-    }
-}
-
-FileSystem.Dir.prototype.type = function(newVal) {
-    if (newVal) {
-        this.TYPE.set(newVal);
-    } else {
-        return this.TYPE.get();
-    }
-}
-
 FileSystem.Dir.prototype.files = function() {
     this.FILES_DEP.depend();
     return this.FILES;
-}
-
-FileSystem.Dir.prototype.shared = function() {
-    this.SHARED_DEP.depend();
-    return this.SHARED;
 }
 
 FileSystem.Dir.prototype.addFile = function(file, save) {
@@ -60,7 +33,7 @@ FileSystem.Dir.prototype.addDir = function(dir, save) {
     dir.parent = this;
     this.FILES.push(dir);
     if (save === undefined || save === true)
-        this.save('files', dir.serialize(), '$push');
+        this.save('FILES', dir.serialize(), '$push');
 }
 
 //TODO: Delete dir and file
@@ -68,22 +41,6 @@ FileSystem.Dir.prototype.addDir = function(dir, save) {
 // -----------------------------------------------------------------//
 //   Internals                                                      //
 // -----------------------------------------------------------------//
-FileSystem.Dir.prototype.internalPath = function(path, caller) {
-    if (path === undefined || caller === undefined) {
-        return this.parent.internalPath('', this);
-    } else {
-        var index = this.findIndex(caller);
-
-        if (index != -1) {
-            if (path === '')    path = 'FILES.' + index;
-            else                path = 'FILES.' + index + '.' + path;
-            return this.parent.internalPath(path, this);
-        } else {
-            throw new Meteor.Error('Unable to find child file');
-        }
-    }
-}
-
 FileSystem.Dir.prototype.internalFollowPath = function(path) {
     if (path === '') {
         return this;
@@ -99,15 +56,6 @@ FileSystem.Dir.prototype.internalFollowPath = function(path) {
         }
         if (indexOfDir >= this.FILES.length) return undefined;
         return this.FILES[indexOfDir].internalFollowPath(path);
-    }
-}
-
-FileSystem.Dir.prototype.path = function(path) {
-    if (path === undefined) {
-        return this.parent.path(this.name());
-    } else {
-        if (this.name() === '') return '/' + path;
-        else                    return this.parent.path(this.name()) + '/' + path;
     }
 }
 
@@ -159,22 +107,6 @@ FileSystem.Dir.prototype.find = function(toFind) {
 // -----------------------------------------------------------------//
 //  Code for synchronizing to db                                    //
 // -----------------------------------------------------------------//
-FileSystem.Dir.prototype.watch = function() {
-    this._watch('NAME', this.name);
-    this._watch('TYPE', this.type);
-}
-
-FileSystem.Dir.prototype._watch = function(prop, func) {
-    var self = this;
-    Tracker.autorun(function(comp) {
-        var val = func.call(self); // Reactive on the property
-        if (!comp.firstRun) {
-            console.log('Saving:',prop,val);
-            self.save(prop, val, '$set');
-        }
-    });
-}
-
 FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
     // Leaf node
     if (caller == undefined) {
@@ -198,8 +130,8 @@ FileSystem.Dir.unserialize = function(dir, parent) {
     var newDir = new FileSystem.Dir(dir.NAME, parent);
     newDir.SHARED = dir.SHARED;
     _.each(dir.FILES, function(file) {
-        if (file.TYPE == FileSystem.Types.File) newDir.FILES.push(FileSystem.File.unserialize(file, newDir)); // Unserialize each file in the array
-        if (file.TYPE == FileSystem.Types.Dir)  newDir.FILES.push(FileSystem.Dir.unserialize(file, newDir)); // Unserialize each dir in the array
+        if (file.TYPE === FileSystem.Type.File) newDir.FILES.push(FileSystem.File.unserialize(file, newDir)); // Unserialize each file in the array
+        if (file.TYPE === FileSystem.Type.Dir)  newDir.FILES.push(FileSystem.Dir.unserialize(file, newDir)); // Unserialize each dir in the array
     });
     return newDir;
 }

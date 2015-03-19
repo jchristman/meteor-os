@@ -18,36 +18,27 @@ FileSystem = function(def, user) {
     } else {
         var username = Meteor.user().username;
     }
-    var unique_name = 'MeteorOS.FS.'+username;
 
-    var collection = Mongo.Collection.get(unique_name);
+    if (Meteor.isClient) {
+        var unique_name = 'MeteorOS.FS.'+username;
+        var collection = Mongo.Collection.get('cfs.' + unique_name + '.filerecord');
 
-    if (collection) {
-        this.FS_COLLECTION = collection;
-    } else {
-        if (Meteor.isServer) {
-            var fileStore = new FS.Store.FileSystem(unique_name, {
-                path : process.cwd() + '/users/' + username + '/files'
-            });
-            this.FS_COLLECTION = new FS.Collection(unique_name, {
-                stores : [fileStore]
-            });
-            this.FS_COLLECTION.allow({
-                insert : function() { return true; },
-                update : function() { return true; },
-                remove : function() { return true; },
-                download : function() { return true; }
-            });
+        if (collection) {
+            this.FS_COLLECTION = collection;
         } else {
             this.FS_COLLECTION = new FS.Collection(unique_name, {
-                stores : [new FS.Store.FileSystem('/tmp/test')]   // I don't know if this is something that is going to break?
+                stores : [new FS.Store.FileSystem('/tmp/users/' + username + '/files')]   // I don't know if this is something that is going to break?
             });
         }
+
+        Meteor.subscribe(unique_name);
     }
 }
 
 FileSystem.prototype.getFile = function(fileId) {
-    return this.FS_COLLECTION.findOne(fileId);
+    var fsFile = this.FS_COLLECTION.findOne(fileId);
+    console.log(fileId, this.FS_COLLECTION.find({}).fetch(), fsFile);
+    return fsFile;
 }
 
 FileSystem.prototype.upload = function(fsFile, file) {
@@ -60,9 +51,10 @@ FileSystem.prototype.upload = function(fsFile, file) {
     
     this.FS_COLLECTION.insert(fsFile, function(err, fileObj) {
         if (err) {
-            ALERTS.Error('Error inserting file ' + fsFile.name() + '!');
+            MeteorOS.Alerts.Error('Error inserting file ' + fsFile.name() + '! \n' + err);
         } else {
             file.file(fileObj);
+            console.log(fileObj.url({download : true, auth : true, brokenIsFine : true}));
         }
     });
 }
@@ -98,6 +90,7 @@ FileSystem.prototype.followPath = function(path) {
 }
 
 FileSystem.prototype.save = function(prop, value, action, caller) {
+    prop = 'root.' + prop;
     MeteorOS.FS.save(prop, value, action);
 }
 

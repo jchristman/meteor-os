@@ -48,6 +48,7 @@ Package.onUse(function(api) {
   ],['server']);
 
   api.addFiles([
+          'lib/helpers/objectCreatePolyfill.js',
           'lib/meteor-os.js',
           'lib/files/files.js',
           'lib/files/fs-config.js',
@@ -90,11 +91,11 @@ Package.onUse(function(api) {
           // File Browser
           'builtins/file-browser/config.js',
           'builtins/file-browser/fs/fs.js',
+          'builtins/file-browser/fs/type.js',
           'builtins/file-browser/fs/file.js',
           'builtins/file-browser/fs/dir.js',
-          'builtins/file-browser/fs/fsdb.js',
-          'builtins/file-browser/fs/types.js',
           'builtins/file-browser/fs/status.js',
+          'builtins/file-browser/fs/fsdb.js',
           'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
           'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
           'builtins/file-browser/templates/file-browser.html',

@@ -8,32 +8,20 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
         icon: 'glyphicon-save-file',
         text: 'Download File',
         action: function(event, selector, context) {
-            console.log(context);
-            /*var fileId = selector.find('.fb_fileID').data('id');
-            var fsFile = MeteorOS_FS.findOne(fileId);
-            var downloadName = selector.find('.fb_fileName').text();
-            var url = fsFile.url({download : true, auth : true, filename : downloadName});
-            console.log(url);
-            var link = document.createElement('a');
-            link.href = url;
-            link.download = downloadName;
-            link.click();
-            link.remove();*/
+            context.download();
         }
     },
     {
         icon: 'glyphicon-edit',
         text: 'Rename File',
-        action: function(event, selector) {
-            var cwd = selector.closest('.fb-main').find('#fb-current-path').val();
-            var fileId = selector.find('.fb_fileID').data('id');
+        action: function(event, selector, context) {
             var fb_fileNameSpan = selector.find('.fb_fileName');
             fb_fileNameSpan.attr('contentEditable', true);
             fb_fileNameSpan.attr('tabindex','0');
             setTimeout(function() {fb_fileNameSpan.focus();fb_fileNameSpan.selectText();});
             fb_fileNameSpan.bind('keypress', function(event) {
                 if (event.keyCode == 13) {
-                    UserManager.renameFile(cwd, fileId, fb_fileNameSpan.text());
+                    context.name(fb_fileNameSpan.text()); // The context is the FileSystem.File that was clicked
                     fb_fileNameSpan.attr('contentEditable', false);
                     fb_fileNameSpan.removeAttr('tabindex');
                 }
@@ -44,14 +32,14 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
         icon: 'glyphicon-share-alt',
         text: 'Move File',
         action: function(event, selector) {
-            ALERTS.NotImplemented();
+            MeteorOS.Alerts.NotImplemented();
         }
     },
     {
         icon: 'glyphicon-star',
         text: 'Make Favorite',
         action: function(event, selector) {
-            ALERTS.NotImplemented();
+            MeteorOS.Alerts.NotImplemented();
         }
     },
     { divider : true },
