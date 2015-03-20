@@ -46,28 +46,11 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
     {
         icon: 'glyphicon-trash',
         text: 'Delete File',
-        action: function(event, selector) {
+        action: function(event, selector, context) {
+            console.log(context);
             var cwd = selector.closest('.fb-main').find('#fb-current-path').val();
             var fileName = selector.find('.fb_fileName').text();
             var fileId = selector.find('.fb_fileID').data('id');
-            bootbox.dialog({
-                message : "Are you sure you want to delete " + fileName + "?",
-                title : "Delete File",
-                backdrop : false,
-                buttons : {
-                    cancel : {
-                        label : 'Cancel',
-                        className : 'btn-default'
-                    },
-                    trash : {
-                        label : 'Delete File',
-                        className : 'btn-danger',
-                        callback : function() {
-                            UserManager.removeFile(cwd, fileId);
-                        }
-                    }
-                }
-            }); 
         }
     },
 ]};

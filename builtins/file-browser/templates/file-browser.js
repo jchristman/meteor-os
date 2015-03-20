@@ -61,14 +61,6 @@ if (Meteor.isClient) {
                 cwd.addFile(newFile);
                 newFile.file(fsFile);
 
-                /*UserManager.addFile(cwd, fsFile);
-
-                TO_UPLOAD_COUNT += 1;
-                if (!UPLOADING) {
-                    UPLOADING = true;
-                    Session.set(STATUS, '0 of ' + TO_UPLOAD_COUNT + ' files uploaded');
-                }*/
-
                 done('nope'); // Necessary for the library but not for us
             }
         });

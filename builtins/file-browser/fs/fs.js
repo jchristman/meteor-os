@@ -38,6 +38,10 @@ FileSystem.prototype.getFile = function(fileId) {
     return fsFile;
 }
 
+FileSystem.prototype.deleteFile = function(fileId) {
+    this.FS_COLLECTION.remove(fileId);
+}
+
 FileSystem.prototype.upload = function(fsFile, file) {
     // Check to see if the file already exists
     // TODO: Might be a different file. Should check a hash

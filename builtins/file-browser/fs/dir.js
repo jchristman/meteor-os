@@ -36,6 +36,10 @@ FileSystem.Dir.prototype.addDir = function(dir, save) {
         this.save('FILES', dir.serialize(), '$push');
 }
 
+FileSystem.Dir.prototype.delete = function() {
+    MeteorOS.Alerts.NotImplemented();
+}
+
 //TODO: Delete dir and file
 
 // -----------------------------------------------------------------//

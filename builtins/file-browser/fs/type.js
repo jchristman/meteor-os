@@ -32,13 +32,23 @@ FileSystem.Type.prototype.shared = function() {
     this.SHARED_DEP.depend();
     return this.SHARED;
 }
-
-FileSystem.Type.prototype.download = function() {
-    throw new Error('Must implement download function in subclass');
-}
 // ---------------------------- //
 // End Accessor/Mutator Methods //
 // ---------------------------- //
+
+// -------------- //
+// Action Methods //
+// -------------- //
+FileSystem.Type.prototype.download = function() {
+    throw new Error('Must implement download function in subclass');
+}
+
+FileSystem.Type.prototype.delete = function() {
+    throw new Error('Must implement delete function in subclass');
+}
+// ------------------ //
+// End Action Methods //
+// ------------------ //
 
 // --------- //
 // Internals //
