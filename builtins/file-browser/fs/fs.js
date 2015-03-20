@@ -20,24 +20,21 @@ FileSystem = function(def, user) {
     }
 
     if (Meteor.isClient) {
-        var unique_name = 'MeteorOS.FS.'+username;
-        var collection = Mongo.Collection.get('cfs.' + unique_name + '.filerecord');
+        this.SUB_NAME = 'MeteorOS_FS_'+username;
+        this.FS_COLLECTION = FS._collections[this.SUB_NAME];
 
-        if (collection) {
-            this.FS_COLLECTION = collection;
-        } else {
-            this.FS_COLLECTION = new FS.Collection(unique_name, {
-                stores : [new FS.Store.FileSystem('/tmp/users/' + username + '/files')]   // I don't know if this is something that is going to break?
+        if (!this.FS_COLLECTION) {
+            this.FS_COLLECTION = new FS.Collection(this.SUB_NAME, {
+                stores : [new FS.Store.FileSystem(this.SUB_NAME, {})]   // On the client is just a shell
             });
         }
-
-        Meteor.subscribe(unique_name);
+    } else {
+        this.FS_COLLECTION = MeteorOS.FS.ensureServerFSCollectionExists(user);
     }
 }
 
 FileSystem.prototype.getFile = function(fileId) {
     var fsFile = this.FS_COLLECTION.findOne(fileId);
-    console.log(fileId, this.FS_COLLECTION.find({}).fetch(), fsFile);
     return fsFile;
 }
 
@@ -48,13 +45,12 @@ FileSystem.prototype.upload = function(fsFile, file) {
         var exists = this.FS_COLLECTION.findOne(fsFile._id);
         if (exists) return exists;
     }
-    
+
     this.FS_COLLECTION.insert(fsFile, function(err, fileObj) {
         if (err) {
             MeteorOS.Alerts.Error('Error inserting file ' + fsFile.name() + '! \n' + err);
         } else {
             file.file(fileObj);
-            console.log(fileObj.url({download : true, auth : true, brokenIsFine : true}));
         }
     });
 }

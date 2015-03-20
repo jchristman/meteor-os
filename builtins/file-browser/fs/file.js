@@ -29,7 +29,7 @@ FileSystem.File.prototype.file = function(fsFile) {
 FileSystem.File.prototype.download = function() {
     var fsFile = this.file();
     console.log(fsFile.hasStored());
-    var url = fsFile.url({download : true, auth : true, filename : this.name(), brokenIsFine : true});
+    var url = fsFile.url({download : true, auth : true, filename : this.name()});
     console.log(url);
     var link = document.createElement('a');
     link.href = url;

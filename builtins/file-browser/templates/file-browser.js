@@ -15,7 +15,9 @@ if (Meteor.isClient) {
 
     Template.file_browser.helpers({
         fsContext : function() {
-            return _.extend(this, { fs : MeteorOS.FS.current() });
+            var cur = MeteorOS.FS.current();
+            Template.instance().subscribe(cur.SUB_NAME);
+            return _.extend(this, { fs : cur });
         },
 
         path : function() {
@@ -55,7 +57,10 @@ if (Meteor.isClient) {
                 fsFile.owner = Meteor.userId();
 
                 var cwd = self.data.fs.cwd();
-                cwd.addFile(new FileSystem.File(fsFile.name(), cwd, fsFile));
+                var newFile = new FileSystem.File(fsFile.name());
+                cwd.addFile(newFile);
+                newFile.file(fsFile);
+
                 /*UserManager.addFile(cwd, fsFile);
 
                 TO_UPLOAD_COUNT += 1;
