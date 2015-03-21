@@ -39,7 +39,6 @@ FileSystem.File.prototype._file = function(fileId) {
 // -------------- //
 // Action methods //
 // -------------- //
-
 // Generate the URL, generate a link, click the link, remove the link
 FileSystem.File.prototype.download = function() {
     var fsFile = this.file();
@@ -52,7 +51,9 @@ FileSystem.File.prototype.download = function() {
 }
 
 FileSystem.File.prototype.delete = function() {
-    MeteorOS.FS.current.deleteFile(this._file());
+    MeteorOS.FS.current().deleteFile(this._file());
+    this.parent.removeFile(this);
+    delete this;
 }
 
 // ------- //

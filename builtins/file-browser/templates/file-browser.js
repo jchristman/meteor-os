@@ -58,7 +58,11 @@ if (Meteor.isClient) {
 
                 var cwd = self.data.fs.cwd();
                 var newFile = new FileSystem.File(fsFile.name());
-                cwd.addFile(newFile);
+                var success = cwd.addFile(newFile); // For enforcing file names
+                if (!success) {
+                    delete newFile;
+                    return;
+                }
                 newFile.file(fsFile);
 
                 done('nope'); // Necessary for the library but not for us
@@ -95,10 +99,13 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.fb_file.rendered = function() {
+    Template.fb_file.onRendered(function() {
         context.init({preventDoubleContext: false});
         context.attach($(this.find('.fb-file')), METEOR_OS_FB_FILE_CONTEXT_MENU);
-    }
+    });
+    Template.fb_file.onDestroyed(function() {
+        context.destroy($(this.find('.fb-file')));
+    });
 
     Template.fb_file.events({
         'dblclick .fb-file' : function(event) {

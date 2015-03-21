@@ -87,6 +87,7 @@ FileSystem.Type.prototype.path = function(path) {
 FileSystem.Type.prototype.watch = function(prop) {
     var self = this;
     Tracker.autorun(function(comp) {
+        console.log('Watch fired:', prop);
         if (typeof prop === 'string') var val = self[prop].get();
         else                          var val = prop.get();
         if (!comp.firstRun) {

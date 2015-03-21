@@ -21,26 +21,55 @@ FileSystem.Dir.prototype.files = function() {
 
 FileSystem.Dir.prototype.addFile = function(file, save) {
     if (!(file instanceof FileSystem.File)) throw new Meteor.Error('Must only add FileSystem.File objects using .addFile');
+    
+    if (this.find(file) !== undefined) { // Return false
+        MeteorOS.Alerts.Error('File must have unique file name.'); // TODO: automatically create unique file name
+        return false;
+    }
+
     file.parent = this;
     this.FILES.push(file);
+    this.FILES_DEP.changed();
 
     if (save === undefined || save === true)
         this.save('FILES', file.serialize(), '$push');
+
+    return true; // SUCCESS
+}
+
+FileSystem.Dir.prototype.removeFile = function(file) {
+    var index = this.findIndex(file);
+    console.log(this.FILES);
+    this.FILES.splice(index, 1);
+    console.log(this.FILES);
+    this.FILES_DEP.changed();
+    this.save('FILES', { NAME : file.name() }, '$pull'); // We are going to remove by name. Need to make sure we can't have duplicate names!!
+    MeteorOS.Alerts.Info(file.name() + ' deleted');
 }
 
 FileSystem.Dir.prototype.addDir = function(dir, save) {
     if (!(dir instanceof FileSystem.Dir)) throw new Meteor.Error('Must only add FileSystem.Dir objects using .addDir');
+    
+    if (this.find(dir) !== undefined) { // Return false
+        MeteorOS.Alerts.Error('File must have unique file name.'); // TODO: automatically create unique file name
+        return false;
+    }
+    
     dir.parent = this;
     this.FILES.push(dir);
+    this.FILES_DEP.changed();
+    
     if (save === undefined || save === true)
         this.save('FILES', dir.serialize(), '$push');
+}
+
+FileSystem.Dir.prototype.removeDir = function(dir) {
+    this.removeFile(dir);
 }
 
 FileSystem.Dir.prototype.delete = function() {
     MeteorOS.Alerts.NotImplemented();
 }
-
-//TODO: Delete dir and file
 
 // -----------------------------------------------------------------//
 //   Internals                                                      //
@@ -86,6 +115,12 @@ FileSystem.Dir.prototype.findIndex = function(toFind) {
         var found = _.find(this.FILES, function(file) {
             index += 1;
             return file.name() === toFind.name();
+        });
+        if (found === undefined) return undefined;
+    } else if (toFind instanceof Object) {
+        var found = _.find(this.FILES, function(file) {
+            index += 1;
+            return file.name() === toFind.name;
         });
         if (found === undefined) return undefined;
     } else {
