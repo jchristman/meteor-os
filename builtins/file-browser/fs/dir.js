@@ -5,6 +5,11 @@ FileSystem.Dir = function(name, parent) {
     this.FILES = [];
     this.FILES_DEP = new Tracker.Dependency;
 
+    this.UPLOADING = []
+    this.UPLOADING_DEP = new Tracker.Dependency;
+    this.UPLOADED = [];
+    this.UPLOADED_DEP = new Tracker.Dependency;
+
     this._reloadTrackers();
 }
 
@@ -20,16 +25,44 @@ FileSystem.Dir.prototype.files = function() {
 }
 
 FileSystem.Dir.prototype.addFile = function(file, save) {
+    var self = this;
+
     if (!(file instanceof FileSystem.File)) throw new Meteor.Error('Must only add FileSystem.File objects using .addFile');
     
-    if (this.find(file) !== undefined) { // Return false
+    if (self.find(file) !== undefined) { // Return false
         MeteorOS.Alerts.Error(file.name() + ' rejected - file must have unique file name.'); // TODO: automatically create unique file name
         return false;
     }
 
-    file.parent = this;
-    this.FILES.push(file);
-    this.FILES_DEP.changed();
+    file.parent = self;
+    self.FILES.push(file);
+    self.FILES_DEP.changed();
+
+    if (self.UPLOADED.length === self.UPLOADING.length) {
+        self.UPLOADED = [];
+        self.UPLOADED_DEP.changed();
+        self.UPLOADING = [];
+        self.UPLOADING_DEP.changed();
+    }
+
+    Tracker.autorun(function(comp) {
+        var f = file.file();
+        if (f) {
+            if (f.isUploaded()) {
+                self.UPLOADED.push(f);
+                self.UPLOADED_DEP.changed();
+                comp.stop();
+            } else {
+                var found = _.find(self.UPLOADING, function(upFile) {
+                    return upFile._id === f._id;
+                });
+                if (found === undefined) {
+                    self.UPLOADING.push(f);
+                    self.UPLOADING_DEP.changed();
+                }
+            }
+        }
+    });
 
     if (save === undefined || save === true)
         this.save('FILES', file.serialize(), '$push');
@@ -39,9 +72,7 @@ FileSystem.Dir.prototype.addFile = function(file, save) {
 
 FileSystem.Dir.prototype.removeFile = function(file) {
     var index = this.findIndex(file);
-    console.log(this.FILES);
     this.FILES.splice(index, 1);
-    console.log(this.FILES);
     this.FILES_DEP.changed();
     this.save('FILES', { NAME : file.name() }, '$pull'); // We are going to remove by name. Need to make sure we can't have duplicate names!!
     MeteorOS.Alerts.Info(file.name() + ' deleted');
@@ -75,8 +106,15 @@ FileSystem.Dir.prototype.delete = function() {
 //   Extra                                                          //
 // -----------------------------------------------------------------//
 FileSystem.Dir.prototype.info = function() {
+    this.UPLOADING_DEP.depend();
+    this.UPLOADED_DEP.depend();
     this.FILES_DEP.depend();
-    return this.FILES.length + ' files';
+
+    if (this.UPLOADING.length !== 0) {
+        return this.UPLOADED.length + '/' + this.UPLOADING.length + ' uploaded';
+    } else {
+        return this.FILES.length + ' files';
+    }
 }
 
 // -----------------------------------------------------------------//

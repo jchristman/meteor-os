@@ -33,6 +33,7 @@ Package.onUse(function(api) {
   api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   api.use('jparker:gravatar@0.3.1');
+  api.use('sacha:spin');
   // Debug Packages
   //api.use('msavin:mongol');
   // Custom packages

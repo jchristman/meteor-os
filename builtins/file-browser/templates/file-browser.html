@@ -62,7 +62,8 @@
 <div class='fb-file'>
     <input class='fb_fileID' type='hidden' data-id={{id}} />
     <img class='td' src={{fileIconURL}} />
-    <span class='td fb_fileName{{#unless isUploaded}} uploading{{/unless}}'>{{name}}</span> 
+    <span class='td fb_fileName'>{{name}}</span> 
+    {{#unless isUploaded}}<span class='td'>{{> spinner}}</span>{{/unless}}
 </div>
 </template>
 
