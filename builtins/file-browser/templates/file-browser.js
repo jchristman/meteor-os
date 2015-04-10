@@ -64,6 +64,7 @@ if (Meteor.isClient) {
                     return;
                 }
                 newFile.file(fsFile);
+                console.log('Creating new file',newFile);
 
                 done('nope'); // Necessary for the library but not for us
             }

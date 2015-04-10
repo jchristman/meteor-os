@@ -6,8 +6,7 @@ FileSystem.File = function(name, parent, fsFile) {
     if (fsFile)
         this.file(fsFile);
 
-    this.watch('TYPE'); // Watch type and name
-    this.watch('FILE_ID');
+    this._reloadTrackers();
 }
 
 FileSystem.File.prototype = Object.create(FileSystem.Type.prototype);
@@ -59,6 +58,13 @@ FileSystem.File.prototype.delete = function() {
 // ------- //
 // DB Code //
 // ------- //
+FileSystem.File.prototype._reloadTrackers = function() {
+    FileSystem.Type.prototype._reloadTrackers.call(this);
+
+    this.watch('TYPE'); // Watch type and File ID
+    this.watch('FILE_ID');
+}
+
 FileSystem.File.prototype.save = function(prop, newval, action) {
     this.parent.save(prop, newval, action, this);
 }

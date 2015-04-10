@@ -73,5 +73,6 @@ MeteorOS.FS.load = function() {
 // This is the function that you can call from blaze to get a reactive object that represents the filesystem.
 MeteorOS.FS.current = function() {
     if (MeteorOS.FS.CURRENT === undefined) MeteorOS.FS.load();
+    MeteorOS.FS.CURRENT._reloadTrackers();
     return MeteorOS.FS.CURRENT;
 }

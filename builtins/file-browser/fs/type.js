@@ -5,8 +5,6 @@ FileSystem.Type = function(name, parent) {
     this.NAME = new ReactiveVar(name);
     this.SHARED = []; // A list of team IDs its shared with
     this.SHARED_DEP = new Tracker.Dependency;
-
-    this.watch('NAME');
 }
 
 // ------------------------ //
@@ -84,10 +82,13 @@ FileSystem.Type.prototype.path = function(path) {
 // ---------------------- //
 // Autosave to DB Methods //
 // ---------------------- //
+FileSystem.Type.prototype._reloadTrackers = function() {
+    this.watch('NAME');
+}
+
 FileSystem.Type.prototype.watch = function(prop) {
     var self = this;
     Tracker.autorun(function(comp) {
-        console.log('Watch fired:', prop);
         if (typeof prop === 'string') var val = self[prop].get();
         else                          var val = prop.get();
         if (!comp.firstRun) {

@@ -139,6 +139,10 @@ FileSystem.prototype.favorites = function() {
     return this.FAVORITES;
 }
 
+FileSystem.prototype._reloadTrackers = function() {
+    this.root._reloadTrackers();
+}
+
 FileSystem.unserialize = function(fs) {
     var newfs = new FileSystem(false);
     newfs.root = FileSystem.Dir.unserialize(fs.root, newfs);

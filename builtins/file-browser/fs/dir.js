@@ -5,7 +5,7 @@ FileSystem.Dir = function(name, parent) {
     this.FILES = [];
     this.FILES_DEP = new Tracker.Dependency;
 
-    this.watch('TYPE');
+    this._reloadTrackers();
 }
 
 FileSystem.Dir.prototype = Object.create(FileSystem.Type.prototype);
@@ -146,6 +146,15 @@ FileSystem.Dir.prototype.find = function(toFind) {
 // -----------------------------------------------------------------//
 //  Code for synchronizing to db                                    //
 // -----------------------------------------------------------------//
+FileSystem.Dir.prototype._reloadTrackers = function() {
+    FileSystem.Type.prototype._reloadTrackers.call(this);
+    this.watch('TYPE');
+
+    _.each(this.FILES, function(file) {
+        file._reloadTrackers();
+    });
+}
+
 FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
     // Leaf node
     if (caller == undefined) {

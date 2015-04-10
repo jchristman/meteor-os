@@ -19,9 +19,11 @@ METEOR_OS_FB_FILE_CONTEXT_MENU = {
             fb_fileNameSpan.attr('contentEditable', true);
             fb_fileNameSpan.attr('tabindex','0');
             setTimeout(function() {fb_fileNameSpan.focus();fb_fileNameSpan.selectText();});
-            fb_fileNameSpan.bind('keypress', function(event) {
-                if (event.keyCode == 13) {
-                    console.log(context);
+            console.log('running');
+            $(fb_fileNameSpan).off('keypress');
+            $(fb_fileNameSpan).on('keypress', function(event) {
+                if (event.which === 13) {
+                    console.log(context, fb_fileNameSpan.text());
                     context.name(fb_fileNameSpan.text()); // The context is the FileSystem.File that was clicked
                     fb_fileNameSpan.attr('contentEditable', false);
                     fb_fileNameSpan.removeAttr('tabindex');
