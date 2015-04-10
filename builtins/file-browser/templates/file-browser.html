@@ -42,51 +42,33 @@
 </template>
 
 <template name='fb_favorite'>
-    <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> <span>{{getPath}}</span></div>
+    <div class='fb-favorite'><img src='/packages/jchristman_meteor-os/img/fb-folder-icon-24x24.png' /> <span>{{path}}</span></div>
 </template>
 
 <template name='fb_pane_main'>
     <div class='fb-files'>
         <div id='previews-container' style='display: none;'></div>
-        {{#with currentPathFiles}}
-            {{#each files}}
-                {{#with fileContext}}
-                    {{> fb_file}}
-                {{/with}}
-            {{else}}
-                <span>No files yet in this directory</span>
-            {{/each}}
-        {{/with}}
+        {{#each currentPathFiles}}
+            {{#with fileContext}}
+                {{> fb_file}}
+            {{/with}}
+        {{else}}
+            <span>No files yet in this directory</span>
+        {{/each}}
     </div>
 </template>
 
 <template name='fb_file'>
 <div class='fb-file'>
     <input class='fb_fileID' type='hidden' data-id={{id}} />
-    <img class='td' src={{fileIconURL}} /> 
-    <span class='td fb_fileName'>{{text}}</span> 
-    
-    {{#if isFile}}
-        {{#if uploading}}
-            {{#with fileContext}}
-                {{#with FS.GetFile collectionName id}}
-                    {{#unless this.isUploaded}}
-                        <span class='td progressbar'>{{> FS.UploadProgressBar bootstrap=true class='progress-bar-success progress-bar-striped active' showPercent=true}}</span>
-                    {{else}}
-                        {{finishedUpload this}}
-                    {{/unless}}
-                {{/with}}
-            {{/with}}
-        {{else}}
-            <img class='td' src='/packages/jchristman_meteor-os/img/fb-success-icon-16x16.png' />
-        {{/if}}
-    {{/if}}
+    <img class='td' src={{fileIconURL}} />
+    <span class='td fb_fileName{{#unless isUploaded}} uploading{{/unless}}'>{{name}}</span> 
 </div>
 </template>
 
 <template name='fb_pane_statusbar'>
     <div class='statusbar'>
-        <div class='status-text'>{{currentStatus}}</div>
+        <div class='status-text'>{{fs.status}}</div>
         <div class='status-buttons'>
             {{#with statusContext}}
                 {{#each statusButtons}}

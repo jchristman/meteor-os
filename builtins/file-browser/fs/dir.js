@@ -23,7 +23,7 @@ FileSystem.Dir.prototype.addFile = function(file, save) {
     if (!(file instanceof FileSystem.File)) throw new Meteor.Error('Must only add FileSystem.File objects using .addFile');
     
     if (this.find(file) !== undefined) { // Return false
-        MeteorOS.Alerts.Error('File must have unique file name.'); // TODO: automatically create unique file name
+        MeteorOS.Alerts.Error(file.name() + ' rejected - file must have unique file name.'); // TODO: automatically create unique file name
         return false;
     }
 
@@ -69,6 +69,14 @@ FileSystem.Dir.prototype.removeDir = function(dir) {
 
 FileSystem.Dir.prototype.delete = function() {
     MeteorOS.Alerts.NotImplemented();
+}
+
+// -----------------------------------------------------------------//
+//   Extra                                                          //
+// -----------------------------------------------------------------//
+FileSystem.Dir.prototype.info = function() {
+    this.FILES_DEP.depend();
+    return this.FILES.length + ' files';
 }
 
 // -----------------------------------------------------------------//

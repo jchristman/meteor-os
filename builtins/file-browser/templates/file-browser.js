@@ -15,7 +15,7 @@ if (Meteor.isClient) {
 
     Template.file_browser.helpers({
         fsContext : function() {
-            var cur = MeteorOS.FS.current();
+            var cur = MeteorOS.FS.current(true);
             Template.instance().subscribe(cur.SUB_NAME);
             return _.extend(this, { fs : cur });
         },
@@ -28,12 +28,6 @@ if (Meteor.isClient) {
     Template.fb_pane_nav.helpers({
         favorites : function() {
             return this.fs.favorites();
-        }
-    });
-
-    Template.fb_favorite.helpers({
-        getPath : function() {
-            return this.path();
         }
     });
 
@@ -64,7 +58,6 @@ if (Meteor.isClient) {
                     return;
                 }
                 newFile.file(fsFile);
-                console.log('Creating new file',newFile);
 
                 done('nope'); // Necessary for the library but not for us
             }
@@ -85,16 +78,16 @@ if (Meteor.isClient) {
 
     Template.fb_pane_main.helpers({
         currentPathFiles : function() {
-            return { files : this.fs.cwd().files() };
+            return this.fs.cwd().files();
         },
 
         fileContext : function() {
             var context = {};
-            if (this.type() === FileSystem.Type.File)
+            if (this.type() === FileSystem.Type.File) {
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-file-icon-16x16.png';
-            else if (this.type() === FileSystem.Type.Dir)
+            } else if (this.type() === FileSystem.Type.Dir) {
                 context.fileIconURL = '/packages/jchristman_meteor-os/img/fb-folder-icon-16x16.png';
-            context.text = this.name;
+            }
 
             return _.extend(this, context);
         }
@@ -104,6 +97,7 @@ if (Meteor.isClient) {
         context.init({preventDoubleContext: false});
         context.attach($(this.find('.fb-file')), METEOR_OS_FB_FILE_CONTEXT_MENU);
     });
+
     Template.fb_file.onDestroyed(function() {
         context.destroy($(this.find('.fb-file')));
     });
@@ -124,41 +118,17 @@ if (Meteor.isClient) {
     });
 
     Template.fb_file.helpers({
-        isFile : function() {
-            return (this.type() == FileSystem.Type.File && this.uploading != undefined);
-        },
-
-        fileContext : function() {
-            return { collectionName : 'MeteorOS_FS', id : this.id};
-        },
-
-        uploading : function() {
-            return this.uploading;
-        },
-
-        finishedUpload : function(fileObj) {
-            //TODO: Fix this
-            UserManager.updateFile(Session.get(CWD), {
-                name : fileObj.name(),
-                type : FILES.FILE,
-                uploading : false,
-                id : fileObj._id
-            });
-
-            UPLOADED_COUNT += 1;
-            Session.set(STATUS, UPLOADED_COUNT + ' of ' + TO_UPLOAD_COUNT + ' files uploaded');
-            if (UPLOADED_COUNT == TO_UPLOAD_COUNT) {
-                UPLOADED_COUNT = 0;
-                TO_UPLOAD_COUNT = 0;
+        isUploaded : function() {
+            // If it's a file, check to see if it's uploaded, otherwise, return true
+            if (this.type() === FileSystem.Type.File) {
+                var file = this.file();
+                return file ? file.isUploaded() : true;
             }
+            return true;
         }
     });
 
     Template.fb_pane_statusbar.helpers({
-        currentStatus : function() {
-            return Session.get(STATUS);
-        },
-
         statusContext : function() {
             var context = {
                 statusButtons : [

@@ -119,11 +119,8 @@
     width: auto;
 }
 
-.fb-files .fb-file .td.progressbar .progress {
-    width: 80px;
-    height: 16px;
-    margin-left: 5px;
-    margin-bottom: 0px;
+.fb-files .fb-file .uploading {
+    background-color: red;
 }
 
 .fb-pane.fb-pane-main .fb-files .fb-file:hover {

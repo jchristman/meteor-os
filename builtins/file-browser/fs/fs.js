@@ -10,7 +10,7 @@ FileSystem = function(def, user) {
     }
     this.CWD_DEP = new Tracker.Dependency;
     this.FAVORITES_DEP = new Tracker.Dependency;
-    this.STATUS = new ReactiveVar(FileSystem.Status.Idle());
+    this.STATUS = FileSystem.Status.Info;
     
     // Create the file collection
     if (user) {
@@ -137,6 +137,10 @@ FileSystem.prototype.addFavorite = function(dir) {
 FileSystem.prototype.favorites = function() {
     this.FAVORITES_DEP.depend();
     return this.FAVORITES;
+}
+
+FileSystem.prototype.status = function() {
+    return this.STATUS();
 }
 
 FileSystem.prototype._reloadTrackers = function() {
