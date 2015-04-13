@@ -10,14 +10,14 @@ if (Meteor.isServer) {
         var user = Meteor.users.findOne({ _id : this.userId }, { reactive : true });
         if (user == undefined)
             return undefined;
-        return MeteorOSTeamCollection.find( { _id : { $in : user.profile.MeteorOSTeams } } , { reactive : true } ); // Publish the records about all teams of which the user is a part
+        return MeteorOSTeamCollection.find( { _id : { $in : user.meteorOS.teams } } , { reactive : true } ); // Publish the records about all teams of which the user is a part
     });
     
     Meteor.reactivePublish('MeteorOSMyPendingTeams', function() {
         var user = Meteor.users.findOne({ _id : this.userId }, { reactive : true });
         if (user == undefined)
             return undefined;
-        return MeteorOSTeamCollection.find( { _id : { $in : user.profile.MeteorOSTeamsPending } } , { reactive : true } ); // Publish the records about all teams of which the user is a part
+        return MeteorOSTeamCollection.find( { _id : { $in : user.meteorOS.teamsPending } } , { reactive : true } ); // Publish the records about all teams of which the user is a part
     });
 }
 

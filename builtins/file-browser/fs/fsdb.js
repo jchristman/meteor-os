@@ -6,9 +6,7 @@ MeteorOS.FS = {};
 
 if (Meteor.isServer) {
     MeteorOS.onCreateUser(function(options, user) {
-        if (user.profile == undefined) user.profile = {};
-        if (options.email == undefined) options.email = '';
-        _.extend(user.profile, { fs : (new FileSystem(undefined, user)).serialize() });
+        _.extend(user.meteorOS, { fs : (new FileSystem(undefined, user)).serialize() });
         return user;
     });
 
@@ -47,9 +45,10 @@ if (Meteor.isServer) {
 }
 
 MeteorOS.FS.CURRENT = undefined;
+MeteorOS.FS.CURRENT_USER = undefined;
 
 MeteorOS.FS.save = function(key, val, action) {
-    key = 'profile.fs.' + key;
+    key = 'meteorOS.fs.' + key;
 
     var update = {};
     update[action] = {}
@@ -62,17 +61,20 @@ MeteorOS.FS.save = function(key, val, action) {
 
 MeteorOS.FS._load = function() {
     if (Meteor.isClient) {
-        return FileSystem.unserialize(Meteor.user().profile.fs);
+        return FileSystem.unserialize(Meteor.user().meteorOS.fs);
     }
 }
 
 MeteorOS.FS.load = function() {
     MeteorOS.FS.CURRENT = MeteorOS.FS._load();
+    MeteorOS.FS.CURRENT_USER = Meteor.user()._id;
 }
 
 // This is the function that you can call from blaze to get a reactive object that represents the filesystem.
 MeteorOS.FS.current = function(reload) {
-    if (MeteorOS.FS.CURRENT === undefined) MeteorOS.FS.load();
+    if (MeteorOS.FS.CURRENT === undefined || (Meteor.user() && Meteor.user()._id !== MeteorOS.FS.CURRENT_USER)) {
+        MeteorOS.FS.load();
+    }
     reload && MeteorOS.FS.CURRENT._reloadTrackers();
     return MeteorOS.FS.CURRENT;
 }

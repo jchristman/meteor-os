@@ -44,20 +44,14 @@ Package.onUse(function(api) {
   api.imply('jchristman:application-manager@1.0.7_2');
 
   api.addFiles([
-          'config/users.js',
           'config/general.js'
   ],['server']);
 
   api.addFiles([
-          'lib/helpers/objectCreatePolyfill.js',
           'lib/meteor-os.js',
-          'lib/files/files.js',
-          'lib/files/fs-config.js',
-          'lib/users/default.js',
-          'lib/users/users-collection.js',
-          'lib/users/users.js',
           'config/accounts.js',
-          'config/router.js'
+          'config/router.js',
+          'config/users.js'
   ],['client','server']);
 
   api.addFiles([
@@ -118,9 +112,9 @@ Package.onUse(function(api) {
           'builtins/settings/templates/pages/team-management/modals/viewInvite/viewInvite.js',
           'builtins/settings/templates/pages/interface/interface.html',
           'builtins/settings/templates/settings.css',
-          'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/team-collection.js',
-          'builtins/settings/server/accounts.js',
+          'builtins/settings/team-model/team.js',
+          'builtins/settings/team-model/teamdb.js',
   ],['client','server']);
 
   //TESTING
