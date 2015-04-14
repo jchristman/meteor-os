@@ -22,7 +22,8 @@ if (Meteor.isServer) {
         var collection = FS._collections[unique_name];
         if (!collection) {
             var fileStore = new FS.Store.FileSystem(unique_name, {
-                path : process.env.PWD + '/.meteor/local/users/' + user.username + '/files'
+                //path : process.env.PWD + '/.meteor/local/users/' + user.username + '/files'
+                path : '/tmp/users/' + user.username + '/files'
             });
             collection = new FS.Collection(unique_name, {
                 stores : [fileStore]

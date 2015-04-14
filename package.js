@@ -17,7 +17,7 @@ Package.onUse(function(api) {
   // Meteor extension packages
   api.use('dburles:mongo-collection-instances@0.3.3');
   // Server side reactivity
-  api.use('lepozepo:reactive-publish');
+  api.use('lepozepo:reactive-publish@0.1.7');
   // Accounts packages
   api.use('accounts-base');
   api.use('accounts-password');
@@ -33,7 +33,7 @@ Package.onUse(function(api) {
   api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   api.use('jparker:gravatar@0.3.1');
-  api.use('sacha:spin');
+  api.use('sacha:spin@0.2.4');
   // Debug Packages
   //api.use('msavin:mongol');
   // Custom packages
