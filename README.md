@@ -1,7 +1,7 @@
 meteor-os
 =========
 
-An application manager that sits on top of the https://github.com/jchristman/meteor-application-manager repository to create layered applications.
+An application manager that sits on top of the https://github.com/jchristman/meteor-application-manager repository to create layered applications. See http://meteor-os.meteor.com/ for a live demo. You can login with any user with username in {a-z} and password 'asdf'.
 
 notes
 =====
