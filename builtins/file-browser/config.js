@@ -18,10 +18,10 @@ var file_browser_app_windowed_mode = {
                 title : 'File Browser',
                 type : Application.NOT_TABBED_WINDOW,
                 focused : 'true',
-                top : '100px',
-                left : '50px',
-                width : '800px',
-                height : '450px',
+                top : '15%',
+                left : '15%',
+                width : '50%',
+                height : '60%',
                 template : 'file_browser_windowed'
             }
         ]

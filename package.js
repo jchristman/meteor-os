@@ -83,19 +83,6 @@ Package.onUse(function(api) {
   ],['client']);
 
   api.addFiles([
-          // File Browser
-          'builtins/file-browser/config.js',
-          'builtins/file-browser/fs/fs.js',
-          'builtins/file-browser/fs/type.js',
-          'builtins/file-browser/fs/file.js',
-          'builtins/file-browser/fs/dir.js',
-          'builtins/file-browser/fs/status.js',
-          'builtins/file-browser/fs/fsdb.js',
-          'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
-          'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
-          'builtins/file-browser/templates/file-browser.html',
-          'builtins/file-browser/templates/file-browser.js',
-          'builtins/file-browser/templates/file-browser.css',
           // Settings Application
           'builtins/settings/config.js',
           'builtins/settings/templates/pages/accounts/accounts.html',
@@ -115,6 +102,19 @@ Package.onUse(function(api) {
           'builtins/settings/team-model/team-collection.js',
           'builtins/settings/team-model/team.js',
           'builtins/settings/team-model/teamdb.js',
+          // File Browser
+          'builtins/file-browser/config.js',
+          'builtins/file-browser/fs/fs.js',
+          'builtins/file-browser/fs/type.js',
+          'builtins/file-browser/fs/file.js',
+          'builtins/file-browser/fs/dir.js',
+          'builtins/file-browser/fs/status.js',
+          'builtins/file-browser/fs/fsdb.js',
+          'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
+          'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
+          'builtins/file-browser/templates/file-browser.html',
+          'builtins/file-browser/templates/file-browser.js',
+          'builtins/file-browser/templates/file-browser.css',
   ],['client','server']);
 
   //TESTING

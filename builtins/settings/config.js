@@ -1,18 +1,17 @@
 var team_manager_app = {
     appID : '5534de45-3b16-4faf-84be-b02daa5f8c4a',
     appName : 'Settings',
-    appOpen : false,
+    appOpen : true,
     layout : {
         windows : [
             {
                 id : 'meteor-os-settings',
                 type : Application.PAGED_WINDOW,
                 title : 'Settings',
-                focused : true,
-                top : '50px',
-                left : '50px',
-                width : '800px',
-                height : '450px',
+                top : '10%',
+                left : '10%',
+                width : '50%',
+                height : '60%',
                 pages : [
                     {
                         title : 'Account',

@@ -4,7 +4,7 @@ FileSystem.File = function(name, parent, fsFile) {
     this.TYPE = new ReactiveVar(FileSystem.Type.File);
     this.FILE_ID = new ReactiveVar('');
     if (fsFile)
-        this.file(fsFile);
+        this._file(fsFile._id);
 
     this._reloadTrackers();
 }
