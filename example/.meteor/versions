@@ -51,7 +51,7 @@ iron:router@1.0.7
 iron:url@1.0.7
 jchristman:application-manager@1.0.7_2
 jchristman:context-menu@1.2.0
-jchristman:meteor-os@1.1.1_2
+jchristman:meteor-os@1.9.0
 jchristman:tagsinput-autocomplete@1.0.1
 jparker:crypto-core@0.1.0
 jparker:crypto-md5@0.1.1
