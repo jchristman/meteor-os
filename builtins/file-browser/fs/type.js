@@ -45,6 +45,10 @@ FileSystem.Type.prototype.download = function() {
 FileSystem.Type.prototype.delete = function() {
     throw new Error('Must implement delete function in subclass');
 }
+
+FileSystem.Type.prototype.share = function() {
+    throw new Error('Must implement share funciton in subclass');
+}
 // ------------------ //
 // End Action Methods //
 // ------------------ //

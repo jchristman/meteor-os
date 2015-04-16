@@ -45,6 +45,7 @@ FileSystem.Dir.prototype.addFile = function(file, save) {
         self.UPLOADING_DEP.changed();
     }
 
+    // These shenanigans were necessary to keep track of how many files are uploading
     Tracker.autorun(function(comp) {
         var f = file.file();
         if (f) {

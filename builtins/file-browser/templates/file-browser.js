@@ -38,7 +38,7 @@ if (Meteor.isClient) {
         } 
     });
 
-    Template.file_browser.rendered = function() {
+    Template.file_browser.onRendered(function() {
         var self = this;
         Dropzone.autoDiscover = false;
         var dropzone = new Dropzone(this.find('#fb-dropzone'), {
@@ -62,7 +62,7 @@ if (Meteor.isClient) {
                 done('nope'); // Necessary for the library but not for us
             }
         });
-    }
+    });
 
     Template.file_browser.events({
         'click .fb-pane-navbar button' : function(event) {
@@ -74,6 +74,15 @@ if (Meteor.isClient) {
                 this.fs.cd($(event.target).val());
             }
         }
+    });
+
+    Template.file_browser.onRendered(function() {
+        context.init({preventDoubleContext: false});
+        context.attach($(this.find('.fb-pane-main')), MeteorOS.FS.ContextMenus.Background);
+    });
+
+    Template.file_browser.onDestroyed(function() {
+        context.destroy($(this.find('.fb-pane-main')));
     });
 
     Template.fb_pane_main.helpers({
@@ -94,8 +103,6 @@ if (Meteor.isClient) {
     });
 
     Template.fb_file.onRendered(function() {
-        context.init({preventDoubleContext: false});
-        context.attach($(this.find('.fb-file')), METEOR_OS_FB_FILE_CONTEXT_MENU);
     });
 
     Template.fb_file.onDestroyed(function() {
@@ -125,6 +132,24 @@ if (Meteor.isClient) {
                 return file ? file.isUploaded() : true;
             }
             return true;
+        },
+
+        attachContext: function() {
+            var instance = Template.instance();
+            var self = this;
+            Meteor.defer(function() {
+                context.init({preventDoubleContext: false});
+
+                context.destroy($(instance.find('.fb-file'))); // Destroy any old contexts
+
+                if (self.type() === FileSystem.Type.Dir) { 
+                    var menu = MeteorOS.FS.ContextMenus.Dir;
+                } else {
+                    var menu = MeteorOS.FS.ContextMenus.File;
+                }
+
+                context.attach($(instance.find('.fb-file')), menu);
+            });
         }
     });
 
@@ -164,25 +189,20 @@ if (Meteor.isClient) {
     Template.fb_pane_statusbar.events({
         'click #fb-openFile' : function(event) {
             if (_FB_DIALOG_CALLBACK_FUNC != undefined) {
-                var selected = $(event.target).closest('.fb-main').find('.fb-files').find('.selected');
-                if (selected.length) {
-                    var fileId = selected.find('.fb_fileID').data('id');
-                    if (fileId == undefined) {
-                        ALERTS.Warning('Cannot select directories to open');
+                var selected = $(event.target).closest('.fb-main').find('.fb-files').find('.selected').first().get()[0];
+                var context = Blaze.getData(selected);
+                if (context) {
+                    if (context.type() !== FileSystem.Type.File) {
+                        MeteorOS.Alerts.Warning('Cannot select directories to open');
                         return;
                     }
-                    var fsFile = MeteorOS_FS.findOne(fileId);
-                    if (fsFile == undefined) {
-                        ALERTS.Error('Uh oh! Could not find the file!');
-                        return;
-                    }
-                    _FB_DIALOG_CALLBACK_FUNC(fsFile);
+                    _FB_DIALOG_CALLBACK_FUNC(context);
                 } else {
-                    ALERTS.Warning('Must select a file to open.');
+                    MeteorOS.Alerts.Warning('Must select a file to open.');
                     return;
                 }
             } else{
-                ALERTS.Error('No callback provided for file dialog');
+                MeteorOS.Alerts.Error('No callback provided for file dialog');
             }
             
             var btn = $(event.target);

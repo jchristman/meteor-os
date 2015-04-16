@@ -30,14 +30,16 @@ Package.onUse(function(api) {
   // UI Packages
   api.use('mizzao:jquery-ui@1.11.2','client');
   api.use('mizzao:autocomplete@0.4.10');
-  api.use('pahans:reactive-modal@1.0.2');
   api.use('mrt:bootstrap-alerts@0.0.5','client');
   api.use('jparker:gravatar@0.3.1');
   api.use('sacha:spin@0.2.4');
   // Debug Packages
   //api.use('msavin:mongol');
   // Custom packages
-  api.use('jchristman:context-menu@1.2.0','client');
+  api.use('jchristman:context-menu@1.2.0_1','client');
+  api.imply('jchristman:context-menu@1.2.0_1','client');
+  api.use('jchristman:reactive-modal@1.0.3','client');
+  api.imply('jchristman:reactive-modal@1.0.3','client');
   api.use('jchristman:tagsinput-autocomplete@1.0.1');
   api.imply('jchristman:tagsinput-autocomplete@1.0.1');
   api.use('jchristman:application-manager@1.0.7_2');
@@ -110,8 +112,13 @@ Package.onUse(function(api) {
           'builtins/file-browser/fs/dir.js',
           'builtins/file-browser/fs/status.js',
           'builtins/file-browser/fs/fsdb.js',
-          'builtins/file-browser/templates/context-menus/context-menu-funcs.js',
-          'builtins/file-browser/templates/context-menus/fb-file-context-menu.js',
+          'builtins/file-browser/modals/modals.js',
+          'builtins/file-browser/modals/newFolder/newFolder.html',
+          'builtins/file-browser/modals/newFolder/newFolder.js',
+          'builtins/file-browser/context-menus/menus.js',
+          'builtins/file-browser/context-menus/dir.js',
+          'builtins/file-browser/context-menus/file.js',
+          'builtins/file-browser/context-menus/background.js',
           'builtins/file-browser/templates/file-browser.html',
           'builtins/file-browser/templates/file-browser.js',
           'builtins/file-browser/templates/file-browser.css',

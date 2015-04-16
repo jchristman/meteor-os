@@ -64,6 +64,7 @@
     <img class='td' src={{fileIconURL}} />
     <span class='td fb_fileName'>{{name}}</span> 
     {{#unless isUploaded}}<span class='td'>{{> spinner}}</span>{{/unless}}
+    {{attachContext}}
 </div>
 </template>
 
