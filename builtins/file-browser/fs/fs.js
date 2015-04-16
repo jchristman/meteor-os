@@ -125,12 +125,28 @@ FileSystem.prototype.cwd = function() {
     return this.CWD;
 }
 
-FileSystem.prototype.addFavorite = function(dir) {
-    if (dir instanceof FileSystem.Dir || dir instanceof FileSystem.File) {
-        this.FAVORITES.push(dir);
+FileSystem.prototype.addFavorite = function(type) {
+    if (type instanceof FileSystem.Dir || type instanceof FileSystem.File) {
+        this.FAVORITES.push(type);
         this.FAVORITES_DEP.changed();
     } else {
         throw new Meteor.Error(502, 'Can only add FileSystem.Dir or FileSystem.File to favorites');
+    }
+}
+
+FileSystem.prototype.removeFavorite = function(type) {
+    if (type instanceof FileSystem.Dir || type instanceof FileSystem.File) {
+        var index = -1;
+        var exists = _.find(this.FAVORITE, function(fav) {
+            index++;
+            return fav === type;
+        });
+        if (exists) {
+            this.FAVORITES.splice(index, 1);
+            this.FAVORITES_DEP.changed();
+        } else {
+            MeteorOS.Alerts.Warning('Could not find item to remove from favorites');
+        }
     }
 }
 

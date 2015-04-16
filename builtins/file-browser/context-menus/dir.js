@@ -22,7 +22,6 @@ MeteorOS.FS.ContextMenus.Dir = {
                 $(fb_fileNameSpan).off('keypress');
                 $(fb_fileNameSpan).on('keypress', function(event) {
                     if (event.which === 13) {
-                        console.log(context, fb_fileNameSpan.text());
                         context.name(fb_fileNameSpan.text()); // The context is the FileSystem.File that was clicked
                         fb_fileNameSpan.attr('contentEditable', false);
                         fb_fileNameSpan.removeAttr('tabindex');
@@ -40,8 +39,8 @@ MeteorOS.FS.ContextMenus.Dir = {
         {
             icon: 'glyphicon-star',
             text: 'Make Favorite',
-            action: function(event, selector) {
-                MeteorOS.Alerts.NotImplemented();
+            action: function(event, selector, context) {
+                MeteorOS.FS.current().addFavorite(context);
             }
         },
         { divider : true },

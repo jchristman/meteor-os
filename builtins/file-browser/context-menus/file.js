@@ -40,8 +40,8 @@ MeteorOS.FS.ContextMenus.File = {
         {
             icon: 'glyphicon-star',
             text: 'Make Favorite',
-            action: function(event, selector) {
-                MeteorOS.Alerts.NotImplemented();
+            action: function(event, selector, context) {
+                MeteorOS.FS.current().addFavorite(context);
             }
         },
         { divider : true },
