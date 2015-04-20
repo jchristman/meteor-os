@@ -1,0 +1,84 @@
+<template name='file_browser_windowed'>
+    {{> file_browser}}
+</template>
+
+<template name='file_browser_dialog'>
+    {{#with dialogMode}}
+        {{> file_browser}}
+    {{/with}}
+</template>
+
+<template name='file_browser'>
+    {{#with fsContext}}
+    <div class='fb-main'>
+        <div class='fb-pane-navbar'>
+            <div class='input-group input-group-sm'>
+                <span class='input-group-btn'>
+                    <button class='btn btn-custom-gray'><span class='glyphicon glyphicon-arrow-up'></span></button>
+                </span>
+                <input type='text' id='fb-current-path' class='form-control' value={{path}} style='font-size: 16px;' />
+            </div>
+        </div>
+        <div class='fb-pane fb-pane-nav'>
+            {{> fb_pane_nav}}
+        </div>
+        <div id='fb-dropzone' class='fb-pane fb-pane-main'>
+            {{> fb_pane_main}}
+        </div>
+        <div class='fb-pane-statusbar'>
+            {{> fb_pane_statusbar}}
+        </div>
+    </div>
+    {{/with}}
+</template>
+
+<template name='fb_pane_nav'>
+    <div class='fb-favorites'>
+        <div class='title'><img src='/packages/meteoros_app-file-browser/img/favorites-icon-24x24.png' /> Favorites</div>
+        {{#each favorites}}
+            {{> fb_favorite}}
+        {{/each}} 
+    </div>
+</template>
+
+<template name='fb_favorite'>
+    <div class='fb-favorite'><img src='/packages/meteoros_app-file-browser/img/folder-icon-24x24.png' /> <span>{{path}}</span></div>
+</template>
+
+<template name='fb_pane_main'>
+    <div class='fb-files'>
+        <div id='previews-container' style='display: none;'></div>
+        {{#each currentPathFiles}}
+            {{#with fileContext}}
+                {{> fb_file}}
+            {{/with}}
+        {{else}}
+            <span>No files yet in this directory</span>
+        {{/each}}
+    </div>
+</template>
+
+<template name='fb_file'>
+<div class='fb-file'>
+    <input class='fb_fileID' type='hidden' data-id={{id}} />
+    <img class='td' src={{fileIconURL}} />
+    <span class='td fb_fileName'>{{name}}</span> 
+    {{#unless isUploaded}}<span class='td'>{{> spinner}}</span>{{/unless}}
+    {{attachContext}}
+</div>
+</template>
+
+<template name='fb_pane_statusbar'>
+    <div class='statusbar'>
+        <div class='status-text'>{{fs.status}}</div>
+        <div class='status-buttons'>
+            {{#with statusContext}}
+                {{#each statusButtons}}
+                    <button id={{buttonID}} class='btn btn-xs {{buttonClass}}'>
+                        <span class='glyphicon {{buttonGlyphicon}}'></span> {{buttonText}}
+                    </button>
+                {{/each}}
+            {{/with}}
+        </div>
+    </div>
+</template>

@@ -1,6 +1,5 @@
 accounts-base@1.2.0
 accounts-password@1.1.1
-autoupdate@1.2.1
 base64@1.0.3
 binary-heap@1.0.3
 blaze@2.1.2
@@ -35,7 +34,6 @@ deps@1.0.7
 edgee:meteor-server-deps@0.1.2
 ejson@1.0.6
 email@1.0.6
-fastclick@1.0.3
 geojson-utils@1.0.3
 html-tools@1.0.4
 htmljs@1.0.4
@@ -59,14 +57,12 @@ jparker:gravatar@0.3.1
 jquery@1.11.3_2
 json@1.0.3
 lai:collection-extensions@0.1.3
-launch-screen@1.0.2
 lepozepo:reactive-publish@0.1.7
 less@1.0.14
 livedata@1.0.13
 localstorage@1.0.3
 logging@1.0.7
 meteor@1.1.6
-meteor-platform@1.2.2
 meteoros:app-file-browser@1.9.6
 meteoros:app-settings@1.9.6
 meteoros:base@1.9.9
@@ -75,13 +71,11 @@ meteoros:standard@1.9.5
 meteoros:standard-applications@1.9.5
 meteoros:standard-packages@1.9.5
 meteoros:team@1.9.6
-meteoros:testing@1.9.6
 minifiers@1.1.5
 minimongo@1.0.8
 mizzao:autocomplete@0.4.10
 mizzao:build-fetcher@0.2.0
 mizzao:jquery-ui@1.11.2
-mobile-status-bar@1.0.3
 mongo@1.1.0
 mongo-livedata@1.0.8
 mrt:bootstrap-alerts@0.0.5
@@ -92,12 +86,10 @@ raix:eventemitter@0.1.2
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
-reload@1.1.3
 retry@1.0.3
 routepolicy@1.0.5
 sacha:spin@0.2.4
 service-configuration@1.0.4
-session@1.1.0
 sha@1.0.3
 softwarerero:accounts-t9n@1.0.9
 spacebars@1.0.6
@@ -109,7 +101,7 @@ twbs:bootstrap@3.3.4
 ui@1.0.6
 underscore@1.0.3
 url@1.0.4
-useraccounts:bootstrap@1.8.1
-useraccounts:core@1.8.1
+useraccounts:bootstrap@1.4.1
+useraccounts:core@1.4.1
 webapp@1.2.0
 webapp-hashing@1.0.3
