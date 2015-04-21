@@ -1,0 +1,17 @@
+<template name="_meteor_os_file_browser_common_teamPill">
+    <span>{{name}}</span>
+    {{#if isOwner}}
+        <span class='label label-default'>Owner</span>
+    {{else}}
+        {{#if isPending}}
+            <span class='label label-warning'>Pending</span>
+        {{else}}
+            <span class='label label-success'>Member</span>
+        {{/if}}
+    {{/if}}
+</template>
+
+<template name="_meteor_os_file_browser_common_teamNoMatch">
+    <span class="text-danger">No team found for <b>{{getFilter}}</b>!</span>
+</template>
+

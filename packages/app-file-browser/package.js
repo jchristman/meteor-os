@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:app-file-browser',
     summary: 'MeteorOS Application built around the filesystem to enable easy, in-browser file management',
-    version: '1.9.6',
+    version: '1.9.8',
     git: 'https://github.com/jchristman/meteor-os/packages/app-file-browser'
 });
 
@@ -16,13 +16,28 @@ Package.onUse(function(api) {
     api.use('meteoros:filesystem@1.9.5');
 
     api.addFiles([
+            'config/app.js',
+    ],['client','server']);
+
+    api.addFiles([
+            'server/publish.js',
+    ],['server']);
+
+    api.addFiles([
             'context-menus/menus.js',
             'context-menus/background.js',
             'context-menus/dir.js',
             'context-menus/file.js',
+            'context-menus/favorite.js',
             'modals/modals.js',
             'modals/newFolder/newFolder.html',
             'modals/newFolder/newFolder.js',
+            'modals/common/teamAutocomplete/teamAutocomplete.html',
+            'modals/common/teamAutocomplete/teamAutocomplete.js',
+            'modals/common/teamAutocomplete/teamPill.html',
+            'modals/common/teamAutocomplete/teamPill.js',
+            'modals/shareFile/shareFile.html',
+            'modals/shareFile/shareFile.js',
             'templates/file-browser.html',
             'templates/file-browser.js',
             'templates/file-browser.css',
@@ -32,10 +47,6 @@ Package.onUse(function(api) {
             'img/favorites-icon-24x24.png',
             'img/success-icon-16x16.png',
     ],['client']);
-
-    api.addFiles([
-            'config/app.js',
-    ],['client','server']);
 
     api.export(['FileSystem'],['client','server']);
 });

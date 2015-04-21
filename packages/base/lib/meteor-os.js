@@ -21,7 +21,7 @@ OS = function(options) {
     this.onCreateUserFuncs = [];
     
     // DEFAULT
-    this.backgroundURL = '/packages/jchristman_meteor-os/img/meteor-os_background.jpg';
+    this.backgroundURL = '/packages/meteoros_base/img/meteor-os_background.jpg';
 
     this.configure(options);
 }

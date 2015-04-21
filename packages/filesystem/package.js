@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:filesystem',
     summary: 'Filesystem data structure for MeteorOS',
-    version: '1.9.6',
+    version: '1.9.9',
     git: 'https://github.com/jchristman/meteor-os/packages/filesystem'
 });
 

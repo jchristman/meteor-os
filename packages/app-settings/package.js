@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:app-settings',
     summary: 'MeteorOS settings application which adds team and profile management',
-    version: '1.9.6',
+    version: '1.9.7',
     git: 'https://github.com/jchristman/meteor-os/packages/app-settings'
 });
 
@@ -12,8 +12,15 @@ Package.onUse(function(api) {
     api.use('meteoros:team@1.9.5');
 
     api.addFiles([
+            'config/app.js'
+    ],['client','server']);
+
+    api.addFiles([
+            'server/publish.js'
+    ],['server']);
+    
+    api.addFiles([
             // Settings Application
-            'config/app.js',
             'templates/pages/accounts/accounts.html',
             'templates/pages/team-management/team_management.html',
             'templates/pages/team-management/team_management.js',
@@ -28,5 +35,5 @@ Package.onUse(function(api) {
             'templates/pages/team-management/modals/viewInvite/viewInvite.js',
             'templates/pages/interface/interface.html',
             'templates/settings.css',
-    ],['client','server']);
+    ],['client']);
 });

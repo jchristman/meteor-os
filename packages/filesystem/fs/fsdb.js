@@ -62,7 +62,9 @@ MeteorOS.FS.save = function(key, val, action) {
 
 MeteorOS.FS._load = function() {
     if (Meteor.isClient) {
-        return FileSystem.unserialize(Meteor.user().meteorOS.fs);
+        var user_data = Meteor.user().meteorOS;
+        if (user_data) return FileSystem.unserialize(user_data.fs);
+        else return undefined;
     }
 }
 
@@ -76,6 +78,6 @@ MeteorOS.FS.current = function(reload) {
     if (MeteorOS.FS.CURRENT === undefined || (Meteor.user() && Meteor.user()._id !== MeteorOS.FS.CURRENT_USER)) {
         MeteorOS.FS.load();
     }
-    reload && MeteorOS.FS.CURRENT._reloadTrackers();
+    reload && MeteorOS.FS.CURRENT && MeteorOS.FS.CURRENT._reloadTrackers();
     return MeteorOS.FS.CURRENT;
 }

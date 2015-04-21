@@ -38,10 +38,11 @@ MeteorOS.FS.ContextMenus.File = {
             }
         },
         {
-            icon: 'glyphicon-star',
-            text: 'Make Favorite',
-            action: function(event, selector, context) {
-                MeteorOS.FS.current().addFavorite(context);
+            icon: 'glyphicon-share',
+            text: 'Share...',
+            action: function(event, selector) {
+                var modal = MeteorOS.FS.Modals.ShareFile();
+                modal.show();
             }
         },
         { divider : true },

@@ -46,7 +46,7 @@ FileSystem.Type.prototype.delete = function() {
     throw new Error('Must implement delete function in subclass');
 }
 
-FileSystem.Type.prototype.share = function() {
+FileSystem.Type.prototype.share = function(team) {
     throw new Error('Must implement share funciton in subclass');
 }
 // ------------------ //

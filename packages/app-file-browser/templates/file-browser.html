@@ -10,6 +10,7 @@
 
 <template name='file_browser'>
     {{#with fsContext}}
+    {{#if fs}}
     <div class='fb-main'>
         <div class='fb-pane-navbar'>
             <div class='input-group input-group-sm'>
@@ -29,6 +30,7 @@
             {{> fb_pane_statusbar}}
         </div>
     </div>
+    {{/if}}
     {{/with}}
 </template>
 
@@ -43,6 +45,7 @@
 
 <template name='fb_favorite'>
     <div class='fb-favorite'><img src='/packages/meteoros_app-file-browser/img/folder-icon-24x24.png' /> <span>{{path}}</span></div>
+    {{attachContext}}
 </template>
 
 <template name='fb_pane_main'>

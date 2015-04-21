@@ -16,8 +16,9 @@ if (Meteor.isClient) {
     Template.file_browser.helpers({
         fsContext : function() {
             var cur = MeteorOS.FS.current(true);
-            Template.instance().subscribe(cur.SUB_NAME);
-            return _.extend(this, { fs : cur });
+            cur && Template.instance().subscribe(cur.SUB_NAME);
+            cur && _.extend(this, { fs : cur });
+            return this;
         },
 
         path : function() {
@@ -36,6 +37,23 @@ if (Meteor.isClient) {
             var fs = MeteorOS.FS.current();
             fs.cd(this); // Change directory to the current context
         } 
+    });
+
+    Template.fb_favorite.helpers({
+        attachContext: function() {
+            var instance = Template.instance();
+            var self = this;
+            Meteor.defer(function() {
+                context.init({preventDoubleContext: false});
+                context.destroy($(instance.find('.fb-favorite'))); // Destroy any old contexts
+                var menu = MeteorOS.FS.ContextMenus.Favorite;
+                context.attach($(instance.find('.fb-favorite')), menu);
+            });
+        }
+    });
+    
+    Template.fb_favorite.onDestroyed(function() {
+        context.destroy($(this.find('.fb-favorite')));
     });
 
     Template.file_browser.onRendered(function() {
@@ -100,9 +118,6 @@ if (Meteor.isClient) {
 
             return _.extend(this, context);
         }
-    });
-
-    Template.fb_file.onRendered(function() {
     });
 
     Template.fb_file.onDestroyed(function() {
