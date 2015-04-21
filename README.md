@@ -6,7 +6,7 @@ An application manager that sits on top of the https://github.com/jchristman/met
 notes
 =====
 
-I know there is no documentation yet. That is low on my TODO list. See the [builtins](https://github.com/jchristman/meteor-os/tree/master/builtins) directory for an example of robust applications.
+I know there is no documentation yet. That is low on my TODO list. Look at the  [file browser or settings apps](https://github.com/jchristman/meteor-os/tree/master/packages) examples of robust applications.
 
 A couple of notes on the state of MeteorOS. I'm decently satisfied with the overall system and have the following TODO list on it:
  1. Finish file sharing model. I just finished a team management app that works pretty well (if you start the "Settings" app from the "Start Menu") and I am currently rewriting the file system into the builtins/file-browser app.
