@@ -48,7 +48,13 @@ MeteorOS.FS.ContextMenus.Dir = {
             icon: 'glyphicon-trash',
             text: 'Delete Directory',
             action: function(event, selector, context) {
-                context.delete();
+                if (context.files().length > 0) {
+                    MeteorOS.FS.Modals.DeleteFolder(function(result) {
+                        if (result) context.delete();
+                    }).show();
+                } else {
+                    context.delete();
+                }
             }
         },
     ]

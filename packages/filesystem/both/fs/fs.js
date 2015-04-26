@@ -1,6 +1,6 @@
 FileSystem = function(def, user) {
     if (def === undefined || def === true) {
-        this.root = this.defaultFS();
+        this.root = this.defaultFS(user);
         this.CWD = this.internalFollowPath('root.FILES.0');
         this.FAVORITES = [ this.root, this.root.FILES[0] ];
     } else {
@@ -33,6 +33,14 @@ FileSystem = function(def, user) {
     }
 }
 
+FileSystem.prototype.defaultFS = function(user) {
+    var userId = user._id;
+    var root = new FileSystem.Dir('', { parent: this, owner: userId }); // The root of the file system has no name and has this as a parent
+    root.addDir(new FileSystem.Dir('home',  { owner: userId }));
+    root.FILES[0].addDir(new FileSystem.Dir('test', { owner: userId }));
+    return root;
+}
+
 FileSystem.prototype.getFile = function(fileId) {
     var fsFile = this.FS_COLLECTION.findOne(fileId);
     return fsFile;
@@ -59,13 +67,6 @@ FileSystem.prototype.upload = function(fsFile, file) {
     });
 }
 
-FileSystem.prototype.defaultFS = function() {
-    var root = new FileSystem.Dir('', this); // The root of the file system has no name and has this as a parent
-    root.addDir(new FileSystem.Dir('home'), false);
-    root.FILES[0].addDir(new FileSystem.Dir('test'), false);
-    return root;
-}
-
 FileSystem.prototype.internalPath = function(path, caller) {
     if (path === '')    path = 'root';
     else                path = 'root.' + path;
@@ -89,11 +90,11 @@ FileSystem.prototype.followPath = function(path) {
     return this.root.followPath(path);
 }
 
-FileSystem.prototype.save = function(prop, value, action, caller) {
+FileSystem.prototype.save = function(prop, value, action, caller, callback) {
     if (caller) {
         prop = 'root.' + prop;
     }
-    MeteorOS.FS.save(prop, value, action);
+    MeteorOS.FS.save(prop, value, action, callback);
 }
 
 FileSystem.prototype.cd = function(dir) {
@@ -154,6 +155,10 @@ FileSystem.prototype.removeFavorite = function(type) {
             MeteorOS.Alerts.Warning('Could not find item to remove from favorites');
         }
     }
+}
+
+FileSystem.prototype.removeDir = function() {
+    return true;
 }
 
 FileSystem.prototype.favorites = function() {

@@ -1,5 +1,7 @@
-FileSystem.Dir = function(name, parent) {
-    FileSystem.Type.call(this, name, parent); // Super constructor
+FileSystem.Dir = function(name, options) {
+    FileSystem.Type.call(this, name, options); // Super constructor
+
+    options = options || {};
     
     this.TYPE = new ReactiveVar(FileSystem.Type.Dir);
     this.FILES = [];
@@ -76,7 +78,6 @@ FileSystem.Dir.prototype.removeFile = function(file) {
     this.FILES.splice(index, 1);
     this.FILES_DEP.changed();
     this.save('FILES', { NAME : file.name() }, '$pull'); // We are going to remove by name. Need to make sure we can't have duplicate names!!
-    MeteorOS.Alerts.Info(file.name() + ' deleted');
 }
 
 FileSystem.Dir.prototype.addDir = function(dir, save) {
@@ -100,7 +101,11 @@ FileSystem.Dir.prototype.removeDir = function(dir) {
 }
 
 FileSystem.Dir.prototype.delete = function() {
-    MeteorOS.Alerts.NotImplemented();
+    var isRoot = this.parent.removeDir(this);
+    if (isRoot) {
+        MeteorOS.Alerts.Warning('You cannot remove the root directory');
+    }
+    delete this;
 }
 
 // -----------------------------------------------------------------//
@@ -202,16 +207,16 @@ FileSystem.Dir.prototype._reloadTrackers = function() {
     });
 }
 
-FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
+FileSystem.Dir.prototype.save = function(prop, value, action, caller, callback) {
     // Leaf node
     if (caller == undefined) {
-        this.parent.save(prop, value, action, this);
+        this.parent.save(prop, value, action, this, callback);
     } else {
         var index = this.findIndex(caller);
 
         if (index !== undefined) {
             prop = 'FILES.' + index + '.' + prop;
-            this.parent.save(prop, value, action, this);
+            this.parent.save(prop, value, action, this, callback);
         } else {
             throw new Meteor.Error('Unable to find child file');
         }
@@ -222,8 +227,9 @@ FileSystem.Dir.prototype.save = function(prop, value, action, caller) {
 //  Serialize/Unserialize Code                                      //
 // -----------------------------------------------------------------//
 FileSystem.Dir.unserialize = function(dir, parent) {
-    var newDir = new FileSystem.Dir(dir.NAME, parent);
+    var newDir = new FileSystem.Dir(dir.NAME, { 'parent' : parent });
     newDir.SHARED = dir.SHARED;
+    newDir.OWNER.set(dir.OWNER);
     _.each(dir.FILES, function(file) {
         if (file.TYPE === FileSystem.Type.File) newDir.FILES.push(FileSystem.File.unserialize(file, newDir)); // Unserialize each file in the array
         if (file.TYPE === FileSystem.Type.Dir)  newDir.FILES.push(FileSystem.Dir.unserialize(file, newDir)); // Unserialize each dir in the array
@@ -235,6 +241,7 @@ FileSystem.Dir.prototype.serialize = function() {
     var result = {
         NAME : this.name(),
         TYPE : this.type(),
+        OWNER : this.owner(),
         SHARED : this.SHARED,
         FILES : [
 

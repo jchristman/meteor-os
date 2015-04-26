@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:app-file-browser',
     summary: 'MeteorOS Application built around the filesystem to enable easy, in-browser file management',
-    version: '1.9.7',
+    version: '1.9.8',
     git: 'https://github.com/jchristman/meteor-os/packages/app-file-browser'
 });
 
@@ -38,6 +38,8 @@ Package.onUse(function(api) {
             'modals/common/teamAutocomplete/teamPill.js',
             'modals/shareFile/shareFile.html',
             'modals/shareFile/shareFile.js',
+            'modals/deleteFolder/deleteFolder.html',
+            'modals/deleteFolder/deleteFolder.js',
             'templates/file-browser.html',
             'templates/file-browser.js',
             'templates/file-browser.css',

@@ -10,14 +10,14 @@ if (Meteor.isServer) {
         return Meteor.users.find({_id: this.userId}, {fields: {_id: 1, emails: 1, username: 1, meteorOS: 1}});
     });
 
-    Meteor.users.allow({
+    /*Meteor.users.allow({
         update: function(userId, doc, fields, modifier) {
             if (userId && doc._id === userId) {
                 return true;
             }
             return false;
         }
-    });
+    });*/
 }
 
 if (Meteor.isClient) {

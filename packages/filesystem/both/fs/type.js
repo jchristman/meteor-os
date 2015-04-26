@@ -1,8 +1,12 @@
-FileSystem.Type = function(name, parent) {
+FileSystem.Type = function(name, options) {
     if (name == undefined) Meteor.Error('Must specify a name in the File constructor');
+    
+    options = options || {};
+    var userId = Meteor.isServer ? this.userId : Meteor.user()._id;
 
-    this.parent = parent;
+    this.parent = options.parent;
     this.NAME = new ReactiveVar(name);
+    this.OWNER = new ReactiveVar(options.owner ? options.owner : userId);
     this.SHARED = []; // A list of team IDs its shared with
     this.SHARED_DEP = new Tracker.Dependency;
     this.trackers = [];
@@ -16,6 +20,21 @@ FileSystem.Type.prototype.name = function(newVal) {
         this.NAME.set(newVal);
     } else {
         return this.NAME.get();
+    }
+}
+
+FileSystem.Type.prototype.owner = function(newOwner) {
+    var self = this;
+    if (newOwner) {
+        self.save('OWNER', newOwner, '$set', undefined, function(err, result) {
+            if (err) {
+                MeteorOS.Alerts.Error(err);
+            } else {
+                self.OWNER.set(newOwner);
+            }
+        }); 
+    } else {
+        return self.OWNER.get();
     }
 }
 
@@ -106,7 +125,7 @@ FileSystem.Type.prototype.watch = function(prop) {
     }));
 }
 
-FileSystem.Type.prototype.save = function(prop, value, action, caller) {
+FileSystem.Type.prototype.save = function(prop, value, action, caller, callback) {
     throw new Error('Must implement save function in subclass');
 }
 

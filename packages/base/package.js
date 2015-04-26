@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:base',
     summary: 'Meteor package to easily allow desktop-like applications in meteor',
-    version: '1.9.10',
+    version: '1.9.11',
     git: 'https://github.com/jchristman/meteor-os'
 });
 
@@ -23,6 +23,7 @@ Package.onUse(function(api) {
     use('tracker');
     use('templating');
     use('reactive-var');
+    use('check');
     use('underscore@1.0.2');
     // Meteor extension packages
     use('dburles:mongo-collection-instances@0.3.3');
@@ -41,31 +42,40 @@ Package.onUse(function(api) {
     use('jchristman:application-manager@1.0.7_2');
 
     api.addFiles([
-            'lib/meteor-os.js',
+            'lib/helpers/string.js',
+            'MeteorOS/MeteorOS.js',
+            'MeteorOS/Helpers/helpers.js',
+            'MeteorOS/Helpers/Object/object.js',
+            'MeteorOS/Helpers/Object/access.js',
             'config/accounts.js',
             'config/router.js',
             'config/users.js'
     ],['client','server']);
 
     api.addFiles([
-            'lib/style.css',
-            'lib/components/main/main.html',
-            'lib/components/main/main.css',
-            'lib/components/main/main.js',
-            'lib/components/login-flow/login.html',
-            'lib/components/login-flow/login.css',
-            'lib/components/login-flow/login.js',
-            'lib/components/footer/footer.html',
-            'lib/components/footer/footer.css',
-            'lib/components/start-menu/start-menu.html',
-            'lib/components/start-menu/start-menu.js',
-            'lib/components/start-menu/start-menu.css',
-            'lib/components/context-menus/body-context-menu.js',
-            'lib/components/context-menus/context-menu-funcs.js',
-            'lib/components/progress-bar/style.css',
-            'lib/components/notfound/notfound.html',
-            'lib/components/notfound/notfound.js',
-            'lib/helpers/alerts.js',
+            'MeteorOS/UI/style.css',
+            'MeteorOS/UI/components/main/main.html',
+            'MeteorOS/UI/components/main/main.css',
+            'MeteorOS/UI/components/main/main.js',
+            'MeteorOS/UI/components/login-flow/login.html',
+            'MeteorOS/UI/components/login-flow/login.css',
+            'MeteorOS/UI/components/login-flow/login.js',
+            'MeteorOS/UI/components/footer/footer.html',
+            'MeteorOS/UI/components/footer/footer.css',
+            'MeteorOS/UI/components/start-menu/start-menu.html',
+            'MeteorOS/UI/components/start-menu/start-menu.js',
+            'MeteorOS/UI/components/start-menu/start-menu.css',
+            'MeteorOS/UI/components/context-menus/body-context-menu.js',
+            'MeteorOS/UI/components/context-menus/context-menu-funcs.js',
+            'MeteorOS/UI/components/progress-bar/style.css',
+            'MeteorOS/UI/components/notfound/notfound.html',
+            'MeteorOS/UI/components/notfound/notfound.js',
+            'MeteorOS/Alerts/alerts.js',
+            'MeteorOS/Alerts/error.js',
+            'MeteorOS/Alerts/info.js',
+            'MeteorOS/Alerts/success.js',
+            'MeteorOS/Alerts/warning.js',
+            'MeteorOS/Alerts/other.js',
             'lib/helpers/jquery-helpers.js',
             'img/meteor-os_background.jpg',
     ],['client']);

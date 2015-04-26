@@ -1,7 +1,7 @@
 Package.describe({
     name: 'meteoros:filesystem',
     summary: 'Filesystem data structure for MeteorOS',
-    version: '1.9.9',
+    version: '1.9.10',
     git: 'https://github.com/jchristman/meteor-os/packages/filesystem'
 });
 
@@ -14,17 +14,23 @@ Package.onUse(function(api) {
     api.use('meteoros:base@1.9.5');
 
     api.addFiles([
-            'config/fs.js',
-    ],['server']);
-
-    api.addFiles([
-            'fs/fs.js',
-            'fs/type.js',
-            'fs/file.js',
-            'fs/dir.js',
-            'fs/status.js',
-            'fs/fsdb.js',
+            'both/fs/fs.js',
+            'both/fs/type.js',
+            'both/fs/file.js',
+            'both/fs/dir.js',
+            'both/fs/status.js',
+            'both/fs/fsdb.js',
     ],['client','server']);
 
-    api.export(['FileSystem'],['client','server']);
+    api.addFiles([
+            'server/config/fs.js',
+            'server/config/const.js',
+            'server/fs/fsdb.js',
+            'server/fs/validate/validate.js',
+            'server/fs/validate/owner.js',
+            'server/fs/validate/files.js',
+            'server/fs/validate/name.js',
+    ],['server']);
+
+    api.export('FileSystem', ['client', 'server']);
 });
